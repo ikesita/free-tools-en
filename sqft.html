@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Square Footage Calculator — Rectangle & Circle Area in Sq Ft and m²</title>
+<meta name="description" content="Calculate the area of a rectangle or circle in square feet and square meters — for rooms, flooring, paint and garden projects. Free and private.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#b91c1c; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .f label{display:block;font-size:13px;color:var(--sub);margin-bottom:4px}
+  .f input{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  table{width:100%;border-collapse:collapse;font-size:15px;margin-top:12px}
+  td{padding:6px 0;color:var(--sub)} td.v{text-align:right;color:var(--ink);font-weight:800}
+  .note{font-size:13px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Square Footage Calculator</h1>
+    <p>Area of a rectangle or a circle, in square feet and square meters.</p>
+  </header>
+
+  <div class="card">
+    <h2>Rectangle (room, floor, plot)</h2>
+    <div class="grid">
+      <div class="f"><label>Length (ft)</label><input id="len" type="number" min="0" step="0.01" value="12"></div>
+      <div class="f"><label>Width (ft)</label><input id="wid" type="number" min="0" step="0.01" value="10"></div>
+    </div>
+    <table>
+      <tr><td>Area</td><td class="v" id="rectFt">-</td></tr>
+      <tr><td>Area in square meters</td><td class="v" id="rectM">-</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Circle (rug, table, garden bed)</h2>
+    <div class="grid">
+      <div class="f"><label>Radius (ft)</label><input id="rad" type="number" min="0" step="0.01" value="5"></div>
+    </div>
+    <table>
+      <tr><td>Area</td><td class="v" id="circFt">-</td></tr>
+      <tr><td>Area in square meters</td><td class="v" id="circM">-</td></tr>
+    </table>
+    <p class="note" style="margin-top:10px">The radius is half the diameter — measure across the middle of the circle and halve it. Conversion: 1 sq ft = 0.0929 m². When buying flooring or paint, add roughly 10% extra for cuts and waste.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+const SQFT_TO_M2 = 0.09290304;
+function rectAreaSqft(l, w){ return l * w; }
+function circleAreaSqft(r){ return Math.PI * r * r; }
+function sqftToM2(sqft){ return sqft * SQFT_TO_M2; }
+const num = v => { const n = parseFloat(v); return isNaN(n) || n < 0 ? 0 : n; };
+const fmt = (n, d) => n.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: d });
+function calc(){
+  const ra = rectAreaSqft(num(lenEl.value), num(widEl.value));
+  rectFtEl.textContent = fmt(ra, 2) + " sq ft";
+  rectMEl.textContent = fmt(sqftToM2(ra), 2) + " m²";
+  const ca = circleAreaSqft(num(radEl.value));
+  circFtEl.textContent = fmt(ca, 2) + " sq ft";
+  circMEl.textContent = fmt(sqftToM2(ca), 2) + " m²";
+}
+const lenEl = document.getElementById("len"), widEl = document.getElementById("wid"), radEl = document.getElementById("rad");
+const rectFtEl = document.getElementById("rectFt"), rectMEl = document.getElementById("rectM"),
+      circFtEl = document.getElementById("circFt"), circMEl = document.getElementById("circM");
+[lenEl, widEl, radEl].forEach(e => e.addEventListener("input", calc));
+calc();
+</script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Random Number Generator — Random Numbers & Dice Roller</title>
+<meta name="description" content="Generate random numbers in any range, with an option for unique (no duplicate) results, plus a dice roller for d4 to d100. Free and private.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#15803d; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .f label{display:block;font-size:13px;color:var(--sub);margin-bottom:4px}
+  .f input,.f select{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  .chk{display:flex;align-items:center;gap:8px;font-size:14.5px;padding-top:22px}
+  .chk input{width:18px;height:18px}
+  button{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:10px 18px;font-size:15.5px;font-weight:700;cursor:pointer;margin-top:14px}
+  button:active{transform:translateY(1px)}
+  .out{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .chip{background:#eef6f0;border:1px solid var(--line);border-radius:999px;padding:5px 14px;font-weight:800;font-size:16px}
+  .total{font-size:15px;color:var(--sub);margin-top:10px}
+  .total b{color:var(--ink)}
+  .note{font-size:13px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Random Number Generator</h1>
+    <p>Draw random numbers in any range — and roll dice for games.</p>
+  </header>
+
+  <div class="card">
+    <h2>Random numbers</h2>
+    <div class="grid">
+      <div class="f"><label>Minimum</label><input id="min" type="number" step="1" value="1"></div>
+      <div class="f"><label>Maximum</label><input id="max" type="number" step="1" value="100"></div>
+      <div class="f"><label>How many numbers</label><input id="count" type="number" min="1" max="1000" step="1" value="5"></div>
+      <label class="chk"><input id="unique" type="checkbox"> Unique (no duplicates)</label>
+    </div>
+    <button id="genBtn" type="button">Generate</button>
+    <div class="out" id="numOut"></div>
+    <div class="total" id="numMsg"></div>
+  </div>
+
+  <div class="card">
+    <h2>Dice roller</h2>
+    <div class="grid">
+      <div class="f"><label>Die</label><select id="sides">
+        <option value="4">d4</option>
+        <option value="6" selected>d6</option>
+        <option value="8">d8</option>
+        <option value="10">d10</option>
+        <option value="12">d12</option>
+        <option value="20">d20</option>
+        <option value="100">d100</option>
+      </select></div>
+      <div class="f"><label>Number of dice</label><input id="diceCount" type="number" min="1" max="100" step="1" value="2"></div>
+    </div>
+    <button id="rollBtn" type="button">Roll</button>
+    <div class="out" id="diceOut"></div>
+    <div class="total" id="diceTotal"></div>
+    <p class="note" style="margin-top:10px">Numbers are generated with your browser's built-in random source. Unique mode draws without replacement, like picking raffle tickets — the count cannot exceed the size of the range.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+function randInt(min, max){
+  // inclusive of both min and max
+  return min + Math.floor(Math.random() * (max - min + 1));
+}
+function genNumbers(min, max, count, unique){
+  if(max < min){ const t = min; min = max; max = t; }
+  const rangeSize = max - min + 1;
+  if(unique){
+    if(count > rangeSize) count = rangeSize;
+    const pool = [];
+    for(let i = min; i <= max; i++) pool.push(i);
+    // partial Fisher-Yates shuffle
+    for(let i = 0; i < count; i++){
+      const j = i + Math.floor(Math.random() * (pool.length - i));
+      const t = pool[i]; pool[i] = pool[j]; pool[j] = t;
+    }
+    return pool.slice(0, count);
+  }
+  const out = [];
+  for(let i = 0; i < count; i++) out.push(randInt(min, max));
+  return out;
+}
+function rollDice(sides, n){
+  const out = [];
+  for(let i = 0; i < n; i++) out.push(randInt(1, sides));
+  return out;
+}
+const int = (v, d) => { const n = parseInt(v, 10); return isNaN(n) ? d : n; };
+function chips(el, values){
+  el.innerHTML = "";
+  values.forEach(v => {
+    const s = document.createElement("span");
+    s.className = "chip";
+    s.textContent = v;
+    el.appendChild(s);
+  });
+}
+function generate(){
+  const min = int(minEl.value, 1), max = int(maxEl.value, 100);
+  let count = Math.max(1, Math.min(1000, int(countEl.value, 5)));
+  const unique = uniqueEl.checked;
+  const nums = genNumbers(min, max, count, unique);
+  chips(numOutEl, nums);
+  numMsgEl.textContent = unique && nums.length < count
+    ? "Only " + nums.length + " unique numbers exist in that range."
+    : nums.length + (nums.length === 1 ? " number" : " numbers") + " drawn from " + Math.min(min, max) + " to " + Math.max(min, max) + ".";
+}
+function roll(){
+  const sides = int(sidesEl.value, 6);
+  const n = Math.max(1, Math.min(100, int(diceCountEl.value, 1)));
+  const rolls = rollDice(sides, n);
+  chips(diceOutEl, rolls);
+  const total = rolls.reduce((a, b) => a + b, 0);
+  diceTotalEl.innerHTML = "Total: <b>" + total + "</b>";
+}
+const minEl = document.getElementById("min"), maxEl = document.getElementById("max"),
+      countEl = document.getElementById("count"), uniqueEl = document.getElementById("unique"),
+      numOutEl = document.getElementById("numOut"), numMsgEl = document.getElementById("numMsg"),
+      sidesEl = document.getElementById("sides"), diceCountEl = document.getElementById("diceCount"),
+      diceOutEl = document.getElementById("diceOut"), diceTotalEl = document.getElementById("diceTotal");
+document.getElementById("genBtn").addEventListener("click", generate);
+document.getElementById("rollBtn").addEventListener("click", roll);
+generate();
+roll();
+</script>
+</body>
+</html>

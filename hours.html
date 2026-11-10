@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Work Hours Calculator — Hours Between Times, Minus Breaks</title>
+<meta name="description" content="Calculate hours worked between a start and end time, minus unpaid breaks. Results in hours:minutes and decimal hours — handy for timesheets and payroll.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#0d9488; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .f label{display:block;font-size:13px;color:var(--sub);margin-bottom:4px}
+  .f input{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  .big{font-size:34px;font-weight:900;text-align:center;margin:6px 0 0}
+  .sub2{text-align:center;color:var(--sub);font-size:14.5px}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  td{padding:6px 0;color:var(--sub)} td.v{text-align:right;color:var(--ink);font-weight:800}
+  .note{font-size:13px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Work Hours Calculator</h1>
+    <p>Total time worked between a start and end time, with unpaid breaks taken out.</p>
+  </header>
+
+  <div class="card">
+    <div class="grid">
+      <div class="f"><label>Start time</label><input id="start" type="time" value="09:00"></div>
+      <div class="f"><label>End time</label><input id="end" type="time" value="17:30"></div>
+      <div class="f"><label>Break (minutes, unpaid)</label><input id="brk" type="number" min="0" max="720" step="1" value="45"></div>
+    </div>
+    <div class="big" id="big">-</div>
+    <div class="sub2" id="verdict">-</div>
+  </div>
+
+  <div class="card">
+    <table>
+      <tr><td>Time on the clock (start to end)</td><td class="v" id="grossRow">-</td></tr>
+      <tr><td>Break deducted</td><td class="v" id="breakRow">-</td></tr>
+      <tr><td>Worked, as hours:minutes</td><td class="v" id="hmRow">-</td></tr>
+      <tr><td>Worked, as decimal hours</td><td class="v" id="decRow">-</td></tr>
+    </table>
+    <p class="note" style="margin-top:10px">Decimal hours are what most payroll and timesheet systems use — for example 7:45 becomes 7.75 hours. If the end time is earlier than the start time, the shift is treated as running past midnight (an overnight shift).</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+function parseTimeStr(s){
+  const p = (s || "").split(":").map(Number);
+  if(p.length < 2 || p.some(isNaN)) return null;
+  return p[0] * 60 + p[1];
+}
+function workHours(startStr, endStr, breakMin){
+  const s = parseTimeStr(startStr), e = parseTimeStr(endStr);
+  if(s === null || e === null) return null;
+  let gross = e - s;
+  if(gross <= 0) gross += 1440; // overnight shift
+  const brk = Math.max(0, breakMin || 0);
+  const net = Math.max(0, gross - brk);
+  const h = Math.floor(net / 60), m = net % 60;
+  return { grossMin: gross, breakMin: brk, netMin: net,
+           hm: h + ":" + String(m).padStart(2, "0"),
+           decimal: net / 60 };
+}
+function fmtHM(min){
+  const h = Math.floor(min / 60), m = min % 60;
+  return h + ":" + String(m).padStart(2, "0");
+}
+function calc(){
+  const r = workHours(startEl.value, endEl.value, parseFloat(brkEl.value));
+  if(!r){
+    bigEl.textContent = "-";
+    verdictEl.textContent = "Enter a start and end time";
+    grossRowEl.textContent = breakRowEl.textContent = hmRowEl.textContent = decRowEl.textContent = "-";
+    return;
+  }
+  bigEl.textContent = r.decimal.toFixed(2) + " hours";
+  verdictEl.textContent = "worked " + r.hm + " (hours:minutes) after breaks";
+  grossRowEl.textContent = fmtHM(r.grossMin);
+  breakRowEl.textContent = r.breakMin + " min";
+  hmRowEl.textContent = r.hm;
+  decRowEl.textContent = r.decimal.toFixed(2) + " h";
+}
+const startEl = document.getElementById("start"), endEl = document.getElementById("end"), brkEl = document.getElementById("brk");
+const bigEl = document.getElementById("big"), verdictEl = document.getElementById("verdict"),
+      grossRowEl = document.getElementById("grossRow"), breakRowEl = document.getElementById("breakRow"),
+      hmRowEl = document.getElementById("hmRow"), decRowEl = document.getElementById("decRow");
+[startEl, endEl, brkEl].forEach(e => e.addEventListener("input", calc));
+calc();
+</script>
+</body>
+</html>
