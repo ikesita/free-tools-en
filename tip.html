@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tip Calculator — Tip, Total & Split Per Person</title>
+<meta name="description" content="Calculate a restaurant tip, the total bill, and how much each person pays when splitting. Preset tip percentages or a custom rate. Free and private.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#db2777; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .f label{display:block;font-size:13px;color:var(--sub);margin-bottom:4px}
+  .f input{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  .presets{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .presets button{padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:15px;cursor:pointer}
+  .presets button.on{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:700}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  td{padding:6px 0;color:var(--sub)} td.v{text-align:right;color:var(--ink);font-weight:800}
+  .note{font-size:13px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Tip Calculator</h1>
+    <p>Work out the tip, the total, and the split for each person.</p>
+  </header>
+
+  <div class="card">
+    <div class="grid">
+      <div class="f"><label>Bill amount ($)</label><input id="bill" type="number" min="0" step="0.01" value="100"></div>
+      <div class="f"><label>Tip (%)</label><input id="pct" type="number" min="0" step="0.5" value="15"></div>
+      <div class="f"><label>Split between (people)</label><input id="people" type="number" min="1" step="1" value="2"></div>
+    </div>
+    <div class="presets" id="presets">
+      <button type="button" data-p="10">10%</button>
+      <button type="button" data-p="15" class="on">15%</button>
+      <button type="button" data-p="18">18%</button>
+      <button type="button" data-p="20">20%</button>
+      <button type="button" data-p="25">25%</button>
+    </div>
+    <p class="note" style="margin-top:10px">Tap a preset, or type any percentage in the Tip (%) field for a custom rate.</p>
+  </div>
+
+  <div class="card">
+    <table>
+      <tr><td>Tip amount</td><td class="v" id="tipAmt">-</td></tr>
+      <tr><td>Total (bill + tip)</td><td class="v" id="total">-</td></tr>
+      <tr><td>Per person (total)</td><td class="v" id="perPerson">-</td></tr>
+      <tr><td>Per person (tip only)</td><td class="v" id="perTip">-</td></tr>
+    </table>
+    <p class="note" style="margin-top:10px">Tipping customs vary by country and situation. In much of the US, 15–20% is typical for table service; adjust to your local custom.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+const num = v => { const n = parseFloat(v); return isNaN(n) ? 0 : n; };
+const money2 = n => "$" + n.toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2});
+function markPreset(){
+  const p = num(pctEl.value);
+  document.querySelectorAll("#presets button").forEach(b =>
+    b.classList.toggle("on", Math.abs(num(b.dataset.p) - p) < 0.001));
+}
+function calc(){
+  const bill = num(billEl.value), pct = num(pctEl.value);
+  const people = Math.max(1, Math.floor(num(peopleEl.value)) || 1);
+  const tip = bill * pct / 100, total = bill + tip;
+  tipAmtEl.textContent = money2(tip);
+  totalEl.textContent = money2(total);
+  perPersonEl.textContent = money2(total / people);
+  perTipEl.textContent = money2(tip / people);
+  markPreset();
+}
+const billEl = document.getElementById("bill"), pctEl = document.getElementById("pct"), peopleEl = document.getElementById("people");
+const tipAmtEl = document.getElementById("tipAmt"), totalEl = document.getElementById("total"),
+      perPersonEl = document.getElementById("perPerson"), perTipEl = document.getElementById("perTip");
+document.querySelectorAll("#presets button").forEach(b =>
+  b.addEventListener("click", () => { pctEl.value = b.dataset.p; calc(); }));
+[billEl, pctEl, peopleEl].forEach(e => e.addEventListener("input", calc));
+calc();
+</script>
+</body>
+</html>

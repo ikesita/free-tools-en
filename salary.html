@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salary Converter — Hourly, Weekly, Monthly & Annual Pay</title>
+<meta name="description" content="Convert pay between hourly, weekly, monthly and annual amounts based on your hours per week. Enter any one figure and see the rest. Free and private.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#2563eb; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .f label{display:block;font-size:13px;color:var(--sub);margin-bottom:4px}
+  .f input,.f select{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  td{padding:6px 0;color:var(--sub)} td.v{text-align:right;color:var(--ink);font-weight:800}
+  .note{font-size:13px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Salary Converter</h1>
+    <p>Convert between hourly, weekly, monthly and annual pay. Type in any field — the others follow.</p>
+  </header>
+
+  <div class="card">
+    <div class="grid">
+      <div class="f"><label>Convert from</label><select id="base">
+        <option value="hourly" selected>Hourly wage</option>
+        <option value="monthly">Monthly salary</option>
+        <option value="annual">Annual salary</option>
+      </select></div>
+      <div class="f"><label>Hours per week</label><input id="hpw" type="number" min="1" max="112" step="0.5" value="40"></div>
+      <div class="f"><label>Hourly ($)</label><input id="hourly" type="number" min="0" step="0.25" value="25"></div>
+      <div class="f"><label>Monthly ($)</label><input id="monthly" type="number" min="0" step="10" value="4333.33"></div>
+      <div class="f"><label>Annual ($)</label><input id="annual" type="number" min="0" step="100" value="52000"></div>
+    </div>
+    <p class="note" style="margin-top:10px">The field chosen under "Convert from" — or the field you typed in last — drives the calculation; the other two are filled in for you.</p>
+  </div>
+
+  <div class="card">
+    <table>
+      <tr><td>Hourly</td><td class="v" id="oHourly">-</td></tr>
+      <tr><td>Weekly</td><td class="v" id="oWeekly">-</td></tr>
+      <tr><td>Monthly (annual ÷ 12)</td><td class="v" id="oMonthly">-</td></tr>
+      <tr><td>Annual (52 weeks)</td><td class="v" id="oAnnual">-</td></tr>
+    </table>
+    <p class="note" style="margin-top:10px">Gross pay before taxes and deductions, assuming 52 paid weeks per year and the same hours every week. Overtime, bonuses, unpaid leave and benefits are not included.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+const num = v => { const n = parseFloat(v); return isNaN(n) ? 0 : n; };
+const money = n => "$" + Math.round(n).toLocaleString("en-US");
+const round2 = n => Math.round(n * 100) / 100;
+function calc(driver){
+  const hpw = Math.max(1, num(hpwEl.value));
+  let annual;
+  if(driver === "monthly") annual = num(monthlyEl.value) * 12;
+  else if(driver === "annual") annual = num(annualEl.value);
+  else annual = num(hourlyEl.value) * hpw * 52;
+  const hourly = annual / (hpw * 52), weekly = annual / 52, monthly = annual / 12;
+  if(driver !== "hourly") hourlyEl.value = round2(hourly);
+  if(driver !== "monthly") monthlyEl.value = round2(monthly);
+  if(driver !== "annual") annualEl.value = round2(annual);
+  oHourlyEl.textContent = money(hourly);
+  oWeeklyEl.textContent = money(weekly);
+  oMonthlyEl.textContent = money(monthly);
+  oAnnualEl.textContent = money(annual);
+}
+const baseEl = document.getElementById("base"), hpwEl = document.getElementById("hpw"),
+      hourlyEl = document.getElementById("hourly"), monthlyEl = document.getElementById("monthly"), annualEl = document.getElementById("annual");
+const oHourlyEl = document.getElementById("oHourly"), oWeeklyEl = document.getElementById("oWeekly"),
+      oMonthlyEl = document.getElementById("oMonthly"), oAnnualEl = document.getElementById("oAnnual");
+hourlyEl.addEventListener("input", () => { baseEl.value = "hourly"; calc("hourly"); });
+monthlyEl.addEventListener("input", () => { baseEl.value = "monthly"; calc("monthly"); });
+annualEl.addEventListener("input", () => { baseEl.value = "annual"; calc("annual"); });
+hpwEl.addEventListener("input", () => calc(baseEl.value));
+baseEl.addEventListener("input", () => calc(baseEl.value));
+calc("hourly");
+</script>
+</body>
+</html>
