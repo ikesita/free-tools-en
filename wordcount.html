@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word Counter — Words, Characters, Sentences & Reading Time</title>
+<meta name="description" content="Count words, characters with and without spaces, sentences and paragraphs in any text, plus the estimated reading time. Free and private.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#6d28d9; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  textarea{width:100%;min-height:180px;padding:12px;border:1px solid var(--line);border-radius:8px;font-size:16px;font-family:inherit;line-height:1.6;resize:vertical}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:#f3f0fc;border:1px solid var(--line);border-radius:10px;padding:12px;text-align:center}
+  .stat .n{font-size:24px;font-weight:900}
+  .stat .l{font-size:12.5px;color:var(--sub)}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  td{padding:6px 0;color:var(--sub)} td.v{text-align:right;color:var(--ink);font-weight:800}
+  .note{font-size:13px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Word Counter</h1>
+    <p>Paste or type your text — the counts update as you type.</p>
+  </header>
+
+  <div class="card">
+    <h2>Your text</h2>
+    <textarea id="text" placeholder="Start typing or paste your text here...">The quick brown fox jumps over the lazy dog.</textarea>
+  </div>
+
+  <div class="card">
+    <div class="stats">
+      <div class="stat"><div class="n" id="words">0</div><div class="l">Words</div></div>
+      <div class="stat"><div class="n" id="chars">0</div><div class="l">Characters</div></div>
+      <div class="stat"><div class="n" id="readTime">0 sec</div><div class="l">Reading time</div></div>
+    </div>
+    <table style="margin-top:14px">
+      <tr><td>Characters (with spaces)</td><td class="v" id="charsSpaces">0</td></tr>
+      <tr><td>Characters (without spaces)</td><td class="v" id="charsNoSpaces">0</td></tr>
+      <tr><td>Sentences</td><td class="v" id="sentences">0</td></tr>
+      <tr><td>Paragraphs</td><td class="v" id="paragraphs">0</td></tr>
+    </table>
+    <p class="note" style="margin-top:10px">Reading time assumes an average adult reading speed of 200 words per minute. Sentence counting is approximate — abbreviations and decimal numbers (like "Dr." or "3.5") can throw it off.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+function countText(text){
+  const t = text || "";
+  const charsSpaces = t.length;
+  const charsNoSpaces = t.replace(/\s/g, "").length;
+  const words = (t.match(/\S+/g) || []).length;
+  const sentenceMatches = t.match(/[^.!?]+(?:[.!?]+|$)/g) || [];
+  const sentences = sentenceMatches.filter(s => /\S/.test(s) && /[\p{L}\p{N}]/u.test(s)).length;
+  const paragraphs = t.split(/\n\s*\n/).filter(p => p.trim().length > 0).length;
+  const readingSeconds = Math.round(words / 200 * 60);
+  return { words: words, charsSpaces: charsSpaces, charsNoSpaces: charsNoSpaces,
+           sentences: sentences, paragraphs: paragraphs, readingSeconds: readingSeconds };
+}
+function fmtReading(sec){
+  if(sec < 60) return sec + " sec";
+  const m = Math.floor(sec / 60), s = sec % 60;
+  return s ? m + " min " + s + " sec" : m + " min";
+}
+function calc(){
+  const r = countText(textEl.value);
+  wordsEl.textContent = r.words.toLocaleString();
+  charsEl.textContent = r.charsSpaces.toLocaleString();
+  readTimeEl.textContent = fmtReading(r.readingSeconds);
+  charsSpacesEl.textContent = r.charsSpaces.toLocaleString();
+  charsNoSpacesEl.textContent = r.charsNoSpaces.toLocaleString();
+  sentencesEl.textContent = r.sentences.toLocaleString();
+  paragraphsEl.textContent = r.paragraphs.toLocaleString();
+}
+const textEl = document.getElementById("text");
+const wordsEl = document.getElementById("words"), charsEl = document.getElementById("chars"),
+      readTimeEl = document.getElementById("readTime"), charsSpacesEl = document.getElementById("charsSpaces"),
+      charsNoSpacesEl = document.getElementById("charsNoSpaces"), sentencesEl = document.getElementById("sentences"),
+      paragraphsEl = document.getElementById("paragraphs");
+textEl.addEventListener("input", calc);
+calc();
+</script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dog Age Calculator — Dog Years to Human Years</title>
+<meta name="description" content="Convert your dog's age into human years with the modern scale: the first year counts as 15, the second adds 9, and each year after adds 5.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#d97706; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .f label{display:block;font-size:13px;color:var(--sub);margin-bottom:4px}
+  .f input{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  .big{font-size:25px;font-weight:900;text-align:center;margin:6px 0 0}
+  .sub2{text-align:center;color:var(--sub);font-size:14.5px}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  td,th{padding:6px 0;color:var(--sub);text-align:left}
+  td.v,th.v{text-align:right;color:var(--ink);font-weight:800}
+  tr.hl td{color:var(--ink);font-weight:800}
+  .note{font-size:13px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Dog Age Calculator</h1>
+    <p>How old is your dog in human years? Dogs mature fast early on, then age more slowly.</p>
+  </header>
+
+  <div class="card">
+    <div class="grid">
+      <div class="f"><label>Dog's age — years</label><input id="years" type="number" min="0" max="30" step="1" value="3"></div>
+      <div class="f"><label>Dog's age — extra months</label><input id="months" type="number" min="0" max="11" step="1" value="0"></div>
+    </div>
+    <div class="big" id="big">-</div>
+    <div class="sub2" id="verdict">-</div>
+    <p class="note" style="margin-top:12px">This uses the modern rule of thumb, not the old "multiply by 7": a dog's first year ≈ 15 human years, the second year adds about 9 (24 total), and each year after that adds about 5.</p>
+  </div>
+
+  <div class="card">
+    <h2>Dog years to human years — quick table</h2>
+    <table id="ageTable">
+      <tr><th>Dog age</th><th class="v">Human equivalent</th></tr>
+    </table>
+    <p class="note" style="margin-top:10px">A rough guide only: size and breed matter a lot. Small dogs tend to live longer and mature slightly differently than giant breeds, which age faster in later life. Your vet can give a better read on your dog's actual life stage.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+function dogHumanYears(age){
+  // modern scale: year 1 = 15, year 2 = +9 (24 total), each further year = +5
+  if(!(age > 0)) return 0;
+  if(age <= 1) return 15 * age;
+  if(age <= 2) return 15 + 9 * (age - 1);
+  return 24 + 5 * (age - 2);
+}
+function calc(){
+  const y = parseFloat(yearsEl.value) || 0;
+  const m = parseFloat(monthsEl.value) || 0;
+  const age = y + m / 12;
+  const human = dogHumanYears(age);
+  bigEl.textContent = (Math.round(human * 10) / 10).toLocaleString() + " human years";
+  verdictEl.textContent = age > 0
+    ? "for a dog aged " + (Math.round(age * 100) / 100) + (age === 1 ? " year" : " years")
+    : "enter your dog's age";
+}
+const yearsEl = document.getElementById("years"), monthsEl = document.getElementById("months");
+const bigEl = document.getElementById("big"), verdictEl = document.getElementById("verdict");
+[yearsEl, monthsEl].forEach(e => e.addEventListener("input", calc));
+// build the 1–10 year table
+(function(){
+  const tbl = document.getElementById("ageTable");
+  for(let a = 1; a <= 10; a++){
+    const tr = document.createElement("tr");
+    const td1 = document.createElement("td"); td1.textContent = a + (a === 1 ? " year" : " years");
+    const td2 = document.createElement("td"); td2.className = "v"; td2.textContent = dogHumanYears(a);
+    tr.appendChild(td1); tr.appendChild(td2); tbl.appendChild(tr);
+  }
+})();
+calc();
+</script>
+</body>
+</html>

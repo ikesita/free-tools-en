@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time Zone Converter — Convert a Time Between World Time Zones</title>
+<meta name="description" content="Enter a date and time in one time zone and see it in UTC, Tokyo, New York, Los Angeles, London and Sydney. Daylight saving handled automatically.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#0369a1; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .f label{display:block;font-size:13px;color:var(--sub);margin-bottom:4px}
+  .f input,.f select{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  td{padding:7px 0;color:var(--sub)} td.v{text-align:right;color:var(--ink);font-weight:800}
+  tr.src td{color:var(--acc);font-weight:800}
+  tr.src td.v{color:var(--acc)}
+  .note{font-size:13px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Time Zone Converter</h1>
+    <p>Pick a date, time and source zone — see that moment in every zone at once.</p>
+  </header>
+
+  <div class="card">
+    <div class="grid">
+      <div class="f"><label>Date &amp; time</label><input id="dt" type="datetime-local" value="2026-11-10T12:00"></div>
+      <div class="f"><label>From time zone</label><select id="srcZone"></select></div>
+    </div>
+    <table style="margin-top:14px" id="zoneTable"></table>
+    <p class="note" style="margin-top:10px">Conversions use your browser's built-in time zone database (the Intl API), so daylight saving time is handled for the date you pick — including the weeks when different countries switch on different days. Times shown in 24-hour format.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+const ZONES = [
+  { id: "UTC", label: "UTC" },
+  { id: "Asia/Tokyo", label: "Tokyo (Asia/Tokyo)" },
+  { id: "America/New_York", label: "New York (America/New_York)" },
+  { id: "America/Los_Angeles", label: "Los Angeles (America/Los_Angeles)" },
+  { id: "Europe/London", label: "London (Europe/London)" },
+  { id: "Australia/Sydney", label: "Sydney (Australia/Sydney)" }
+];
+function zoneOffsetMs(utcMs, zone){
+  const dtf = new Intl.DateTimeFormat("en-US", { timeZone: zone, year: "numeric", month: "2-digit", day: "2-digit",
+    hour: "2-digit", minute: "2-digit", second: "2-digit", hourCycle: "h23" });
+  const parts = {};
+  dtf.formatToParts(new Date(utcMs)).forEach(p => { parts[p.type] = p.value; });
+  const asUtc = Date.UTC(+parts.year, +parts.month - 1, +parts.day, (+parts.hour) % 24, +parts.minute, +parts.second);
+  return asUtc - Math.floor(utcMs / 1000) * 1000;
+}
+function wallToUtcMs(y, mo, d, h, mi, zone){
+  const guess = Date.UTC(y, mo - 1, d, h, mi);
+  let utc = guess - zoneOffsetMs(guess, zone);
+  const off2 = zoneOffsetMs(utc, zone);
+  if(off2 !== zoneOffsetMs(guess, zone)) utc = guess - off2;
+  return utc;
+}
+function fmtInZone(utcMs, zone){
+  return new Intl.DateTimeFormat("en-US", { timeZone: zone, weekday: "short", month: "short", day: "numeric",
+    year: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(new Date(utcMs));
+}
+function calc(){
+  const v = dtEl.value || "";
+  const p = v.split("T");
+  if(p.length !== 2){ return; }
+  const dp = p[0].split("-").map(Number), tp = p[1].split(":").map(Number);
+  if(dp.some(isNaN) || tp.some(isNaN)) return;
+  const utcMs = wallToUtcMs(dp[0], dp[1], dp[2], tp[0], tp[1] || 0, srcEl.value);
+  zoneTableEl.innerHTML = "";
+  ZONES.forEach(z => {
+    const tr = document.createElement("tr");
+    if(z.id === srcEl.value) tr.className = "src";
+    const td1 = document.createElement("td"); td1.textContent = z.label;
+    const td2 = document.createElement("td"); td2.className = "v"; td2.textContent = fmtInZone(utcMs, z.id);
+    tr.appendChild(td1); tr.appendChild(td2); zoneTableEl.appendChild(tr);
+  });
+}
+const dtEl = document.getElementById("dt"), srcEl = document.getElementById("srcZone"),
+      zoneTableEl = document.getElementById("zoneTable");
+ZONES.forEach(z => {
+  const o = document.createElement("option");
+  o.value = z.id; o.textContent = z.label;
+  if(z.id === "Asia/Tokyo") o.selected = true;
+  srcEl.appendChild(o);
+});
+[dtEl, srcEl].forEach(e => e.addEventListener("input", calc));
+calc();
+</script>
+</body>
+</html>
