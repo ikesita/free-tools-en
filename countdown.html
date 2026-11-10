@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Days Until Calculator — Countdown to Any Date</title>
+<meta name="description" content="How many days until a date — or how many days since one? Enter a target date to get the countdown in days, weeks and days, instantly and privately.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#9333ea; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .f label{display:block;font-size:13px;color:var(--sub);margin-bottom:4px}
+  .f input{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  .big{font-size:34px;font-weight:900;text-align:center;margin:6px 0 0}
+  .sub2{text-align:center;color:var(--sub);font-size:14.5px}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  td{padding:6px 0;color:var(--sub)} td.v{text-align:right;color:var(--ink);font-weight:800}
+  .note{font-size:13px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Days Until Calculator</h1>
+    <p>Count down the days to any date — or count the days since one.</p>
+  </header>
+
+  <div class="card">
+    <div class="grid">
+      <div class="f"><label>Target date</label><input id="target" type="date"></div>
+    </div>
+    <div class="big" id="big">-</div>
+    <div class="sub2" id="verdict">-</div>
+  </div>
+
+  <div class="card">
+    <table>
+      <tr><td>Total days</td><td class="v" id="totalRow">-</td></tr>
+      <tr><td>Weeks and days</td><td class="v" id="weeksRow">-</td></tr>
+      <tr><td>Day of the week</td><td class="v" id="dowRow">-</td></tr>
+    </table>
+    <p class="note" style="margin-top:10px">The count is measured in whole calendar days from today — the target date itself is not included, so an event tomorrow is "1 day" away. Pick a date in the past to see how many days have passed since it.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+function parseDateStr(s){
+  const p = (s || "").split("-").map(Number);
+  if(p.length !== 3 || p.some(isNaN)) return null;
+  return new Date(p[0], p[1] - 1, p[2]);
+}
+function toDateStr(d){
+  const pad = n => String(n).padStart(2, "0");
+  return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+}
+function defaultTarget(){
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  let d = new Date(now.getFullYear(), 11, 25);
+  if(d < today) d = new Date(now.getFullYear() + 1, 11, 25);
+  return d;
+}
+function countdownInfo(targetStr, today){
+  const t = parseDateStr(targetStr);
+  if(!t) return null;
+  const start = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const total = Math.round((t - start) / 86400000);
+  const abs = Math.abs(total);
+  return { totalDays: total, weeks: Math.floor(abs / 7), days: abs % 7, past: total < 0, target: t };
+}
+const fmtDate = d => d.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+function calc(){
+  if(!targetEl.value) targetEl.value = toDateStr(defaultTarget());
+  const info = countdownInfo(targetEl.value, new Date());
+  if(!info){
+    bigEl.textContent = "-";
+    verdictEl.textContent = "Pick a target date";
+    totalRowEl.textContent = weeksRowEl.textContent = dowRowEl.textContent = "-";
+    return;
+  }
+  const abs = Math.abs(info.totalDays);
+  if(info.totalDays === 0){
+    bigEl.textContent = "Today!";
+    verdictEl.textContent = fmtDate(info.target) + " is today";
+  } else if(info.past){
+    bigEl.textContent = abs + (abs === 1 ? " day" : " days") + " ago";
+    verdictEl.textContent = "since " + fmtDate(info.target);
+  } else {
+    bigEl.textContent = abs + (abs === 1 ? " day" : " days");
+    verdictEl.textContent = "until " + fmtDate(info.target);
+  }
+  totalRowEl.textContent = abs + (abs === 1 ? " day" : " days");
+  weeksRowEl.textContent = info.weeks + (info.weeks === 1 ? " week" : " weeks") + ", " + info.days + (info.days === 1 ? " day" : " days");
+  dowRowEl.textContent = info.target.toLocaleDateString("en-US", { weekday: "long" });
+}
+const targetEl = document.getElementById("target");
+const bigEl = document.getElementById("big"), verdictEl = document.getElementById("verdict"),
+      totalRowEl = document.getElementById("totalRow"), weeksRowEl = document.getElementById("weeksRow"),
+      dowRowEl = document.getElementById("dowRow");
+targetEl.addEventListener("input", calc);
+calc();
+</script>
+</body>
+</html>

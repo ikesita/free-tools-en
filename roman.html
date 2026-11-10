@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roman Numeral Converter — Numbers to Roman Numerals and Back</title>
+<meta name="description" content="Convert any number from 1 to 3999 into Roman numerals, or turn a Roman numeral back into a number. Instant, free and private.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#9f1239; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:16px;margin:0 0 12px}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .f label{display:block;font-size:13px;color:var(--sub);margin-bottom:4px}
+  .f input{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  .big{font-size:34px;font-weight:900;text-align:center;margin:10px 0 0;letter-spacing:1px}
+  .sub2{text-align:center;color:var(--sub);font-size:14.5px}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  td{padding:6px 0;color:var(--sub)} td.v{text-align:right;color:var(--ink);font-weight:800}
+  .note{font-size:13px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Roman Numeral Converter</h1>
+    <p>Convert numbers to Roman numerals — and Roman numerals back to numbers.</p>
+  </header>
+
+  <div class="card">
+    <h2>Number → Roman numeral</h2>
+    <div class="grid">
+      <div class="f"><label>Number (1–3999)</label><input id="numIn" type="number" min="1" max="3999" step="1" value="1994"></div>
+    </div>
+    <div class="big" id="romanOut">-</div>
+    <div class="sub2" id="romanMsg"></div>
+  </div>
+
+  <div class="card">
+    <h2>Roman numeral → Number</h2>
+    <div class="grid">
+      <div class="f"><label>Roman numeral</label><input id="romIn" type="text" value="LVIII" autocomplete="off" spellcheck="false" style="text-transform:uppercase"></div>
+    </div>
+    <div class="big" id="numOut">-</div>
+    <div class="sub2" id="numMsg"></div>
+  </div>
+
+  <div class="card">
+    <table>
+      <tr><td>I</td><td class="v">1</td></tr>
+      <tr><td>V</td><td class="v">5</td></tr>
+      <tr><td>X</td><td class="v">10</td></tr>
+      <tr><td>L</td><td class="v">50</td></tr>
+      <tr><td>C</td><td class="v">100</td></tr>
+      <tr><td>D</td><td class="v">500</td></tr>
+      <tr><td>M</td><td class="v">1000</td></tr>
+    </table>
+    <p class="note" style="margin-top:10px">Roman numerals use subtractive pairs for 4s and 9s — IV (4), IX (9), XL (40), XC (90), CD (400) and CM (900) — and a symbol is never repeated more than three times. That is why the standard system tops out at 3999 (MMMCMXCIX): there is no symbol above M in everyday use. The converter back checks that a numeral follows these rules, so non-standard forms are flagged instead of silently converted.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+function toRoman(n){
+  if(!Number.isInteger(n) || n < 1 || n > 3999) return null;
+  const table = [[1000,"M"],[900,"CM"],[500,"D"],[400,"CD"],[100,"C"],[90,"XC"],[50,"L"],[40,"XL"],[10,"X"],[9,"IX"],[5,"V"],[4,"IV"],[1,"I"]];
+  let out = "";
+  for(const pair of table){
+    while(n >= pair[0]){ out += pair[1]; n -= pair[0]; }
+  }
+  return out;
+}
+function romanToInt(s){
+  s = (s || "").toUpperCase().trim();
+  if(!/^[MDCLXVI]+$/.test(s)) return null;
+  const vals = { I:1, V:5, X:10, L:50, C:100, D:500, M:1000 };
+  let total = 0;
+  for(let i = 0; i < s.length; i++){
+    const cur = vals[s[i]];
+    const next = i + 1 < s.length ? vals[s[i + 1]] : 0;
+    total += cur < next ? -cur : cur;
+  }
+  if(total < 1 || total > 3999 || toRoman(total) !== s) return null;
+  return total;
+}
+function calcNum(){
+  const raw = numInEl.value.trim();
+  const n = Number(raw);
+  if(raw === "" || !Number.isInteger(n)){
+    romanOutEl.textContent = "-";
+    romanMsgEl.textContent = "Enter a whole number from 1 to 3999";
+    return;
+  }
+  const r = toRoman(n);
+  if(r === null){
+    romanOutEl.textContent = "-";
+    romanMsgEl.textContent = "Out of range — Roman numerals here cover 1 to 3999";
+    return;
+  }
+  romanOutEl.textContent = r;
+  romanMsgEl.textContent = n.toLocaleString("en-US") + " in Roman numerals";
+}
+function calcRom(){
+  const s = romInEl.value.toUpperCase().trim();
+  if(s === ""){
+    numOutEl.textContent = "-";
+    numMsgEl.textContent = "Type a Roman numeral, e.g. MMXXVI";
+    return;
+  }
+  const v = romanToInt(s);
+  if(v === null){
+    numOutEl.textContent = "-";
+    numMsgEl.textContent = "Not a standard Roman numeral — check the letters and order";
+    return;
+  }
+  numOutEl.textContent = v.toLocaleString("en-US");
+  numMsgEl.textContent = s + " as a number";
+}
+const numInEl = document.getElementById("numIn"), romInEl = document.getElementById("romIn");
+const romanOutEl = document.getElementById("romanOut"), romanMsgEl = document.getElementById("romanMsg"),
+      numOutEl = document.getElementById("numOut"), numMsgEl = document.getElementById("numMsg");
+numInEl.addEventListener("input", calcNum);
+romInEl.addEventListener("input", calcRom);
+calcNum();
+calcRom();
+</script>
+</body>
+</html>
