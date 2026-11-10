@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Code Generator — Free, No Sign-Up, Download as PNG</title>
+<meta name="description" content="Generate a QR code from any URL or text for free. Download as PNG. Codes are generated in your browser; your input is never sent to a server.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#111827; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:16px;min-height:76px}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;align-items:center}
+  select{padding:9px;border:1px solid var(--line);border-radius:8px;font-size:15px}
+  button{background:var(--acc);color:#fff;border:none;border-radius:9px;padding:11px 18px;font-size:15px;cursor:pointer}
+  button.sub{background:#e5e7eb;color:var(--ink)}
+  #out{display:flex;justify-content:center;padding:10px}
+  canvas{background:#fff;max-width:100%;height:auto}
+  .note{font-size:13px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>QR Code Generator</h1>
+    <p>Create a QR code from any URL or text, and save it as a PNG image. Free, no sign-up.</p>
+  </header>
+
+  <div class="card">
+    <textarea id="text" placeholder="Paste a URL or type any text">https://example.com/</textarea>
+    <div class="row">
+      <label style="font-size:14px;color:var(--sub)">Size
+        <select id="size"><option value="256">256px</option><option value="512" selected>512px</option><option value="1024">1024px</option></select>
+      </label>
+      <button id="make">Generate QR code</button>
+      <button id="dl" class="sub">Download PNG</button>
+    </div>
+    <p class="note" id="msg" style="margin-top:10px">Very long text may not fit into a QR code. Consider a short URL.</p>
+  </div>
+
+  <div class="card"><div id="out"><canvas id="cv" width="512" height="512"></canvas></div></div>
+
+  <footer>The QR code is generated locally in your browser; your input is never uploaded (only the generator library is loaded). QR Code is a registered trademark of DENSO WAVE INCORPORATED.</footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+<script>
+(function(){
+  const textEl = document.getElementById("text"), sizeEl = document.getElementById("size"),
+        cv = document.getElementById("cv"), msg = document.getElementById("msg");
+  let ready = false;
+  function draw(){
+    const text = textEl.value;
+    if(!text){ msg.textContent = "Please enter some text first."; return; }
+    if(typeof qrcode === "undefined"){ msg.textContent = "The library failed to load. Check your connection and reload the page."; return; }
+    try{
+      const qr = qrcode(0, "M"); qr.addData(text); qr.make();
+      const size = parseInt(sizeEl.value), count = qr.getModuleCount(), cell = Math.floor(size / count), actual = cell * count;
+      cv.width = actual; cv.height = actual;
+      const ctx = cv.getContext("2d");
+      ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, actual, actual);
+      ctx.fillStyle = "#000000";
+      for(let r = 0; r < count; r++) for(let c = 0; c < count; c++)
+        if(qr.isDark(r, c)) ctx.fillRect(c * cell, r * cell, cell, cell);
+      ready = true;
+      msg.textContent = "Done (" + count + "x" + count + " modules).";
+    }catch(e){ msg.textContent = "Could not generate. The input may be too long."; }
+  }
+  document.getElementById("make").addEventListener("click", draw);
+  document.getElementById("dl").addEventListener("click", () => {
+    if(!ready) draw();
+    const a = document.createElement("a");
+    a.download = "qrcode.png"; a.href = cv.toDataURL("image/png"); a.click();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>

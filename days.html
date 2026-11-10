@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Date Calculator — Days Between Dates & Days From a Date</title>
+<meta name="description" content="Calculate the number of days between two dates, or find the date a number of days from any date. Free, with weekday shown.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#059669; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:16px;margin:0 0 12px}
+  .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .row input{padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  .row input[type=number]{width:110px}
+  .ans{font-size:20px;font-weight:800;color:var(--acc)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Date Calculator</h1>
+    <p>Days between two dates, and the date a number of days from any day.</p>
+  </header>
+
+  <div class="card">
+    <h2>Days between two dates</h2>
+    <div class="row"><input id="d1" type="date" value="2026-11-10"><span>to</span><input id="d2" type="date" value="2026-12-31"><span class="ans" id="diffOut">-</span></div>
+  </div>
+
+  <div class="card">
+    <h2>Add or subtract days</h2>
+    <div class="row"><input id="base" type="date" value="2026-11-10"><span>+</span><input id="n" type="number" value="30"><span>days =</span><span class="ans" id="addOut">-</span></div>
+    <p style="color:var(--sub);font-size:13px;margin:10px 0 0">Use a negative number to go back in time. The start date itself counts as day 0.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+const parse = v => { const [y,m,d] = v.split("-").map(Number); return new Date(y, m - 1, d); };
+const fmtD = dt => dt.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+function calc(){
+  if(d1.value && d2.value){
+    const diff = Math.round((parse(d2.value) - parse(d1.value)) / 86400000);
+    diffOut.textContent = diff.toLocaleString("en-US") + " days";
+  }
+  if(base.value){
+    const t = parse(base.value); t.setDate(t.getDate() + (parseInt(n.value) || 0));
+    addOut.textContent = fmtD(t);
+  }
+}
+const [d1,d2,base,n,diffOut,addOut] = ["d1","d2","base","n","diffOut","addOut"].map(id => document.getElementById(id));
+[d1,d2,base,n].forEach(el => el.addEventListener("input", calc));
+calc();
+</script>
+</body>
+</html>
