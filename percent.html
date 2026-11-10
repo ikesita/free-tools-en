@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Percentage Calculator — Percent Of, Percent Change & More</title>
+<meta name="description" content="Calculate percentages instantly: what is X% of Y, X is what percent of Y, and percentage increase or decrease. Free and private.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#0891b2; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:16px;margin:0 0 12px}
+  .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .row input{width:120px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  .row select{padding:9px;border:1px solid var(--line);border-radius:8px;font-size:15px}
+  .ans{font-size:20px;font-weight:800;color:var(--acc)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Percentage Calculator</h1>
+    <p>Three everyday percentage calculations in one place. Results update as you type.</p>
+  </header>
+
+  <div class="card">
+    <h2>What is X% of Y?</h2>
+    <div class="row"><input id="a2" type="number" value="15"><span>% of</span><input id="a1" type="number" value="200"><span>=</span><span class="ans" id="aOut">-</span></div>
+  </div>
+
+  <div class="card">
+    <h2>X is what percent of Y?</h2>
+    <div class="row"><input id="b1" type="number" value="80"><span>is what % of</span><input id="b2" type="number" value="200"><span class="ans" id="bOut">-</span></div>
+  </div>
+
+  <div class="card">
+    <h2>Increase / decrease by X%</h2>
+    <div class="row"><input id="c1" type="number" value="1000"><select id="c3"><option value="up">increased by</option><option value="down">decreased by</option></select><input id="c2" type="number" value="10"><span>% =</span><span class="ans" id="cOut">-</span></div>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+const num = v => { const n = parseFloat(v); return isNaN(n) ? 0 : n; };
+const fmt = n => Math.abs(n) >= 100 ? n.toLocaleString("en-US",{maximumFractionDigits:2}) : String(Math.round(n * 100) / 100);
+function calc(){
+  aOut.textContent = fmt(num(a1.value) * num(a2.value) / 100);
+  const d = num(b2.value);
+  bOut.textContent = d !== 0 ? fmt(num(b1.value) / d * 100) + " %" : "-";
+  cOut.textContent = fmt(num(c1.value) * (1 + (c3.value === "up" ? 1 : -1) * num(c2.value) / 100));
+}
+const [a1,a2,b1,b2,c1,c2,c3,aOut,bOut,cOut] = ["a1","a2","b1","b2","c1","c2","c3","aOut","bOut","cOut"].map(id => document.getElementById(id));
+[a1,a2,b1,b2,c1,c2,c3].forEach(el => el.addEventListener("input", calc));
+calc();
+</script>
+</body>
+</html>
