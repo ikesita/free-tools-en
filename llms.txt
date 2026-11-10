@@ -1,0 +1,27 @@
+# Free Online Tools & Calculators
+
+> Free online tools and calculators: QR code generator, BMI calculator, date calculator, loan calculator and more. Everything runs in your browser — nothing is uploaded.
+
+## Pages
+
+- [Free Online Tools & Calculators (top page)](https://ikesita.github.io/free-tools-en/)
+- [QR Code Generator — Free, No Sign-Up, Download as PNG](https://ikesita.github.io/free-tools-en/qr.html)
+- [BMI Calculator — Body Mass Index & Healthy Weight Range](https://ikesita.github.io/free-tools-en/bmi.html)
+- [Date Calculator — Days Between Dates & Days From a Date](https://ikesita.github.io/free-tools-en/days.html)
+- [Loan Calculator — Monthly Payment, Total Cost & Interest](https://ikesita.github.io/free-tools-en/loan.html)
+- [Percentage Calculator — Percent Of, Percent Change & More](https://ikesita.github.io/free-tools-en/percent.html)
+- [Unit Converter — Length, Weight & Temperature](https://ikesita.github.io/free-tools-en/units.html)
+- [Tip Calculator — Tip, Total & Split Per Person](https://ikesita.github.io/free-tools-en/tip.html)
+- [Compound Interest Calculator — Savings Growth with Monthly Contributions](https://ikesita.github.io/free-tools-en/compound.html)
+- [Salary Converter — Hourly, Weekly, Monthly & Annual Pay](https://ikesita.github.io/free-tools-en/salary.html)
+- [VAT / Sales Tax Calculator — Add or Remove Tax](https://ikesita.github.io/free-tools-en/vat.html)
+- [Percentage Change Calculator — Increase or Decrease from One Value to Another](https://ikesita.github.io/free-tools-en/pctchange.html)
+- [Days Until Calculator — Countdown to Any Date](https://ikesita.github.io/free-tools-en/countdown.html)
+- [Roman Numeral Converter — Numbers to Roman Numerals and Back](https://ikesita.github.io/free-tools-en/roman.html)
+- [Work Hours Calculator — Hours Between Times, Minus Breaks](https://ikesita.github.io/free-tools-en/hours.html)
+- [Square Footage Calculator — Rectangle & Circle Area in Sq Ft and m²](https://ikesita.github.io/free-tools-en/sqft.html)
+- [Random Number Generator — Random Numbers & Dice Roller](https://ikesita.github.io/free-tools-en/random.html)
+- [Word Counter — Words, Characters, Sentences & Reading Time](https://ikesita.github.io/free-tools-en/wordcount.html)
+- [Password Generator — Strong Random Passwords](https://ikesita.github.io/free-tools-en/password.html)
+- [Dog Age Calculator — Dog Years to Human Years](https://ikesita.github.io/free-tools-en/dogage.html)
+- [Time Zone Converter — Convert a Time Between World Time Zones](https://ikesita.github.io/free-tools-en/timezone.html)
