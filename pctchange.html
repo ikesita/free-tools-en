@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Percentage Change Calculator — Increase or Decrease from One Value to Another</title>
+<meta name="description" content="How much did a value change? Enter the from and to values to get the difference and the percentage increase or decrease, instantly and privately.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#65a30d; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .f label{display:block;font-size:13px;color:var(--sub);margin-bottom:4px}
+  .f input{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  .big{font-size:34px;font-weight:900;text-align:center;margin:6px 0 0}
+  .sub2{text-align:center;color:var(--sub);font-size:14.5px}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  td{padding:6px 0;color:var(--sub)} td.v{text-align:right;color:var(--ink);font-weight:800}
+  .note{font-size:13px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Percentage Change Calculator</h1>
+    <p>The increase or decrease from one value to another, as a number and as a percentage.</p>
+  </header>
+
+  <div class="card">
+    <div class="grid">
+      <div class="f"><label>Original value (from)</label><input id="from" type="number" step="any" value="80"></div>
+      <div class="f"><label>New value (to)</label><input id="to" type="number" step="any" value="100"></div>
+    </div>
+    <div class="big" id="pct">-</div>
+    <div class="sub2" id="verdict">-</div>
+  </div>
+
+  <div class="card">
+    <table>
+      <tr><td>Change (to − from)</td><td class="v" id="diff">-</td></tr>
+      <tr><td>Percentage change</td><td class="v" id="pctRow">-</td></tr>
+    </table>
+    <p class="note" style="margin-top:10px">Percentage change is always relative to the original (from) value — that is why going from 80 to 100 is +25%, but going back from 100 to 80 is −20%. A percentage change cannot be calculated from an original value of 0.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+const num = v => { const n = parseFloat(v); return isNaN(n) ? 0 : n; };
+const fmt = n => n.toLocaleString("en-US",{maximumFractionDigits:2});
+const signedPct = p => (p > 0 ? "+" : p < 0 ? "−" : "") + Math.abs(p).toFixed(2) + "%";
+const signedNum = n => (n > 0 ? "+" : n < 0 ? "−" : "") + fmt(Math.abs(n));
+function calc(){
+  const from = num(fromEl.value), to = num(toEl.value);
+  const diff = to - from;
+  diffEl.textContent = signedNum(diff);
+  if(from === 0){
+    pctEl.textContent = "-";
+    pctRowEl.textContent = "-";
+    verdictEl.textContent = "Enter an original value other than 0";
+    return;
+  }
+  const p = diff / Math.abs(from) * 100;
+  pctEl.textContent = signedPct(p);
+  pctRowEl.textContent = signedPct(p);
+  verdictEl.textContent = p > 0 ? "Increase" : p < 0 ? "Decrease" : "No change";
+}
+const fromEl = document.getElementById("from"), toEl = document.getElementById("to");
+const pctEl = document.getElementById("pct"), verdictEl = document.getElementById("verdict"),
+      diffEl = document.getElementById("diff"), pctRowEl = document.getElementById("pctRow");
+[fromEl, toEl].forEach(e => e.addEventListener("input", calc));
+calc();
+</script>
+</body>
+</html>
