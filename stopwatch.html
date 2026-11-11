@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stopwatch — Online Stopwatch with Laps and Split Times</title>
+<meta name="description" content="A free online stopwatch with hundredths of a second, lap and split times, and a best/worst lap summary. Runs entirely in your browser.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#0891b2; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  .big{font-size:52px;font-weight:900;text-align:center;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+  .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:12px}
+  button{background:var(--acc);color:#fff;border:none;border-radius:8px;padding:10px 18px;font-size:15.5px;font-weight:700;cursor:pointer}
+  button.ghost{background:#eef1f6;color:var(--ink)}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  td,th{padding:6px 0;color:var(--sub);text-align:left}
+  td.v,th.v{text-align:right;color:var(--ink);font-weight:800;font-variant-numeric:tabular-nums}
+  tr.best td{color:#15803d;font-weight:800}
+  tr.worst td{color:#b91c1c;font-weight:800}
+  .note{font-size:13px;color:var(--sub)}
+  .faq h3{font-size:15px;margin:14px 0 4px}
+  .faq p{margin:0 0 6px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Stopwatch",
+  "url": "https://ikesita.github.io/free-tools-en/stopwatch.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "en",
+  "description": "A free online stopwatch with hundredths of a second, lap and split times, and a best/worst lap summary. Runs entirely in your browser.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "isAccessibleForFree": true
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How accurate is this stopwatch?", "acceptedAnswer": { "@type": "Answer", "text": "It reads the system clock directly instead of counting screen refreshes, so the displayed time stays accurate to the hundredth of a second shown, even if the display updates less often in a background tab." } },
+    { "@type": "Question", "name": "What is the difference between lap and split times?", "acceptedAnswer": { "@type": "Answer", "text": "A split time is the total elapsed time when you press Lap. The lap time is how long that single lap took — the difference between two splits. This stopwatch shows both, and highlights your fastest and slowest laps." } },
+    { "@type": "Question", "name": "Does the stopwatch keep running in another tab?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Because it is based on the clock rather than a counter, switching tabs does not lose time. Come back and the correct elapsed time is shown." } },
+    { "@type": "Question", "name": "Is this stopwatch free and private?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. It is completely free and runs entirely in your browser — nothing is sent to a server." } }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Stopwatch</h1>
+    <p>Time anything to the hundredth of a second, with lap and split times.</p>
+  </header>
+
+  <div class="card">
+    <div class="big" id="display">00:00.00</div>
+    <div class="row">
+      <button id="startBtn">Start</button>
+      <button id="lapBtn" class="ghost">Lap</button>
+      <button id="resetBtn" class="ghost">Reset</button>
+    </div>
+  </div>
+
+  <div class="card" id="lapCard" style="display:none">
+    <h2>Laps</h2>
+    <table id="lapTable">
+      <tr><th>Lap</th><th class="v">Lap time</th><th class="v">Split (total)</th></tr>
+    </table>
+    <p class="note" id="lapNote" style="margin-top:10px"></p>
+  </div>
+
+  <div class="card faq">
+    <h2>Frequently asked questions</h2>
+    <h3>How accurate is this stopwatch?</h3>
+    <p>It reads the system clock directly instead of counting screen refreshes, so the displayed time stays accurate to the hundredth of a second shown, even if the display updates less often in a background tab.</p>
+    <h3>What is the difference between lap and split times?</h3>
+    <p>A split time is the total elapsed time when you press Lap. The lap time is how long that single lap took — the difference between two splits. This stopwatch shows both, and highlights your fastest and slowest laps.</p>
+    <h3>Does the stopwatch keep running in another tab?</h3>
+    <p>Yes. Because it is based on the clock rather than a counter, switching tabs does not lose time. Come back and the correct elapsed time is shown.</p>
+    <h3>Is this stopwatch free and private?</h3>
+    <p>Yes. It is completely free and runs entirely in your browser — nothing is sent to a server.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+function fmtElapsed(ms){
+  ms = Math.max(0, Math.floor(ms));
+  const cs = Math.floor(ms / 10) % 100;
+  const s = Math.floor(ms / 1000) % 60;
+  const m = Math.floor(ms / 60000);
+  const pad = n => String(n).padStart(2, "0");
+  return pad(m) + ":" + pad(s) + "." + pad(cs);
+}
+function lapDurations(splits){
+  const out = [];
+  let prev = 0;
+  for(const sp of splits){ out.push(sp - prev); prev = sp; }
+  return out;
+}
+let startAt = 0, elapsedBefore = 0, tickId = null, running = false, splits = [];
+function currentElapsed(){
+  return running ? elapsedBefore + (Date.now() - startAt) : elapsedBefore;
+}
+function render(){
+  displayEl.textContent = fmtElapsed(currentElapsed());
+}
+function renderLaps(){
+  const durs = lapDurations(splits);
+  lapCardEl.style.display = splits.length ? "block" : "none";
+  lapTableEl.querySelectorAll("tr.lap").forEach(tr => tr.remove());
+  let best = -1, worst = -1;
+  if(durs.length > 1){
+    best = durs.indexOf(Math.min.apply(null, durs));
+    worst = durs.indexOf(Math.max.apply(null, durs));
+    if(best === worst) worst = -1;
+  }
+  durs.forEach((d, i) => {
+    const tr = document.createElement("tr");
+    tr.className = "lap" + (i === best ? " best" : i === worst ? " worst" : "");
+    tr.innerHTML = "<td>Lap " + (i + 1) + "</td><td class=\"v\">" + fmtElapsed(d) + "</td><td class=\"v\">" + fmtElapsed(splits[i]) + "</td>";
+    lapTableEl.appendChild(tr);
+  });
+  lapNoteEl.textContent = durs.length > 1
+    ? "Fastest lap: Lap " + (best + 1) + " (" + fmtElapsed(durs[best]) + ") · Slowest lap: Lap " + (durs.indexOf(Math.max.apply(null, durs)) + 1) + " (" + fmtElapsed(Math.max.apply(null, durs)) + ")"
+    : "";
+}
+const displayEl = document.getElementById("display"), startBtn = document.getElementById("startBtn"),
+      lapCardEl = document.getElementById("lapCard"), lapTableEl = document.getElementById("lapTable"),
+      lapNoteEl = document.getElementById("lapNote");
+startBtn.addEventListener("click", () => {
+  if(running){
+    elapsedBefore = currentElapsed();
+    running = false;
+    if(tickId !== null){ clearInterval(tickId); tickId = null; }
+    startBtn.textContent = "Resume";
+  } else {
+    startAt = Date.now();
+    running = true;
+    tickId = setInterval(render, 31);
+    startBtn.textContent = "Stop";
+  }
+  render();
+});
+document.getElementById("lapBtn").addEventListener("click", () => {
+  const t = currentElapsed();
+  if(t <= 0) return;
+  splits.push(t);
+  renderLaps();
+});
+document.getElementById("resetBtn").addEventListener("click", () => {
+  running = false; elapsedBefore = 0; splits = [];
+  if(tickId !== null){ clearInterval(tickId); tickId = null; }
+  startBtn.textContent = "Start";
+  render(); renderLaps();
+});
+render();
+</script>
+</body>
+</html>

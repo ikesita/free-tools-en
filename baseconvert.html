@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Number Base Converter — Binary, Octal, Decimal and Hexadecimal</title>
+<meta name="description" content="Convert numbers between binary (base 2), octal (base 8), decimal (base 10) and hexadecimal (base 16) — all four shown at once, with very large numbers supported.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#0369a1; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  .grid{display:grid;grid-template-columns:2fr 1fr;gap:12px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .f label{display:block;font-size:13px;color:var(--sub);margin-bottom:4px}
+  .f input,.f select{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px;font-family:ui-monospace,monospace}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  td{padding:7px 0;color:var(--sub)} td.v{text-align:right;color:var(--ink);font-weight:800;font-family:ui-monospace,monospace;word-break:break-all}
+  .err{color:#b91c1c;font-weight:700;text-align:center;margin-top:10px;min-height:1.2em}
+  .note{font-size:13px;color:var(--sub)}
+  .faq h3{font-size:15px;margin:14px 0 4px}
+  .faq p{margin:0 0 6px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Number Base Converter",
+  "url": "https://ikesita.github.io/free-tools-en/baseconvert.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "en",
+  "description": "Convert numbers between binary (base 2), octal (base 8), decimal (base 10) and hexadecimal (base 16) — all four shown at once, with very large numbers supported.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "isAccessibleForFree": true
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "What number bases does this converter support?", "acceptedAnswer": { "@type": "Answer", "text": "Binary (base 2), octal (base 8), decimal (base 10) and hexadecimal (base 16). Enter a value in any one base and all four are shown at once. Hexadecimal letters A–F can be typed in upper or lower case." } },
+    { "@type": "Question", "name": "How large a number can I convert?", "acceptedAnswer": { "@type": "Answer", "text": "Very large. The converter uses arbitrary-precision arithmetic, so numbers far beyond the usual 64-bit range — for example a 256-bit hash value — convert exactly, with no rounding." } },
+    { "@type": "Question", "name": "Why does my input show an error?", "acceptedAnswer": { "@type": "Answer", "text": "Each base allows only certain digits: binary uses 0–1, octal 0–7, decimal 0–9, and hexadecimal 0–9 plus A–F. A digit outside the selected base, such as a 2 in a binary number, is rejected. Negative numbers and spaces after digits are accepted." } },
+    { "@type": "Question", "name": "Is this converter free and private?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. It is completely free and runs entirely in your browser — nothing is sent to a server." } }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Number Base Converter</h1>
+    <p>Binary, octal, decimal and hexadecimal — type in one base, see all four.</p>
+  </header>
+
+  <div class="card">
+    <div class="grid">
+      <div class="f"><label>Value</label><input id="val" type="text" value="255" spellcheck="false"></div>
+      <div class="f"><label>From base</label>
+        <select id="base">
+          <option value="2">Binary (2)</option>
+          <option value="8">Octal (8)</option>
+          <option value="10" selected>Decimal (10)</option>
+          <option value="16">Hexadecimal (16)</option>
+        </select>
+      </div>
+    </div>
+    <div class="err" id="err"></div>
+    <table>
+      <tr><td>Binary (base 2)</td><td class="v" id="out2">-</td></tr>
+      <tr><td>Octal (base 8)</td><td class="v" id="out8">-</td></tr>
+      <tr><td>Decimal (base 10)</td><td class="v" id="out10">-</td></tr>
+      <tr><td>Hexadecimal (base 16)</td><td class="v" id="out16">-</td></tr>
+    </table>
+    <p class="note" style="margin-top:10px">Conversions use arbitrary-precision arithmetic, so even a 256-bit value converts exactly. Prefixes like 0x or 0b are not needed — just pick the base.</p>
+  </div>
+
+  <div class="card faq">
+    <h2>Frequently asked questions</h2>
+    <h3>What number bases does this converter support?</h3>
+    <p>Binary (base 2), octal (base 8), decimal (base 10) and hexadecimal (base 16). Enter a value in any one base and all four are shown at once. Hexadecimal letters A–F can be typed in upper or lower case.</p>
+    <h3>How large a number can I convert?</h3>
+    <p>Very large. The converter uses arbitrary-precision arithmetic, so numbers far beyond the usual 64-bit range — for example a 256-bit hash value — convert exactly, with no rounding.</p>
+    <h3>Why does my input show an error?</h3>
+    <p>Each base allows only certain digits: binary uses 0–1, octal 0–7, decimal 0–9, and hexadecimal 0–9 plus A–F. A digit outside the selected base, such as a 2 in a binary number, is rejected. Negative numbers and spaces after digits are accepted.</p>
+    <h3>Is this converter free and private?</h3>
+    <p>Yes. It is completely free and runs entirely in your browser — nothing is sent to a server.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+const DIGITS = "0123456789ABCDEF";
+function parseInBase(str, base){
+  if(typeof str !== "string") return null;
+  let t = str.trim().toUpperCase();
+  let neg = false;
+  if(t.startsWith("-")){ neg = true; t = t.slice(1); }
+  else if(t.startsWith("+")){ t = t.slice(1); }
+  if(!t) return null;
+  let v = 0n;
+  const B = BigInt(base);
+  for(const ch of t){
+    const d = DIGITS.indexOf(ch);
+    if(d < 0 || d >= base) return null;
+    v = v * B + BigInt(d);
+  }
+  return neg ? -v : v;
+}
+function toBase(v, base){
+  if(v === 0n) return "0";
+  const neg = v < 0n;
+  let x = neg ? -v : v;
+  const B = BigInt(base);
+  let out = "";
+  while(x > 0n){
+    out = DIGITS[Number(x % B)] + out;
+    x = x / B;
+  }
+  return neg ? "-" + out : out;
+}
+function convertAll(str, base){
+  const v = parseInBase(str, base);
+  if(v === null) return null;
+  return { bin: toBase(v, 2), oct: toBase(v, 8), dec: toBase(v, 10), hex: toBase(v, 16) };
+}
+function calc(){
+  const r = convertAll(valEl.value, parseInt(baseEl.value));
+  if(r === null){
+    errEl.textContent = valEl.value.trim() ? "That is not a valid number in the selected base." : "";
+    out2El.textContent = out8El.textContent = out10El.textContent = out16El.textContent = "-";
+    return;
+  }
+  errEl.textContent = "";
+  out2El.textContent = r.bin;
+  out8El.textContent = r.oct;
+  out10El.textContent = r.dec;
+  out16El.textContent = r.hex;
+}
+const valEl = document.getElementById("val"), baseEl = document.getElementById("base"), errEl = document.getElementById("err");
+const out2El = document.getElementById("out2"), out8El = document.getElementById("out8"),
+      out10El = document.getElementById("out10"), out16El = document.getElementById("out16");
+[valEl, baseEl].forEach(e => { e.addEventListener("input", calc); e.addEventListener("change", calc); });
+calc();
+</script>
+</body>
+</html>

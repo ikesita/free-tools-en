@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Age in Days Calculator — How Many Days Old Am I?</title>
+<meta name="description" content="Find your exact age in days from your date of birth — plus hours, minutes and seconds, the weekday you were born, and your next 1,000-day milestone.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#2563eb; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .f label{display:block;font-size:13px;color:var(--sub);margin-bottom:4px}
+  .f input{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  .big{font-size:34px;font-weight:900;text-align:center;margin:6px 0 0}
+  .sub2{text-align:center;color:var(--sub);font-size:14.5px}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  td{padding:6px 0;color:var(--sub)} td.v{text-align:right;color:var(--ink);font-weight:800}
+  .note{font-size:13px;color:var(--sub)}
+  .faq h3{font-size:15px;margin:14px 0 4px}
+  .faq p{margin:0 0 6px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Age in Days Calculator",
+  "url": "https://ikesita.github.io/free-tools-en/ageindays.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "en",
+  "description": "Find your exact age in days from your date of birth — plus hours, minutes and seconds, the weekday you were born, and your next 1,000-day milestone.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "isAccessibleForFree": true
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How many days old is a 30-year-old?", "acceptedAnswer": { "@type": "Answer", "text": "About 10,957 days. Thirty years contain either 7 or 8 leap days depending on the exact dates, so 30 × 365 + 7 or 8 = 10,957–10,958 days. Enter your real birth date above for the exact figure." } },
+    { "@type": "Question", "name": "When is my 10,000th day?", "acceptedAnswer": { "@type": "Answer", "text": "Your 10,000th day of life falls about 27 years and 4–5 months after your birth date. This calculator shows your next round-number day milestone and its exact date." } },
+    { "@type": "Question", "name": "How is age in days counted?", "acceptedAnswer": { "@type": "Answer", "text": "It is the number of whole days between your birth date and today (or the 'age at' date you choose). Your birth day itself is day 0, the same convention as ordinary date calculators — leap days are included automatically." } },
+    { "@type": "Question", "name": "Is this calculator free and private?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. It is completely free and runs entirely in your browser — your birth date is never sent to a server." } }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Age in Days Calculator</h1>
+    <p>Exactly how many days have you been alive? Enter your birth date to find out.</p>
+  </header>
+
+  <div class="card">
+    <div class="grid">
+      <div class="f"><label>Date of birth</label><input id="dob" type="date" value="1990-06-15"></div>
+      <div class="f"><label>Age at date (default: today)</label><input id="asof" type="date"></div>
+    </div>
+    <div class="big" id="big">-</div>
+    <div class="sub2" id="verdict">-</div>
+  </div>
+
+  <div class="card">
+    <table>
+      <tr><td>Total hours</td><td class="v" id="hoursOut">-</td></tr>
+      <tr><td>Total minutes</td><td class="v" id="minutesOut">-</td></tr>
+      <tr><td>Total seconds</td><td class="v" id="secondsOut">-</td></tr>
+      <tr><td>Age in years, months, days</td><td class="v" id="ymdOut">-</td></tr>
+      <tr><td>Day of the week you were born</td><td class="v" id="weekdayOut">-</td></tr>
+      <tr><td>Next milestone</td><td class="v" id="mileOut">-</td></tr>
+    </table>
+    <p class="note" style="margin-top:10px">Hours, minutes and seconds treat every day as exactly 24 hours, so they are the day count multiplied out — a fun scale check, not a stopwatch reading. Milestones are every 1,000 days: day 10,000 arrives at about age 27 years 5 months.</p>
+  </div>
+
+  <div class="card faq">
+    <h2>Frequently asked questions</h2>
+    <h3>How many days old is a 30-year-old?</h3>
+    <p>About 10,957 days. Thirty years contain either 7 or 8 leap days depending on the exact dates, so 30 × 365 + 7 or 8 = 10,957–10,958 days. Enter your real birth date above for the exact figure.</p>
+    <h3>When is my 10,000th day?</h3>
+    <p>Your 10,000th day of life falls about 27 years and 4–5 months after your birth date. This calculator shows your next round-number day milestone and its exact date.</p>
+    <h3>How is age in days counted?</h3>
+    <p>It is the number of whole days between your birth date and today (or the “age at” date you choose). Your birth day itself is day 0, the same convention as ordinary date calculators — leap days are included automatically.</p>
+    <h3>Is this calculator free and private?</h3>
+    <p>Yes. It is completely free and runs entirely in your browser — your birth date is never sent to a server.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+const WEEKDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+function parseUTC(v){
+  const [y, m, d] = v.split("-").map(Number);
+  return Date.UTC(y, m - 1, d);
+}
+function fmtDateUTC(ms){
+  const dt = new Date(ms);
+  return WEEKDAYS[dt.getUTCDay()] + ", " + MONTHS[dt.getUTCMonth()] + " " + dt.getUTCDate() + ", " + dt.getUTCFullYear();
+}
+function daysLived(dobStr, asofStr){
+  return Math.round((parseUTC(asofStr) - parseUTC(dobStr)) / 86400000);
+}
+function addMonthsClamped(ms, n){
+  const dt = new Date(ms);
+  const day = dt.getUTCDate();
+  const target = new Date(Date.UTC(dt.getUTCFullYear(), dt.getUTCMonth() + n, 1));
+  const lastDay = new Date(Date.UTC(target.getUTCFullYear(), target.getUTCMonth() + 1, 0)).getUTCDate();
+  target.setUTCDate(Math.min(day, lastDay));
+  return target.getTime();
+}
+function ymdBreakdown(dobStr, asofStr){
+  const dobMs = parseUTC(dobStr), asofMs = parseUTC(asofStr);
+  let years = new Date(asofMs).getUTCFullYear() - new Date(dobMs).getUTCFullYear();
+  let anchor = addMonthsClamped(dobMs, years * 12);
+  if(anchor > asofMs){ years--; anchor = addMonthsClamped(dobMs, years * 12); }
+  let months = 0;
+  while(addMonthsClamped(anchor, months + 1) <= asofMs) months++;
+  anchor = addMonthsClamped(anchor, months);
+  const days = Math.round((asofMs - anchor) / 86400000);
+  return { years: years, months: months, days: days };
+}
+function nextMilestone(days){
+  return (Math.floor(days / 1000) + 1) * 1000;
+}
+function calc(){
+  if(!dobEl.value || !asofEl.value) return;
+  const days = daysLived(dobEl.value, asofEl.value);
+  if(days < 0){
+    bigEl.textContent = "-";
+    verdictEl.textContent = "The “age at” date is before the birth date";
+    return;
+  }
+  const fmt = n => n.toLocaleString("en-US");
+  bigEl.textContent = fmt(days) + " days old";
+  verdictEl.textContent = "Born on " + fmtDateUTC(parseUTC(dobEl.value));
+  hoursOutEl.textContent = fmt(days * 24);
+  minutesOutEl.textContent = fmt(days * 1440);
+  secondsOutEl.textContent = fmt(days * 86400);
+  const b = ymdBreakdown(dobEl.value, asofEl.value);
+  ymdOutEl.textContent = b.years + " years, " + b.months + " months, " + b.days + " days";
+  weekdayOutEl.textContent = WEEKDAYS[new Date(parseUTC(dobEl.value)).getUTCDay()];
+  const mile = nextMilestone(days);
+  mileOutEl.textContent = "Day " + fmt(mile) + " on " + fmtDateUTC(parseUTC(dobEl.value) + mile * 86400000);
+}
+const dobEl = document.getElementById("dob"), asofEl = document.getElementById("asof");
+const bigEl = document.getElementById("big"), verdictEl = document.getElementById("verdict");
+const hoursOutEl = document.getElementById("hoursOut"), minutesOutEl = document.getElementById("minutesOut"),
+      secondsOutEl = document.getElementById("secondsOut"), ymdOutEl = document.getElementById("ymdOut"),
+      weekdayOutEl = document.getElementById("weekdayOut"), mileOutEl = document.getElementById("mileOut");
+(function(){
+  const now = new Date();
+  const p = n => String(n).padStart(2, "0");
+  asofEl.value = now.getFullYear() + "-" + p(now.getMonth() + 1) + "-" + p(now.getDate());
+})();
+[dobEl, asofEl].forEach(e => e.addEventListener("input", calc));
+calc();
+</script>
+</body>
+</html>

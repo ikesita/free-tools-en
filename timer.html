@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Countdown Timer — Online Timer with Alarm and Presets</title>
+<meta name="description" content="A free online countdown timer: set hours, minutes and seconds, use presets like 5 or 25 minutes, and get a sound alert when time is up.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#dc2626; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media(max-width:640px){.grid{grid-template-columns:repeat(3,1fr)}}
+  .f label{display:block;font-size:13px;color:var(--sub);margin-bottom:4px}
+  .f input{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  .big{font-size:52px;font-weight:900;text-align:center;margin:10px 0 2px;font-variant-numeric:tabular-nums}
+  .sub2{text-align:center;color:var(--sub);font-size:14.5px}
+  .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:12px}
+  button{background:var(--acc);color:#fff;border:none;border-radius:8px;padding:10px 18px;font-size:15.5px;font-weight:700;cursor:pointer}
+  button.ghost{background:#eef1f6;color:var(--ink)}
+  button.preset{background:#eef1f6;color:var(--ink);padding:7px 12px;font-size:13.5px}
+  .bar{height:10px;background:#eef1f6;border-radius:6px;overflow:hidden;margin-top:14px}
+  .bar i{display:block;height:100%;background:var(--acc);width:100%}
+  .note{font-size:13px;color:var(--sub)}
+  .faq h3{font-size:15px;margin:14px 0 4px}
+  .faq p{margin:0 0 6px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Countdown Timer",
+  "url": "https://ikesita.github.io/free-tools-en/timer.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "en",
+  "description": "A free online countdown timer: set hours, minutes and seconds, use presets like 5 or 25 minutes, and get a sound alert when time is up.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "isAccessibleForFree": true
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How long can I set the timer for?", "acceptedAnswer": { "@type": "Answer", "text": "Up to 99 hours, 59 minutes and 59 seconds. Enter any combination of hours, minutes and seconds, or tap a preset such as 5 minutes or 25 minutes (a Pomodoro)." } },
+    { "@type": "Question", "name": "Will the timer still ring if I switch tabs?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The timer measures the real end time rather than counting ticks, so it stays accurate in a background tab. The alert sound plays when the countdown finishes — keep the tab open and your sound on." } },
+    { "@type": "Question", "name": "How is this different from the Days Until Calculator?", "acceptedAnswer": { "@type": "Answer", "text": "This timer counts down hours, minutes and seconds — for cooking, workouts or focused work. The Days Until Calculator counts whole days between calendar dates." } },
+    { "@type": "Question", "name": "Is this timer free and private?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. It is completely free and runs entirely in your browser — nothing is sent to a server." } }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Countdown Timer</h1>
+    <p>Set a duration, press start, and get a sound alert when time runs out.</p>
+  </header>
+
+  <div class="card">
+    <div class="grid">
+      <div class="f"><label>Hours</label><input id="h" type="number" min="0" max="99" step="1" value="0"></div>
+      <div class="f"><label>Minutes</label><input id="m" type="number" min="0" max="59" step="1" value="5"></div>
+      <div class="f"><label>Seconds</label><input id="s" type="number" min="0" max="59" step="1" value="0"></div>
+    </div>
+    <div class="row" id="presets">
+      <button class="preset" data-sec="60">1 min</button>
+      <button class="preset" data-sec="300">5 min</button>
+      <button class="preset" data-sec="600">10 min</button>
+      <button class="preset" data-sec="1500">25 min · Pomodoro</button>
+      <button class="preset" data-sec="1800">30 min</button>
+      <button class="preset" data-sec="3600">1 hour</button>
+    </div>
+    <div class="big" id="display">00:05:00</div>
+    <div class="sub2" id="status">Ready</div>
+    <div class="bar"><i id="prog"></i></div>
+    <div class="row">
+      <button id="startBtn">Start</button>
+      <button id="pauseBtn" class="ghost">Pause</button>
+      <button id="resetBtn" class="ghost">Reset</button>
+    </div>
+  </div>
+
+  <div class="card faq">
+    <h2>Frequently asked questions</h2>
+    <h3>How long can I set the timer for?</h3>
+    <p>Up to 99 hours, 59 minutes and 59 seconds. Enter any combination of hours, minutes and seconds, or tap a preset such as 5 minutes or 25 minutes (a Pomodoro).</p>
+    <h3>Will the timer still ring if I switch tabs?</h3>
+    <p>Yes. The timer measures the real end time rather than counting ticks, so it stays accurate in a background tab. The alert sound plays when the countdown finishes — keep the tab open and your sound on.</p>
+    <h3>How is this different from the Days Until Calculator?</h3>
+    <p>This timer counts down hours, minutes and seconds — for cooking, workouts or focused work. The <a href="countdown.html">Days Until Calculator</a> counts whole days between calendar dates.</p>
+    <h3>Is this timer free and private?</h3>
+    <p>Yes. It is completely free and runs entirely in your browser — nothing is sent to a server.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+function clampInt(v, min, max){
+  let n = parseInt(v) || 0;
+  return Math.max(min, Math.min(max, n));
+}
+function totalSeconds(h, m, s){
+  return clampInt(h, 0, 99) * 3600 + clampInt(m, 0, 59) * 60 + clampInt(s, 0, 59);
+}
+function splitSeconds(total){
+  total = Math.max(0, Math.floor(total));
+  return { h: Math.floor(total / 3600), m: Math.floor(total % 3600 / 60), s: total % 60 };
+}
+function formatClock(total){
+  const p = splitSeconds(total);
+  const pad = n => String(n).padStart(2, "0");
+  return pad(p.h) + ":" + pad(p.m) + ":" + pad(p.s);
+}
+let total = totalSeconds(0, 5, 0), remaining = total, endAt = 0, tickId = null, running = false;
+function render(){
+  displayEl.textContent = formatClock(Math.ceil(remaining));
+  progEl.style.width = total > 0 ? (remaining / total * 100) + "%" : "0%";
+  document.title = running ? formatClock(Math.ceil(remaining)) + " — Countdown Timer" : "Countdown Timer — Online Timer with Alarm and Presets";
+}
+function beep(){
+  try{
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    [0, 0.35, 0.7].forEach(t => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value = 880;
+      g.gain.setValueAtTime(0.001, ctx.currentTime + t);
+      g.gain.exponentialRampToValueAtTime(0.4, ctx.currentTime + t + 0.03);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.3);
+      o.start(ctx.currentTime + t); o.stop(ctx.currentTime + t + 0.32);
+    });
+  }catch(e){ /* sound is best-effort */ }
+}
+function stopTick(){ if(tickId !== null){ clearInterval(tickId); tickId = null; } running = false; }
+function finish(){
+  stopTick(); remaining = 0; render();
+  statusEl.textContent = "Time's up!";
+  beep();
+}
+function tick(){
+  remaining = Math.max(0, (endAt - Date.now()) / 1000);
+  if(remaining <= 0){ finish(); return; }
+  render();
+}
+function readInputs(){
+  total = totalSeconds(hEl.value, mEl.value, sEl.value);
+  remaining = total;
+}
+const hEl = document.getElementById("h"), mEl = document.getElementById("m"), sEl = document.getElementById("s"),
+      displayEl = document.getElementById("display"), statusEl = document.getElementById("status"),
+      progEl = document.getElementById("prog");
+[hEl, mEl, sEl].forEach(e => e.addEventListener("input", () => { stopTick(); readInputs(); statusEl.textContent = "Ready"; render(); }));
+document.querySelectorAll(".preset").forEach(b => b.addEventListener("click", () => {
+  stopTick();
+  const p = splitSeconds(parseInt(b.dataset.sec));
+  hEl.value = p.h; mEl.value = p.m; sEl.value = p.s;
+  readInputs(); statusEl.textContent = "Ready"; render();
+}));
+document.getElementById("startBtn").addEventListener("click", () => {
+  if(running) return;
+  if(remaining <= 0) readInputs();
+  if(total <= 0){ statusEl.textContent = "Set a duration first"; return; }
+  endAt = Date.now() + remaining * 1000;
+  tickId = setInterval(tick, 200);
+  running = true;
+  statusEl.textContent = "Running…";
+  render();
+});
+document.getElementById("pauseBtn").addEventListener("click", () => {
+  if(!running) return;
+  remaining = Math.max(0, (endAt - Date.now()) / 1000);
+  stopTick(); statusEl.textContent = "Paused"; render();
+});
+document.getElementById("resetBtn").addEventListener("click", () => {
+  stopTick(); readInputs(); statusEl.textContent = "Ready"; render();
+});
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Number to Words Converter — Write Numbers in English Words</title>
+<meta name="description" content="Convert any number up to the quadrillions into English words: 1,250 becomes 'one thousand two hundred fifty'. Ideal for checks, contracts and invoices.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#65a30d; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  .f label{display:block;font-size:13px;color:var(--sub);margin-bottom:4px}
+  .f input{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  .big{font-size:23px;font-weight:900;text-align:center;margin:12px 0 0;line-height:1.45}
+  .sub2{text-align:center;color:var(--sub);font-size:14.5px;margin-top:6px}
+  button{background:var(--acc);color:#fff;border:none;border-radius:8px;padding:9px 16px;font-size:14.5px;font-weight:700;cursor:pointer;margin-top:12px}
+  .note{font-size:13px;color:var(--sub)}
+  .faq h3{font-size:15px;margin:14px 0 4px}
+  .faq p{margin:0 0 6px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Number to Words Converter",
+  "url": "https://ikesita.github.io/free-tools-en/numberwords.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "en",
+  "description": "Convert any number up to the quadrillions into English words: 1,250 becomes 'one thousand two hundred fifty'. Ideal for checks, contracts and invoices.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "isAccessibleForFree": true
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How do you write 1,250 in words?", "acceptedAnswer": { "@type": "Answer", "text": "1,250 is written 'one thousand two hundred fifty'. On a check you would typically write 'One thousand two hundred fifty and 00/100' in the amount line." } },
+    { "@type": "Question", "name": "How large a number can this convert?", "acceptedAnswer": { "@type": "Answer", "text": "Whole numbers up to just under one quadrillion (999,999,999,999,999), including negatives, plus decimals — the part after the decimal point is read digit by digit after the word 'point', so 3.14 becomes 'three point one four'." } },
+    { "@type": "Question", "name": "Does it use 'and' in numbers like 105?", "acceptedAnswer": { "@type": "Answer", "text": "This converter follows the common American convention and omits 'and': 105 is 'one hundred five'. British usage often writes 'one hundred and five' — both are understood, but follow your document's style." } },
+    { "@type": "Question", "name": "Is this converter free and private?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. It is completely free and runs entirely in your browser — nothing is sent to a server." } }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Number to Words Converter</h1>
+    <p>Turn any number into English words — for checks, contracts, invoices and homework.</p>
+  </header>
+
+  <div class="card">
+    <div class="f"><label>Number</label><input id="num" type="text" inputmode="decimal" value="1250" spellcheck="false"></div>
+    <div class="big" id="words">-</div>
+    <div class="sub2" id="checkLine">-</div>
+    <div style="text-align:center"><button id="copyBtn">Copy words</button></div>
+    <p class="note" style="margin-top:12px">American style is used: no “and” inside whole numbers (105 = “one hundred five”). Decimals are read digit by digit after “point”. Commas in the input are fine.</p>
+  </div>
+
+  <div class="card">
+    <h2>Quick examples</h2>
+    <p class="note" id="examples" style="font-size:14.5px;color:var(--ink)"></p>
+  </div>
+
+  <div class="card faq">
+    <h2>Frequently asked questions</h2>
+    <h3>How do you write 1,250 in words?</h3>
+    <p>1,250 is written “one thousand two hundred fifty”. On a check you would typically write “One thousand two hundred fifty and 00/100” in the amount line.</p>
+    <h3>How large a number can this convert?</h3>
+    <p>Whole numbers up to just under one quadrillion (999,999,999,999,999), including negatives, plus decimals — the part after the decimal point is read digit by digit after the word “point”, so 3.14 becomes “three point one four”.</p>
+    <h3>Does it use “and” in numbers like 105?</h3>
+    <p>This converter follows the common American convention and omits “and”: 105 is “one hundred five”. British usage often writes “one hundred and five” — both are understood, but follow your document's style.</p>
+    <h3>Is this converter free and private?</h3>
+    <p>Yes. It is completely free and runs entirely in your browser — nothing is sent to a server.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+const ONES = ["zero","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"];
+const TENS = ["","","twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety"];
+const SCALES = ["","thousand","million","billion","trillion"];
+function threeDigits(n){
+  const parts = [];
+  const h = Math.floor(n / 100), rest = n % 100;
+  if(h > 0) parts.push(ONES[h] + " hundred");
+  if(rest >= 20){
+    const t = Math.floor(rest / 10), o = rest % 10;
+    parts.push(TENS[t] + (o > 0 ? "-" + ONES[o] : ""));
+  } else if(rest > 0){
+    parts.push(ONES[rest]);
+  }
+  return parts.join(" ");
+}
+function intToWords(n){
+  if(n === 0) return "zero";
+  const groups = [];
+  let x = n;
+  while(x > 0){ groups.push(x % 1000); x = Math.floor(x / 1000); }
+  const parts = [];
+  for(let i = groups.length - 1; i >= 0; i--){
+    if(groups[i] === 0) continue;
+    const w = threeDigits(groups[i]);
+    parts.push(SCALES[i] ? w + " " + SCALES[i] : w);
+  }
+  return parts.join(" ");
+}
+function numberToWords(str){
+  if(typeof str !== "string") return null;
+  let t = str.replace(/,/g, "").trim();
+  if(!/^-?\d+(\.\d+)?$/.test(t)) return null;
+  let neg = false;
+  if(t.startsWith("-")){ neg = true; t = t.slice(1); }
+  const dot = t.indexOf(".");
+  const intPart = dot < 0 ? t : t.slice(0, dot);
+  const fracPart = dot < 0 ? "" : t.slice(dot + 1);
+  const intVal = Number(intPart);
+  if(!Number.isSafeInteger(intVal) || intVal >= 1e15) return null;
+  let out = intToWords(intVal);
+  if(fracPart){
+    out += " point " + fracPart.split("").map(d => ONES[Number(d)]).join(" ");
+  }
+  return (neg ? "minus " : "") + out;
+}
+const numEl = document.getElementById("num"), wordsEl = document.getElementById("words"),
+      checkEl = document.getElementById("checkLine");
+function calc(){
+  const w = numberToWords(numEl.value);
+  if(w === null){
+    wordsEl.textContent = "Enter a whole number up to 999,999,999,999,999 (decimals allowed)";
+    checkEl.textContent = "-";
+    return;
+  }
+  wordsEl.textContent = w;
+  checkEl.textContent = "Capitalized: " + w.charAt(0).toUpperCase() + w.slice(1);
+}
+numEl.addEventListener("input", calc);
+document.getElementById("copyBtn").addEventListener("click", () => {
+  if(navigator.clipboard) navigator.clipboard.writeText(wordsEl.textContent);
+});
+document.getElementById("examples").innerHTML =
+  [42, 105, 999, 1250, 1000000, 2026].map(n => n.toLocaleString("en-US") + " → " + numberToWords(String(n))).join("<br>");
+calc();
+</script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coin Flip — Flip a Coin Online (Heads or Tails, Multiple Coins)</title>
+<meta name="description" content="Flip a virtual coin online: one coin or up to 100 at once, with heads and tails totals, percentages and a running session tally. Free and private.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#b45309; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .row input{width:110px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  button{background:var(--acc);color:#fff;border:none;border-radius:8px;padding:10px 18px;font-size:15.5px;font-weight:700;cursor:pointer}
+  button.ghost{background:#eef1f6;color:var(--ink)}
+  .coins{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 4px}
+  .coin{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;border:2px solid var(--acc);background:#fef3c7;color:#92400e}
+  .coin.t{background:#e2e8f0;border-color:#94a3b8;color:#334155}
+  .big{font-size:26px;font-weight:900;text-align:center;margin:8px 0 0}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  td{padding:6px 0;color:var(--sub)} td.v{text-align:right;color:var(--ink);font-weight:800}
+  .note{font-size:13px;color:var(--sub)}
+  .faq h3{font-size:15px;margin:14px 0 4px}
+  .faq p{margin:0 0 6px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Coin Flip",
+  "url": "https://ikesita.github.io/free-tools-en/coinflip.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "en",
+  "description": "Flip a virtual coin online: one coin or up to 100 at once, with heads and tails totals, percentages and a running session tally. Free and private.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "isAccessibleForFree": true
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "Is this coin flip fair?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Each flip uses your browser's secure random number generator, and every flip is independent — heads and tails each have a 50% chance, no matter what came before." } },
+    { "@type": "Question", "name": "How many coins can I flip at once?", "acceptedAnswer": { "@type": "Answer", "text": "You can flip between 1 and 100 coins at a time. The page shows each coin, the heads and tails totals for that flip, and a running tally for the whole session." } },
+    { "@type": "Question", "name": "Does flipping heads five times in a row change the next flip?", "acceptedAnswer": { "@type": "Answer", "text": "No. That idea is called the gambler's fallacy. Every flip is independent, so the chance of heads on the next flip is still 50%." } },
+    { "@type": "Question", "name": "Is this coin flip free and private?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. It is completely free and runs entirely in your browser — nothing is sent to a server." } }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Coin Flip</h1>
+    <p>Flip one coin or a whole handful at once. Heads and tails totals are counted for you.</p>
+  </header>
+
+  <div class="card">
+    <div class="row">
+      <label for="count">Coins per flip</label>
+      <input id="count" type="number" min="1" max="100" step="1" value="1">
+      <button id="flipBtn">Flip coins</button>
+      <button id="resetBtn" class="ghost">Reset tally</button>
+    </div>
+    <div class="coins" id="coins"></div>
+    <div class="big" id="verdict">Press “Flip coins” to start</div>
+  </div>
+
+  <div class="card">
+    <h2>Session tally</h2>
+    <table>
+      <tr><td>Heads</td><td class="v" id="headsOut">0</td></tr>
+      <tr><td>Tails</td><td class="v" id="tailsOut">0</td></tr>
+      <tr><td>Total flips</td><td class="v" id="totalOut">0</td></tr>
+      <tr><td>Heads percentage</td><td class="v" id="pctOut">–</td></tr>
+      <tr><td>Longest streak</td><td class="v" id="streakOut">–</td></tr>
+    </table>
+    <p class="note" style="margin-top:10px">Over many flips the heads percentage drifts toward 50%, but short runs can look very lopsided — five heads in a row happens about once in every 32 sets of five flips, purely by chance.</p>
+  </div>
+
+  <div class="card faq">
+    <h2>Frequently asked questions</h2>
+    <h3>Is this coin flip fair?</h3>
+    <p>Yes. Each flip uses your browser's secure random number generator, and every flip is independent — heads and tails each have a 50% chance, no matter what came before.</p>
+    <h3>How many coins can I flip at once?</h3>
+    <p>You can flip between 1 and 100 coins at a time. The page shows each coin, the heads and tails totals for that flip, and a running tally for the whole session.</p>
+    <h3>Does flipping heads five times in a row change the next flip?</h3>
+    <p>No. That idea is called the gambler's fallacy. Every flip is independent, so the chance of heads on the next flip is still 50%.</p>
+    <h3>Is this coin flip free and private?</h3>
+    <p>Yes. It is completely free and runs entirely in your browser — nothing is sent to a server.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+function flipCoin(rand){
+  const r = (typeof rand === "function") ? rand() : Math.random();
+  return r < 0.5 ? "H" : "T";
+}
+function secureRand(){
+  if(window.crypto && crypto.getRandomValues){
+    const a = new Uint32Array(1);
+    crypto.getRandomValues(a);
+    return a[0] / 4294967296;
+  }
+  return Math.random();
+}
+function summarize(flips){
+  let heads = 0;
+  for(const f of flips) if(f === "H") heads++;
+  return { heads: heads, tails: flips.length - heads, total: flips.length };
+}
+function longestStreak(flips){
+  let best = 0, cur = 0, prev = null, bestFace = null;
+  for(const f of flips){
+    cur = (f === prev) ? cur + 1 : 1;
+    prev = f;
+    if(cur > best){ best = cur; bestFace = f; }
+  }
+  return { len: best, face: bestFace };
+}
+let session = [];
+function render(){
+  const s = summarize(session);
+  headsEl.textContent = s.heads;
+  tailsEl.textContent = s.tails;
+  totalEl.textContent = s.total;
+  pctEl.textContent = s.total ? (s.heads / s.total * 100).toFixed(1) + "%" : "–";
+  if(s.total){
+    const st = longestStreak(session);
+    streakEl.textContent = st.len + " × " + (st.face === "H" ? "Heads" : "Tails");
+  } else streakEl.textContent = "–";
+}
+function doFlip(){
+  const n = Math.max(1, Math.min(100, parseInt(countEl.value) || 1));
+  const flips = [];
+  coinsEl.innerHTML = "";
+  for(let i = 0; i < n; i++){
+    const f = flipCoin(secureRand);
+    flips.push(f);
+    const d = document.createElement("div");
+    d.className = "coin" + (f === "T" ? " t" : "");
+    d.textContent = f === "H" ? "Heads" : "Tails";
+    coinsEl.appendChild(d);
+  }
+  const s = summarize(flips);
+  verdictEl.textContent = n === 1
+    ? (flips[0] === "H" ? "Heads!" : "Tails!")
+    : "This flip: " + s.heads + " heads, " + s.tails + " tails";
+  session = session.concat(flips);
+  render();
+}
+const countEl = document.getElementById("count"), coinsEl = document.getElementById("coins"),
+      verdictEl = document.getElementById("verdict"),
+      headsEl = document.getElementById("headsOut"), tailsEl = document.getElementById("tailsOut"),
+      totalEl = document.getElementById("totalOut"), pctEl = document.getElementById("pctOut"),
+      streakEl = document.getElementById("streakOut");
+document.getElementById("flipBtn").addEventListener("click", doFlip);
+document.getElementById("resetBtn").addEventListener("click", () => {
+  session = []; coinsEl.innerHTML = ""; verdictEl.textContent = "Press “Flip coins” to start"; render();
+});
+render();
+</script>
+</body>
+</html>
