@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UUID Generator — Free Random UUID v4 Generator</title>
+<meta name="description" content="Generate random UUIDs (version 4) in bulk — up to 100 at once, with uppercase and no-hyphen options. Cryptographically secure, free and private.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#7c3aed; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  textarea{width:100%;min-height:150px;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:14.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;resize:vertical}
+  .row{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;margin-bottom:12px}
+  .field label{display:block;font-size:13px;font-weight:700;margin-bottom:4px}
+  .field input[type=number]{width:110px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:15px;font-family:inherit}
+  .checks{display:flex;gap:16px;flex-wrap:wrap}
+  .checks label{font-size:14px;display:flex;gap:6px;align-items:center;cursor:pointer}
+  .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .btns button{background:#eef1f6;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 13px;font-size:14px;font-weight:700;cursor:pointer}
+  .btns button:hover{border-color:var(--acc);color:var(--acc)}
+  .btns button.main{background:var(--acc);color:#fff;border-color:var(--acc)}
+  .meta{color:var(--sub);font-size:13.5px;margin-top:10px}
+  .note{font-size:13px;color:var(--sub)}
+  .faq h3{font-size:15px;margin:14px 0 4px}
+  .faq p{margin:0 0 6px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "UUID Generator",
+  "url": "https://ikesita.github.io/free-tools-en/uuid.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "en",
+  "description": "Generate random UUIDs (version 4) in bulk — up to 100 at once, with uppercase and no-hyphen options. Cryptographically secure, free and private.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "isAccessibleForFree": true
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "What is a UUID version 4?", "acceptedAnswer": { "@type": "Answer", "text": "A UUID is a 128-bit identifier shown as 32 hexadecimal digits in five groups (8-4-4-4-12), such as 550e8400-e29b-41d4-a716-446655440000. In version 4 the digits are random, except for a fixed '4' that marks the version and a variant digit that is always 8, 9, a or b." } },
+    { "@type": "Question", "name": "Can two generated UUIDs ever collide?", "acceptedAnswer": { "@type": "Answer", "text": "In practice, no. A version 4 UUID has about 122 bits of randomness, so you would need to generate billions of UUIDs per second for years before a collision became likely. They are safe to use as database keys, file names and transaction IDs without checking a central registry." } },
+    { "@type": "Question", "name": "How are the UUIDs generated here?", "acceptedAnswer": { "@type": "Answer", "text": "The page uses your browser's cryptographically secure random source (crypto.getRandomValues) and formats the random bytes according to RFC 4122 / RFC 9562. Nothing is sent to a server, so the UUIDs exist only on your screen." } },
+    { "@type": "Question", "name": "When should I use the no-hyphens or uppercase option?", "acceptedAnswer": { "@type": "Answer", "text": "Some systems store UUIDs as a plain 32-character hex string without hyphens, and a few older tools expect uppercase. The value is the same identifier either way — only the formatting changes." } }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>UUID Generator</h1>
+    <p>Generate random version 4 UUIDs, one or a hundred at a time — right in your browser.</p>
+  </header>
+
+  <div class="card">
+    <div class="row">
+      <div class="field">
+        <label for="count">How many? (1–100)</label>
+        <input type="number" id="count" value="5" min="1" max="100">
+      </div>
+      <div class="checks">
+        <label><input type="checkbox" id="upper"> Uppercase</label>
+        <label><input type="checkbox" id="hyphens" checked> Hyphens</label>
+      </div>
+    </div>
+    <textarea id="out" readonly placeholder="Your UUIDs will appear here…"></textarea>
+    <div class="btns">
+      <button id="gen" class="main">Generate UUIDs</button>
+      <button id="copy">Copy all</button>
+    </div>
+    <div class="meta" id="meta"></div>
+  </div>
+
+  <div class="card faq">
+    <h2>Frequently asked questions</h2>
+    <h3>What is a UUID version 4?</h3>
+    <p>A UUID is a 128-bit identifier shown as 32 hexadecimal digits in five groups (8-4-4-4-12), such as 550e8400-e29b-41d4-a716-446655440000. In version 4 the digits are random, except for a fixed “4” that marks the version and a variant digit that is always 8, 9, a or b.</p>
+    <h3>Can two generated UUIDs ever collide?</h3>
+    <p>In practice, no. A version 4 UUID has about 122 bits of randomness, so you would need to generate billions of UUIDs per second for years before a collision became likely. They are safe to use as database keys, file names and transaction IDs without checking a central registry.</p>
+    <h3>How are the UUIDs generated here?</h3>
+    <p>The page uses your browser’s cryptographically secure random source (crypto.getRandomValues) and formats the random bytes according to RFC 4122 / RFC 9562. Nothing is sent to a server, so the UUIDs exist only on your screen.</p>
+    <h3>When should I use the no-hyphens or uppercase option?</h3>
+    <p>Some systems store UUIDs as a plain 32-character hex string without hyphens, and a few older tools expect uppercase. The value is the same identifier either way — only the formatting changes.</p>
+  </div>
+
+  <footer>Your UUIDs are generated locally in your browser and are never sent anywhere.</footer>
+</div>
+
+<script>
+function makeUUID(){
+  const b = new Uint8Array(16);
+  crypto.getRandomValues(b);
+  b[6] = (b[6] & 0x0f) | 0x40; // version 4
+  b[8] = (b[8] & 0x3f) | 0x80; // variant 10xx
+  const h = Array.from(b, x => x.toString(16).padStart(2, "0")).join("");
+  return h.slice(0, 8) + "-" + h.slice(8, 12) + "-" + h.slice(12, 16) + "-" + h.slice(16, 20) + "-" + h.slice(20);
+}
+function generateUUIDs(count, upper, hyphens){
+  let n = Math.floor(Number(count));
+  if(!isFinite(n) || n < 1) n = 1;
+  if(n > 100) n = 100;
+  const out = [];
+  for(let i = 0; i < n; i++){
+    let u = makeUUID();
+    if(!hyphens) u = u.replace(/-/g, "");
+    if(upper) u = u.toUpperCase();
+    out.push(u);
+  }
+  return out;
+}
+const outEl = document.getElementById("out"), metaEl = document.getElementById("meta");
+function run(){
+  const list = generateUUIDs(document.getElementById("count").value,
+    document.getElementById("upper").checked,
+    document.getElementById("hyphens").checked);
+  outEl.value = list.join("\n");
+  metaEl.textContent = list.length + (list.length === 1 ? " UUID" : " UUIDs") + " generated · version 4 · RFC 9562 format";
+}
+document.getElementById("gen").addEventListener("click", run);
+document.getElementById("copy").addEventListener("click", () => {
+  outEl.select();
+  if(navigator.clipboard) navigator.clipboard.writeText(outEl.value);
+});
+["count", "upper", "hyphens"].forEach(id => document.getElementById(id).addEventListener("change", run));
+run();
+</script>
+</body>
+</html>

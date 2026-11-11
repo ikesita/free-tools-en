@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Markdown Table Generator — Turn CSV or Tab Data into a Markdown Table</title>
+<meta name="description" content="Paste comma- or tab-separated data and get a neatly aligned Markdown table for GitHub, READMEs and docs, with left, center or right alignment. Free and private.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#7c3aed; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  textarea{width:100%;min-height:130px;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:13.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;resize:vertical}
+  .row{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;margin-bottom:12px}
+  .field label{display:block;font-size:13px;font-weight:700;margin-bottom:4px}
+  .field select{padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:15px;font-family:inherit;background:#fff}
+  .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .btns button{background:#eef1f6;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 13px;font-size:14px;font-weight:700;cursor:pointer}
+  .btns button:hover{border-color:var(--acc);color:var(--acc)}
+  .btns button.main{background:var(--acc);color:#fff;border-color:var(--acc)}
+  .meta{color:var(--sub);font-size:13.5px;margin-top:10px}
+  .note{font-size:13px;color:var(--sub)}
+  .faq h3{font-size:15px;margin:14px 0 4px}
+  .faq p{margin:0 0 6px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Markdown Table Generator",
+  "url": "https://ikesita.github.io/free-tools-en/mdtable.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "en",
+  "description": "Paste comma- or tab-separated data and get a neatly aligned Markdown table for GitHub, READMEs and docs, with left, center or right alignment. Free and private.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "isAccessibleForFree": true
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How do I use the generated table?", "acceptedAnswer": { "@type": "Answer", "text": "Copy the output and paste it into any Markdown document — a GitHub README, an issue, a wiki or a note-taking app that supports Markdown tables. The first row of your input becomes the header, and a separator row with dashes is added automatically, as Markdown requires." } },
+    { "@type": "Question", "name": "What input format does it accept?", "acceptedAnswer": { "@type": "Answer", "text": "One row per line, with cells separated by commas or tabs. Tab-separated data pasted straight from Excel or Google Sheets works as-is. Quoted CSV fields that contain commas are not parsed — remove the quotes first, or use tabs. A few cells may be left empty; rows shorter than the header are padded with empty cells." } },
+    { "@type": "Question", "name": "What do the alignment options change?", "acceptedAnswer": { "@type": "Answer", "text": "Alignment is written into the separator row: :--- means left, :---: means center and ---: means right. Renderers such as GitHub use it to align the column contents. The generator also pads every cell with spaces so the raw Markdown lines up in neat columns when read as plain text." } },
+    { "@type": "Question", "name": "What happens to pipe characters (|) in my data?", "acceptedAnswer": { "@type": "Answer", "text": "A pipe inside a cell would break a Markdown table, so it is escaped as \\| in the output, which Markdown renderers display as a plain |. Line breaks inside a cell cannot be represented in a standard Markdown table and are replaced with spaces." } }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Markdown Table Generator</h1>
+    <p>Paste rows of data and get a clean, aligned Markdown table — ready for GitHub, READMEs and docs.</p>
+  </header>
+
+  <div class="card">
+    <div class="row">
+      <div class="field">
+        <label for="delim">Cell separator</label>
+        <select id="delim">
+          <option value="," selected>Comma (,)</option>
+          <option value="\t">Tab</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="align">Column alignment</label>
+        <select id="align">
+          <option value="left" selected>Left</option>
+          <option value="center">Center</option>
+          <option value="right">Right</option>
+        </select>
+      </div>
+    </div>
+    <textarea id="input" placeholder="Name,Role,Score&#10;Ada,Engineer,98">Name,Role,Score
+Ada,Engineer,98
+Alan,Researcher,87
+Grace,Admiral,100</textarea>
+    <div class="btns">
+      <button id="convert" class="main">Generate table</button>
+      <button id="copy">Copy Markdown</button>
+    </div>
+    <div class="meta" id="meta"></div>
+    <textarea id="output" readonly placeholder="Your Markdown table will appear here…" style="margin-top:12px"></textarea>
+  </div>
+
+  <div class="card faq">
+    <h2>Frequently asked questions</h2>
+    <h3>How do I use the generated table?</h3>
+    <p>Copy the output and paste it into any Markdown document — a GitHub README, an issue, a wiki or a note-taking app that supports Markdown tables. The first row of your input becomes the header, and a separator row with dashes is added automatically, as Markdown requires.</p>
+    <h3>What input format does it accept?</h3>
+    <p>One row per line, with cells separated by commas or tabs. Tab-separated data pasted straight from Excel or Google Sheets works as-is. Quoted CSV fields that contain commas are not parsed — remove the quotes first, or use tabs. A few cells may be left empty; rows shorter than the header are padded with empty cells.</p>
+    <h3>What do the alignment options change?</h3>
+    <p>Alignment is written into the separator row: :--- means left, :---: means center and ---: means right. Renderers such as GitHub use it to align the column contents. The generator also pads every cell with spaces so the raw Markdown lines up in neat columns when read as plain text.</p>
+    <h3>What happens to pipe characters (|) in my data?</h3>
+    <p>A pipe inside a cell would break a Markdown table, so it is escaped as \| in the output, which Markdown renderers display as a plain |. Line breaks inside a cell cannot be represented in a standard Markdown table and are replaced with spaces.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+function cleanCell(s){
+  return String(s).trim().replace(/\|/g, "\\|");
+}
+function toMarkdownTable(text, delim, align){
+  const lines = String(text).replace(/\r\n/g, "\n").split("\n").filter(l => l.trim() !== "");
+  if(lines.length === 0) return "";
+  const grid = lines.map(l => l.split(delim).map(cleanCell));
+  const cols = Math.max.apply(null, grid.map(r => r.length));
+  for(const r of grid) while(r.length < cols) r.push("");
+  const widths = [];
+  for(let c = 0; c < cols; c++){
+    let w = 3;
+    for(const r of grid) w = Math.max(w, r[c].length);
+    widths.push(w);
+  }
+  function fmtRow(r){
+    return "| " + r.map((cell, c) => cell.padEnd(widths[c])).join(" | ") + " |";
+  }
+  const sepCells = widths.map(w => {
+    if(align === "center") return ":" + "-".repeat(w - 2) + ":";
+    if(align === "right") return "-".repeat(w - 1) + ":";
+    return ":" + "-".repeat(w - 1);
+  });
+  const out = [fmtRow(grid[0]), "| " + sepCells.join(" | ") + " |"];
+  for(let i = 1; i < grid.length; i++) out.push(fmtRow(grid[i]));
+  return out.join("\n");
+}
+const inEl = document.getElementById("input"), outEl = document.getElementById("output"), metaEl = document.getElementById("meta");
+function run(){
+  const delimSel = document.getElementById("delim").value;
+  const delim = delimSel === "\\t" ? "\t" : delimSel;
+  const md = toMarkdownTable(inEl.value, delim, document.getElementById("align").value);
+  outEl.value = md;
+  const rows = md ? md.split("\n").length - 1 : 0;
+  metaEl.textContent = rows + (rows === 1 ? " data row" : " data rows") + " in the table";
+}
+document.getElementById("convert").addEventListener("click", run);
+document.getElementById("delim").addEventListener("change", run);
+document.getElementById("align").addEventListener("change", run);
+document.getElementById("copy").addEventListener("click", () => {
+  outEl.select();
+  if(navigator.clipboard) navigator.clipboard.writeText(outEl.value);
+});
+run();
+</script>
+</body>
+</html>

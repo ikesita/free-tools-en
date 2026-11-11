@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HTML Entities Encoder / Decoder — Escape and Unescape HTML</title>
+<meta name="description" content="Encode text into HTML entities (&amp;, &lt;, &quot;, numeric entities) and decode entities back into readable text. Handles named, decimal and hex entities.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#7c3aed; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  textarea{width:100%;min-height:130px;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:14.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;resize:vertical}
+  .checks{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px}
+  .checks label{font-size:14px;display:flex;gap:6px;align-items:center;cursor:pointer}
+  .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .btns button{background:#eef1f6;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 13px;font-size:14px;font-weight:700;cursor:pointer}
+  .btns button:hover{border-color:var(--acc);color:var(--acc)}
+  .btns button.main{background:var(--acc);color:#fff;border-color:var(--acc)}
+  .meta{color:var(--sub);font-size:13.5px;margin-top:10px}
+  .note{font-size:13px;color:var(--sub)}
+  .faq h3{font-size:15px;margin:14px 0 4px}
+  .faq p{margin:0 0 6px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "HTML Entities Encoder / Decoder",
+  "url": "https://ikesita.github.io/free-tools-en/htmlentities.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "en",
+  "description": "Encode text into HTML entities (&amp;, &lt;, &quot;, numeric entities) and decode entities back into readable text. Handles named, decimal and hex entities.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "isAccessibleForFree": true
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "Why do characters need to be encoded as HTML entities?", "acceptedAnswer": { "@type": "Answer", "text": "Characters such as <, > and & have a special meaning in HTML: < starts a tag and & starts an entity. To show them as plain text on a page — for example when writing code samples or user content — they must be written as entities: &lt;, &gt; and &amp;. Encoding also prevents broken markup and a class of cross-site scripting (XSS) mistakes." } },
+    { "@type": "Question", "name": "What is the difference between named, decimal and hex entities?", "acceptedAnswer": { "@type": "Answer", "text": "They are three ways to write the same character. © can be written as the named entity &copy;, the decimal entity &#169; or the hexadecimal entity &#xA9;. Every character has decimal and hex forms; only some have names. This decoder understands all three forms." } },
+    { "@type": "Question", "name": "What does the 'encode non-ASCII as numeric entities' option do?", "acceptedAnswer": { "@type": "Answer", "text": "It converts every non-ASCII character (accented letters, symbols, emoji) into its decimal numeric entity, such as &#233; for é. That is useful for legacy documents that must be pure ASCII, or for seeing exactly which characters a string contains." } },
+    { "@type": "Question", "name": "Is my text uploaded anywhere?", "acceptedAnswer": { "@type": "Answer", "text": "No. Encoding and decoding run entirely in your browser with JavaScript. Your text never leaves your device." } }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>HTML Entities Encoder / Decoder</h1>
+    <p>Escape text for safe use in HTML, or turn entities back into readable text.</p>
+  </header>
+
+  <div class="card">
+    <textarea id="text" placeholder="Type or paste text, or HTML entities, here…">&lt;p class=&quot;demo&quot;&gt;Tom &amp;amp; Jerry — café © 2026&lt;/p&gt;</textarea>
+    <div class="checks">
+      <label><input type="checkbox" id="nonascii"> Encode non-ASCII as numeric entities (&#233;)</label>
+    </div>
+    <div class="btns">
+      <button data-fn="encode" class="main">Encode → entities</button>
+      <button data-fn="decode" class="main">Decode → text</button>
+      <button data-fn="copy">Copy result</button>
+    </div>
+    <div class="meta" id="meta"></div>
+  </div>
+
+  <div class="card faq">
+    <h2>Frequently asked questions</h2>
+    <h3>Why do characters need to be encoded as HTML entities?</h3>
+    <p>Characters such as &lt;, &gt; and &amp; have a special meaning in HTML: &lt; starts a tag and &amp; starts an entity. To show them as plain text on a page — for example when writing code samples or user content — they must be written as entities: &amp;lt;, &amp;gt; and &amp;amp;. Encoding also prevents broken markup and a class of cross-site scripting (XSS) mistakes.</p>
+    <h3>What is the difference between named, decimal and hex entities?</h3>
+    <p>They are three ways to write the same character. © can be written as the named entity &amp;copy;, the decimal entity &amp;#169; or the hexadecimal entity &amp;#xA9;. Every character has decimal and hex forms; only some have names. This decoder understands all three forms.</p>
+    <h3>What does the “encode non-ASCII as numeric entities” option do?</h3>
+    <p>It converts every non-ASCII character (accented letters, symbols, emoji) into its decimal numeric entity, such as &amp;#233; for é. That is useful for legacy documents that must be pure ASCII, or for seeing exactly which characters a string contains.</p>
+    <h3>Is my text uploaded anywhere?</h3>
+    <p>No. Encoding and decoding run entirely in your browser with JavaScript. Your text never leaves your device.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+function encodeHTML(text, nonAscii){
+  let s = String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+  if(nonAscii){
+    s = Array.from(s).map(ch => ch.codePointAt(0) > 127 ? "&#" + ch.codePointAt(0) + ";" : ch).join("");
+  }
+  return s;
+}
+const NAMED_ENTITIES = {
+  quot:34, amp:38, apos:39, lt:60, gt:62, nbsp:160, iexcl:161, cent:162, pound:163, curren:164,
+  yen:165, brvbar:166, sect:167, uml:168, copy:169, ordf:170, laquo:171, not:172, reg:174, macr:175,
+  deg:176, plusmn:177, sup2:178, sup3:179, acute:180, micro:181, para:182, middot:183, cedil:184,
+  sup1:185, ordm:186, raquo:187, frac14:188, frac12:189, frac34:190, iquest:191, Agrave:192, Aacute:193,
+  Acirc:194, Atilde:195, Auml:196, Aring:197, AElig:198, Ccedil:199, Egrave:200, Eacute:201, Ecirc:202,
+  Euml:203, Igrave:204, Iacute:205, Icirc:206, Iuml:207, ETH:208, Ntilde:209, Ograve:210, Oacute:211,
+  Ocirc:212, Otilde:213, Ouml:214, times:215, Oslash:216, Ugrave:217, Uacute:218, Ucirc:219, Uuml:220,
+  Yacute:221, THORN:222, szlig:223, agrave:224, aacute:225, acirc:226, atilde:227, auml:228, aring:229,
+  aelig:230, ccedil:231, egrave:232, eacute:233, ecirc:234, euml:235, igrave:236, iacute:237, icirc:238,
+  iuml:239, eth:240, ntilde:241, ograve:242, oacute:243, ocirc:244, otilde:245, ouml:246, divide:247,
+  oslash:248, ugrave:249, uacute:250, ucirc:251, uuml:252, yacute:253, thorn:254, yuml:255, OElig:338,
+  oelig:339, Scaron:352, scaron:353, Yuml:376, fnof:402, circ:710, tilde:732, ensp:8194, emsp:8195,
+  thinsp:8201, zwnj:8204, zwj:8205, lrm:8206, rlm:8207, ndash:8211, mdash:8212, lsquo:8216, rsquo:8217,
+  sbquo:8218, ldquo:8220, rdquo:8221, bdquo:8222, dagger:8224, Dagger:8225, bull:8226, hellip:8230,
+  permil:8240, prime:8242, Prime:8243, lsaquo:8249, rsaquo:8250, oline:8254, frasl:8260, euro:8364,
+  trade:8482, larr:8592, uarr:8593, rarr:8594, darr:8595, harr:8596, minus:8722, lowast:8727,
+  radic:8730, infin:8734, cap:8745, cup:8746, ne:8800, equiv:8801, le:8804, ge:8805, spades:9824,
+  clubs:9827, hearts:9829, diams:9830
+};
+function decodeHTML(text){
+  return String(text).replace(/&(#(?:x|X)[0-9a-fA-F]+|#\d+|[A-Za-z][A-Za-z0-9]+);/g, (m, body) => {
+    if(body[0] === "#"){
+      const cp = (body[1] === "x" || body[1] === "X") ? parseInt(body.slice(2), 16) : parseInt(body.slice(1), 10);
+      if(isFinite(cp) && cp >= 0 && cp <= 0x10FFFF){
+        try { return String.fromCodePoint(cp); } catch(e){ return m; }
+      }
+      return m;
+    }
+    if(Object.prototype.hasOwnProperty.call(NAMED_ENTITIES, body)){
+      return String.fromCodePoint(NAMED_ENTITIES[body]);
+    }
+    return m;
+  });
+}
+const textEl = document.getElementById("text"), metaEl = document.getElementById("meta");
+function renderMeta(){
+  metaEl.textContent = textEl.value.length + " characters";
+}
+document.querySelectorAll("[data-fn]").forEach(b => b.addEventListener("click", () => {
+  const fn = b.dataset.fn;
+  if(fn === "copy"){
+    textEl.select();
+    if(navigator.clipboard) navigator.clipboard.writeText(textEl.value);
+    return;
+  }
+  if(fn === "encode") textEl.value = encodeHTML(textEl.value, document.getElementById("nonascii").checked);
+  if(fn === "decode") textEl.value = decodeHTML(textEl.value);
+  renderMeta();
+}));
+textEl.addEventListener("input", renderMeta);
+renderMeta();
+</script>
+</body>
+</html>

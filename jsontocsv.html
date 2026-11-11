@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JSON to CSV Converter — Free Online JSON to CSV Tool</title>
+<meta name="description" content="Convert a JSON array of objects into CSV you can open in Excel or Google Sheets. Handles commas, quotes and line breaks correctly. Free and private.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#7c3aed; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  textarea{width:100%;min-height:140px;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:13.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;resize:vertical}
+  .row{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;margin-bottom:12px}
+  .field label{display:block;font-size:13px;font-weight:700;margin-bottom:4px}
+  .field select{padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:15px;font-family:inherit;background:#fff}
+  .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .btns button{background:#eef1f6;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 13px;font-size:14px;font-weight:700;cursor:pointer}
+  .btns button:hover{border-color:var(--acc);color:var(--acc)}
+  .btns button.main{background:var(--acc);color:#fff;border-color:var(--acc)}
+  .meta{color:var(--sub);font-size:13.5px;margin-top:10px}
+  .err{color:#b91c1c;font-size:13.5px;margin-top:10px;white-space:pre-wrap}
+  .note{font-size:13px;color:var(--sub)}
+  .faq h3{font-size:15px;margin:14px 0 4px}
+  .faq p{margin:0 0 6px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "JSON to CSV Converter",
+  "url": "https://ikesita.github.io/free-tools-en/jsontocsv.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "en",
+  "description": "Convert a JSON array of objects into CSV you can open in Excel or Google Sheets. Handles commas, quotes and line breaks correctly. Free and private.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "isAccessibleForFree": true
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "What JSON format does the converter accept?", "acceptedAnswer": { "@type": "Answer", "text": "A JSON array of objects, such as [{\"name\":\"Ada\",\"age\":36},{\"name\":\"Alan\",\"age\":41}]. A single object also works — it is treated as a one-row table. The header row contains every key found in any object, in the order the keys first appear." } },
+    { "@type": "Question", "name": "What happens to nested objects and arrays?", "acceptedAnswer": { "@type": "Answer", "text": "Nested objects and arrays are written into the cell as compact JSON text (for example {\"x\":1} or [1,2]). CSV is a flat format, so deep structures cannot become separate columns. Null values and missing keys become empty cells." } },
+    { "@type": "Question", "name": "How are commas, quotes and line breaks inside values handled?", "acceptedAnswer": { "@type": "Answer", "text": "Following the standard CSV rules (RFC 4180), any value containing the delimiter, a double quote or a line break is wrapped in double quotes, and quotes inside it are doubled. Excel, Google Sheets and other tools read the result correctly." } },
+    { "@type": "Question", "name": "Is my JSON uploaded anywhere?", "acceptedAnswer": { "@type": "Answer", "text": "No. The conversion runs entirely in your browser with JavaScript. Your data never leaves your device, which makes the tool safe for exports containing personal or business data." } }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>JSON to CSV Converter</h1>
+    <p>Paste a JSON array of objects and get clean CSV for Excel, Google Sheets or any spreadsheet.</p>
+  </header>
+
+  <div class="card">
+    <div class="row">
+      <div class="field">
+        <label for="delim">Delimiter</label>
+        <select id="delim">
+          <option value="," selected>Comma (,)</option>
+          <option value=";">Semicolon (;)</option>
+          <option value="\t">Tab</option>
+        </select>
+      </div>
+    </div>
+    <textarea id="input" placeholder='[{"name":"Ada","city":"London"},{"name":"Alan","city":"Paris"}]'>[{"name":"Ada Lovelace","city":"London, UK","note":"said \"hello\"\nthen left"},{"name":"Alan Turing","city":"Manchester","note":"plain"}]</textarea>
+    <div class="btns">
+      <button id="convert" class="main">Convert to CSV</button>
+      <button id="copy">Copy CSV</button>
+      <button id="download">Download .csv</button>
+    </div>
+    <div class="err" id="err"></div>
+    <div class="meta" id="meta"></div>
+    <textarea id="output" readonly placeholder="CSV output will appear here…" style="margin-top:12px"></textarea>
+  </div>
+
+  <div class="card faq">
+    <h2>Frequently asked questions</h2>
+    <h3>What JSON format does the converter accept?</h3>
+    <p>A JSON array of objects, such as [{“name”:“Ada”,“age”:36},{“name”:“Alan”,“age”:41}]. A single object also works — it is treated as a one-row table. The header row contains every key found in any object, in the order the keys first appear.</p>
+    <h3>What happens to nested objects and arrays?</h3>
+    <p>Nested objects and arrays are written into the cell as compact JSON text (for example {“x”:1} or [1,2]). CSV is a flat format, so deep structures cannot become separate columns. Null values and missing keys become empty cells.</p>
+    <h3>How are commas, quotes and line breaks inside values handled?</h3>
+    <p>Following the standard CSV rules (RFC 4180), any value containing the delimiter, a double quote or a line break is wrapped in double quotes, and quotes inside it are doubled. Excel, Google Sheets and other tools read the result correctly.</p>
+    <h3>Is my JSON uploaded anywhere?</h3>
+    <p>No. The conversion runs entirely in your browser with JavaScript. Your data never leaves your device, which makes the tool safe for exports containing personal or business data.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+function csvEscape(value, delim){
+  if(value.includes(delim) || /["\r\n]/.test(value)){
+    return '"' + value.replace(/"/g, '""') + '"';
+  }
+  return value;
+}
+function cellText(v){
+  if(v === null || v === undefined) return "";
+  if(typeof v === "object") return JSON.stringify(v);
+  return String(v);
+}
+function jsonToCSV(text, delim){
+  const data = JSON.parse(text);
+  const rows = Array.isArray(data) ? data : [data];
+  if(rows.length === 0) return "";
+  for(const r of rows){
+    if(r === null || typeof r !== "object" || Array.isArray(r)){
+      throw new Error("Every item in the array must be an object.");
+    }
+  }
+  const headers = [];
+  const seen = new Set();
+  for(const r of rows){
+    for(const k of Object.keys(r)){
+      if(!seen.has(k)){ seen.add(k); headers.push(k); }
+    }
+  }
+  const lines = [];
+  lines.push(headers.map(h => csvEscape(h, delim)).join(delim));
+  for(const r of rows){
+    lines.push(headers.map(h => csvEscape(cellText(r[h]), delim)).join(delim));
+  }
+  return lines.join("\r\n");
+}
+const inEl = document.getElementById("input"), outEl = document.getElementById("output"),
+      errEl = document.getElementById("err"), metaEl = document.getElementById("meta");
+function run(){
+  errEl.textContent = "";
+  try{
+    const delimSel = document.getElementById("delim").value;
+    const delim = delimSel === "\\t" ? "\t" : delimSel;
+    const csv = jsonToCSV(inEl.value, delim);
+    outEl.value = csv;
+    const rows = csv ? csv.split("\r\n").length - 1 : 0;
+    metaEl.textContent = rows + (rows === 1 ? " data row" : " data rows") + " converted";
+  }catch(e){
+    outEl.value = "";
+    metaEl.textContent = "";
+    errEl.textContent = "Could not convert: " + e.message;
+  }
+}
+document.getElementById("convert").addEventListener("click", run);
+document.getElementById("delim").addEventListener("change", run);
+document.getElementById("copy").addEventListener("click", () => {
+  outEl.select();
+  if(navigator.clipboard) navigator.clipboard.writeText(outEl.value);
+});
+document.getElementById("download").addEventListener("click", () => {
+  const blob = new Blob([outEl.value], { type: "text/csv" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "data.csv";
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+run();
+</script>
+</body>
+</html>

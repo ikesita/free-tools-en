@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSV to JSON Converter — Free Online CSV to JSON Tool</title>
+<meta name="description" content="Convert CSV into a JSON array of objects. Properly handles quoted fields, commas, escaped quotes and line breaks inside cells. Free and private.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#7c3aed; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  textarea{width:100%;min-height:140px;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:13.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;resize:vertical}
+  .row{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;margin-bottom:12px}
+  .field label{display:block;font-size:13px;font-weight:700;margin-bottom:4px}
+  .field select{padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:15px;font-family:inherit;background:#fff}
+  .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .btns button{background:#eef1f6;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 13px;font-size:14px;font-weight:700;cursor:pointer}
+  .btns button:hover{border-color:var(--acc);color:var(--acc)}
+  .btns button.main{background:var(--acc);color:#fff;border-color:var(--acc)}
+  .meta{color:var(--sub);font-size:13.5px;margin-top:10px}
+  .err{color:#b91c1c;font-size:13.5px;margin-top:10px;white-space:pre-wrap}
+  .note{font-size:13px;color:var(--sub)}
+  .faq h3{font-size:15px;margin:14px 0 4px}
+  .faq p{margin:0 0 6px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "CSV to JSON Converter",
+  "url": "https://ikesita.github.io/free-tools-en/csvtojson.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "en",
+  "description": "Convert CSV into a JSON array of objects. Properly handles quoted fields, commas, escaped quotes and line breaks inside cells. Free and private.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "isAccessibleForFree": true
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How is the CSV converted to JSON?", "acceptedAnswer": { "@type": "Answer", "text": "The first row of the CSV becomes the keys, and each following row becomes one JSON object in an array. All values stay as strings, because CSV itself has no number or boolean types — convert them in your code if you need typed values." } },
+    { "@type": "Question", "name": "Are quoted fields and line breaks inside cells supported?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The parser follows RFC 4180: fields wrapped in double quotes may contain the delimiter, line breaks, and double quotes written as two double quotes (\"\"). Files exported from Excel and Google Sheets parse correctly." } },
+    { "@type": "Question", "name": "Which delimiters are supported?", "acceptedAnswer": { "@type": "Answer", "text": "Comma, semicolon and tab. Choose the one your file uses — semicolon is common in European Excel exports, and tab matches TSV files pasted from spreadsheets." } },
+    { "@type": "Question", "name": "Is my CSV uploaded anywhere?", "acceptedAnswer": { "@type": "Answer", "text": "No. The conversion runs entirely in your browser with JavaScript. Your data never leaves your device, which makes the tool safe for exports containing personal or business data." } }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>CSV to JSON Converter</h1>
+    <p>Paste CSV and get a JSON array of objects — quoted fields, commas and line breaks handled correctly.</p>
+  </header>
+
+  <div class="card">
+    <div class="row">
+      <div class="field">
+        <label for="delim">Delimiter</label>
+        <select id="delim">
+          <option value="," selected>Comma (,)</option>
+          <option value=";">Semicolon (;)</option>
+          <option value="\t">Tab</option>
+        </select>
+      </div>
+    </div>
+    <textarea id="input" placeholder="name,city&#10;Ada,London">name,city,note
+Ada Lovelace,"London, UK","said ""hello""
+then left"
+Alan Turing,Manchester,plain</textarea>
+    <div class="btns">
+      <button id="convert" class="main">Convert to JSON</button>
+      <button id="copy">Copy JSON</button>
+      <button id="download">Download .json</button>
+    </div>
+    <div class="err" id="err"></div>
+    <div class="meta" id="meta"></div>
+    <textarea id="output" readonly placeholder="JSON output will appear here…" style="margin-top:12px"></textarea>
+  </div>
+
+  <div class="card faq">
+    <h2>Frequently asked questions</h2>
+    <h3>How is the CSV converted to JSON?</h3>
+    <p>The first row of the CSV becomes the keys, and each following row becomes one JSON object in an array. All values stay as strings, because CSV itself has no number or boolean types — convert them in your code if you need typed values.</p>
+    <h3>Are quoted fields and line breaks inside cells supported?</h3>
+    <p>Yes. The parser follows RFC 4180: fields wrapped in double quotes may contain the delimiter, line breaks, and double quotes written as two double quotes (“”). Files exported from Excel and Google Sheets parse correctly.</p>
+    <h3>Which delimiters are supported?</h3>
+    <p>Comma, semicolon and tab. Choose the one your file uses — semicolon is common in European Excel exports, and tab matches TSV files pasted from spreadsheets.</p>
+    <h3>Is my CSV uploaded anywhere?</h3>
+    <p>No. The conversion runs entirely in your browser with JavaScript. Your data never leaves your device, which makes the tool safe for exports containing personal or business data.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+function parseCSV(text, delim){
+  const rows = [];
+  let row = [], field = "", inQuotes = false, fieldStarted = false;
+  let i = 0;
+  const n = text.length;
+  function endField(){ row.push(field); field = ""; fieldStarted = false; }
+  function endRow(){ endField(); rows.push(row); row = []; }
+  while(i < n){
+    const c = text[i];
+    if(inQuotes){
+      if(c === '"'){
+        if(text[i + 1] === '"'){ field += '"'; i += 2; continue; }
+        inQuotes = false; i++; continue;
+      }
+      field += c; i++; continue;
+    }
+    if(c === '"' && !fieldStarted){ inQuotes = true; fieldStarted = true; i++; continue; }
+    if(c === delim){ endField(); i++; continue; }
+    if(c === "\r"){ if(text[i + 1] === "\n") i++; endRow(); i++; continue; }
+    if(c === "\n"){ endRow(); i++; continue; }
+    field += c; fieldStarted = true; i++;
+  }
+  if(fieldStarted || field !== "" || row.length > 0) endRow();
+  return rows;
+}
+function csvToJSON(text, delim){
+  const rows = parseCSV(text, delim).filter(r => !(r.length === 1 && r[0] === ""));
+  if(rows.length === 0) return "[]";
+  const headers = rows[0];
+  const out = [];
+  for(let r = 1; r < rows.length; r++){
+    const obj = {};
+    headers.forEach((h, idx) => { obj[h] = rows[r][idx] !== undefined ? rows[r][idx] : ""; });
+    out.push(obj);
+  }
+  return JSON.stringify(out, null, 2);
+}
+const inEl = document.getElementById("input"), outEl = document.getElementById("output"),
+      errEl = document.getElementById("err"), metaEl = document.getElementById("meta");
+function run(){
+  errEl.textContent = "";
+  try{
+    const delimSel = document.getElementById("delim").value;
+    const delim = delimSel === "\\t" ? "\t" : delimSel;
+    const json = csvToJSON(inEl.value, delim);
+    outEl.value = json;
+    const count = JSON.parse(json).length;
+    metaEl.textContent = count + (count === 1 ? " object" : " objects") + " converted";
+  }catch(e){
+    outEl.value = "";
+    metaEl.textContent = "";
+    errEl.textContent = "Could not convert: " + e.message;
+  }
+}
+document.getElementById("convert").addEventListener("click", run);
+document.getElementById("delim").addEventListener("change", run);
+document.getElementById("copy").addEventListener("click", () => {
+  outEl.select();
+  if(navigator.clipboard) navigator.clipboard.writeText(outEl.value);
+});
+document.getElementById("download").addEventListener("click", () => {
+  const blob = new Blob([outEl.value], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "data.json";
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+run();
+</script>
+</body>
+</html>

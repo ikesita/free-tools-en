@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slug Generator — Free URL Slug Generator from Any Title</title>
+<meta name="description" content="Turn any title or phrase into a clean, URL-friendly slug. Removes accents, punctuation and spaces — with hyphen or underscore separators and a length limit.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#7c3aed; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  input[type=text]{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:15.5px;font-family:inherit}
+  .out{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:15.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#f9fafc;word-break:break-all;min-height:24px}
+  .row{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;margin:12px 0}
+  .field label{display:block;font-size:13px;font-weight:700;margin-bottom:4px}
+  .field select,.field input[type=number]{padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:15px;font-family:inherit;background:#fff}
+  .field input[type=number]{width:110px}
+  .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .btns button{background:#eef1f6;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 13px;font-size:14px;font-weight:700;cursor:pointer}
+  .btns button:hover{border-color:var(--acc);color:var(--acc)}
+  .btns button.main{background:var(--acc);color:#fff;border-color:var(--acc)}
+  .meta{color:var(--sub);font-size:13.5px;margin-top:10px}
+  .note{font-size:13px;color:var(--sub)}
+  .faq h3{font-size:15px;margin:14px 0 4px}
+  .faq p{margin:0 0 6px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Slug Generator",
+  "url": "https://ikesita.github.io/free-tools-en/slug.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "en",
+  "description": "Turn any title or phrase into a clean, URL-friendly slug. Removes accents, punctuation and spaces — with hyphen or underscore separators and a length limit.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "isAccessibleForFree": true
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "What is a URL slug?", "acceptedAnswer": { "@type": "Answer", "text": "A slug is the readable part of a web address that identifies a page, such as 'how-to-bake-bread' in example.com/blog/how-to-bake-bread. Slugs use lowercase letters, numbers and separators instead of spaces and punctuation, so the URL stays valid and easy to read and share." } },
+    { "@type": "Question", "name": "Are hyphens or underscores better in slugs?", "acceptedAnswer": { "@type": "Answer", "text": "Hyphens are the common recommendation for web URLs: search engines treat a hyphen as a word separator, while an underscore is treated as joining the words into one. This tool offers both, since some file systems and wikis prefer underscores." } },
+    { "@type": "Question", "name": "What happens to accented letters like é or ü?", "acceptedAnswer": { "@type": "Answer", "text": "Accents are removed and the base letter is kept, so 'Café' becomes 'cafe' and 'Zürich' becomes 'zurich'. Characters that cannot be converted to plain a–z or 0–9 are dropped, because standard slugs should only contain ASCII characters." } },
+    { "@type": "Question", "name": "Why set a maximum length?", "acceptedAnswer": { "@type": "Answer", "text": "Short slugs are easier to read, type and share, and some CMS platforms limit URL length. If you set a limit, the slug is cut at the last whole word that fits, so it never ends mid-word or with a dangling separator." } }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Slug Generator</h1>
+    <p>Type a title and get a clean, URL-friendly slug — accents and punctuation removed, instantly.</p>
+  </header>
+
+  <div class="card">
+    <input type="text" id="input" placeholder="Type or paste your title…" value="10 Tips &amp; Tricks for Café SEO (2026 Edition!)">
+    <div class="row">
+      <div class="field">
+        <label for="sep">Separator</label>
+        <select id="sep">
+          <option value="-" selected>Hyphen (-)</option>
+          <option value="_">Underscore (_)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="maxlen">Max length (0 = none)</label>
+        <input type="number" id="maxlen" value="0" min="0" max="500">
+      </div>
+    </div>
+    <div class="out" id="out"></div>
+    <div class="btns">
+      <button id="copy" class="main">Copy slug</button>
+    </div>
+    <div class="meta" id="meta"></div>
+  </div>
+
+  <div class="card faq">
+    <h2>Frequently asked questions</h2>
+    <h3>What is a URL slug?</h3>
+    <p>A slug is the readable part of a web address that identifies a page, such as “how-to-bake-bread” in example.com/blog/how-to-bake-bread. Slugs use lowercase letters, numbers and separators instead of spaces and punctuation, so the URL stays valid and easy to read and share.</p>
+    <h3>Are hyphens or underscores better in slugs?</h3>
+    <p>Hyphens are the common recommendation for web URLs: search engines treat a hyphen as a word separator, while an underscore is treated as joining the words into one. This tool offers both, since some file systems and wikis prefer underscores.</p>
+    <h3>What happens to accented letters like é or ü?</h3>
+    <p>Accents are removed and the base letter is kept, so “Café” becomes “cafe” and “Zürich” becomes “zurich”. Characters that cannot be converted to plain a–z or 0–9 are dropped, because standard slugs should only contain ASCII characters.</p>
+    <h3>Why set a maximum length?</h3>
+    <p>Short slugs are easier to read, type and share, and some CMS platforms limit URL length. If you set a limit, the slug is cut at the last whole word that fits, so it never ends mid-word or with a dangling separator.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+function slugify(text, sep, maxLen){
+  let s = String(text).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  s = s.toLowerCase();
+  s = s.replace(/[^a-z0-9]+/g, sep);
+  const esc = sep === "-" ? "\\-" : "_";
+  s = s.replace(new RegExp("^" + esc + "+|" + esc + "+$", "g"), "");
+  const limit = Math.floor(Number(maxLen));
+  if(isFinite(limit) && limit > 0 && s.length > limit){
+    s = s.slice(0, limit);
+    const idx = s.lastIndexOf(sep);
+    if(idx > 0) s = s.slice(0, idx);
+    s = s.replace(new RegExp(esc + "+$", "g"), "");
+  }
+  return s;
+}
+const inEl = document.getElementById("input"), outEl = document.getElementById("out"), metaEl = document.getElementById("meta");
+function run(){
+  const slug = slugify(inEl.value, document.getElementById("sep").value, document.getElementById("maxlen").value);
+  outEl.textContent = slug;
+  metaEl.textContent = slug.length + " characters";
+}
+document.getElementById("copy").addEventListener("click", () => {
+  if(navigator.clipboard) navigator.clipboard.writeText(outEl.textContent);
+});
+["input", "sep", "maxlen"].forEach(id => {
+  document.getElementById(id).addEventListener("input", run);
+  document.getElementById(id).addEventListener("change", run);
+});
+run();
+</script>
+</body>
+</html>

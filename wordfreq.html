@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word Frequency Counter — Count How Often Each Word Appears</title>
+<meta name="description" content="Count how many times each word appears in your text, ranked most to least frequent, with percentages. Options for stop words and case sensitivity. Free and private.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#7c3aed; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  textarea{width:100%;min-height:140px;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:15px;font-family:inherit;resize:vertical}
+  .checks{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px}
+  .checks label{font-size:14px;display:flex;gap:6px;align-items:center;cursor:pointer}
+  .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .btns button{background:#eef1f6;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 13px;font-size:14px;font-weight:700;cursor:pointer}
+  .btns button:hover{border-color:var(--acc);color:var(--acc)}
+  .btns button.main{background:var(--acc);color:#fff;border-color:var(--acc)}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;margin-top:6px}
+  th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left}
+  th{font-size:13px;color:var(--sub)}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  .meta{color:var(--sub);font-size:13.5px;margin-top:10px}
+  .note{font-size:13px;color:var(--sub)}
+  .faq h3{font-size:15px;margin:14px 0 4px}
+  .faq p{margin:0 0 6px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Word Frequency Counter",
+  "url": "https://ikesita.github.io/free-tools-en/wordfreq.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "en",
+  "description": "Count how many times each word appears in your text, ranked most to least frequent, with percentages. Options for stop words and case sensitivity. Free and private.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "isAccessibleForFree": true
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "What counts as a word here?", "acceptedAnswer": { "@type": "Answer", "text": "A word is a run of letters and digits, optionally with an apostrophe inside it, so \"don't\" counts as one word and \"well-known\" counts as two (well, known). Numbers count as words too. Punctuation and symbols only separate words." } },
+    { "@type": "Question", "name": "What are stop words and why ignore them?", "acceptedAnswer": { "@type": "Answer", "text": "Stop words are the very common words — the, of, and, a, in, to — that usually dominate any text's frequency list without saying much about its topic. Turning on 'ignore stop words' hides a built-in list of the most common ones so the meaningful words stand out. It is most useful together with case-insensitive counting." } },
+    { "@type": "Question", "name": "How are the results sorted and the percentage calculated?", "acceptedAnswer": { "@type": "Answer", "text": "Words are sorted by count, most frequent first; words with the same count are listed alphabetically. The percentage is the word's count divided by the total number of words counted (after any stop words are removed), shown to one decimal place." } },
+    { "@type": "Question", "name": "Is my text uploaded anywhere?", "acceptedAnswer": { "@type": "Answer", "text": "No. The counting runs entirely in your browser with JavaScript. Your text never leaves your device." } }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Word Frequency Counter</h1>
+    <p>See which words you use most. Paste any text and get every word ranked by how often it appears.</p>
+  </header>
+
+  <div class="card">
+    <textarea id="text" placeholder="Type or paste your text here…">the quick brown fox jumps over the lazy dog. The dog was not amused, but the fox did not care — the fox just kept jumping over the dog.</textarea>
+    <div class="checks">
+      <label><input type="checkbox" id="casesens"> Case sensitive</label>
+      <label><input type="checkbox" id="stopwords"> Ignore stop words (the, of, and…)</label>
+    </div>
+    <div class="btns">
+      <button id="count" class="main">Count word frequency</button>
+      <button id="copy">Copy results</button>
+    </div>
+    <div class="meta" id="meta"></div>
+    <div id="results"></div>
+  </div>
+
+  <div class="card faq">
+    <h2>Frequently asked questions</h2>
+    <h3>What counts as a word here?</h3>
+    <p>A word is a run of letters and digits, optionally with an apostrophe inside it, so “don’t” counts as one word and “well-known” counts as two (well, known). Numbers count as words too. Punctuation and symbols only separate words.</p>
+    <h3>What are stop words and why ignore them?</h3>
+    <p>Stop words are the very common words — the, of, and, a, in, to — that usually dominate any text’s frequency list without saying much about its topic. Turning on “ignore stop words” hides a built-in list of the most common ones so the meaningful words stand out. It is most useful together with case-insensitive counting.</p>
+    <h3>How are the results sorted and the percentage calculated?</h3>
+    <p>Words are sorted by count, most frequent first; words with the same count are listed alphabetically. The percentage is the word’s count divided by the total number of words counted (after any stop words are removed), shown to one decimal place.</p>
+    <h3>Is my text uploaded anywhere?</h3>
+    <p>No. The counting runs entirely in your browser with JavaScript. Your text never leaves your device.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+const STOPWORDS = new Set(("a,about,above,after,again,all,am,an,and,any,are,as,at,be,because,been,before,being,below,between,both,but,by,could,did,do,does,doing,down,during,each,few,for,from,further,had,has,have,having,he,her,here,hers,him,his,how,i,if,in,into,is,it,its,itself,just,me,more,most,my,no,nor,not,now,of,off,on,once,only,or,other,our,out,over,own,s,same,she,should,so,some,such,t,than,that,the,their,them,then,there,these,they,this,those,through,to,too,under,until,up,very,was,we,were,what,when,where,which,while,who,whom,why,will,with,would,you,your").split(","));
+function extractWords(text, caseSensitive){
+  const t = caseSensitive ? String(text) : String(text).toLowerCase();
+  return t.match(/[A-Za-z0-9]+(?:'[A-Za-z0-9]+)?/g) || [];
+}
+function wordFrequencies(text, caseSensitive, ignoreStop){
+  let words = extractWords(text, caseSensitive);
+  if(ignoreStop) words = words.filter(w => !STOPWORDS.has(w.toLowerCase()));
+  const counts = new Map();
+  for(const w of words) counts.set(w, (counts.get(w) || 0) + 1);
+  const total = words.length;
+  const list = Array.from(counts.entries()).map(([word, count]) => ({ word, count }));
+  list.sort((a, b) => b.count - a.count || (a.word < b.word ? -1 : a.word > b.word ? 1 : 0));
+  return { list, total };
+}
+function esc(s){
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+const textEl = document.getElementById("text"), metaEl = document.getElementById("meta"), resEl = document.getElementById("results");
+let lastResult = { list: [], total: 0 };
+function run(){
+  lastResult = wordFrequencies(textEl.value,
+    document.getElementById("casesens").checked,
+    document.getElementById("stopwords").checked);
+  const { list, total } = lastResult;
+  metaEl.textContent = total + " words counted · " + list.length + " unique";
+  if(!list.length){ resEl.innerHTML = ""; return; }
+  const shown = list.slice(0, 200);
+  let html = "<table><tr><th>Word</th><th class=\"num\">Count</th><th class=\"num\">Share</th></tr>";
+  for(const r of shown){
+    html += "<tr><td>" + esc(r.word) + "</td><td class=\"num\">" + r.count + "</td><td class=\"num\">" + (total ? (r.count / total * 100).toFixed(1) : "0.0") + "%</td></tr>";
+  }
+  html += "</table>";
+  if(list.length > shown.length) html += "<p class=\"note\">Showing the top 200 of " + list.length + " unique words. Copy results to get the full list.</p>";
+  resEl.innerHTML = html;
+}
+document.getElementById("count").addEventListener("click", run);
+document.getElementById("copy").addEventListener("click", () => {
+  const tsv = lastResult.list.map(r => r.word + "\t" + r.count).join("\n");
+  if(navigator.clipboard) navigator.clipboard.writeText(tsv);
+});
+["casesens", "stopwords"].forEach(id => document.getElementById(id).addEventListener("change", run));
+run();
+</script>
+</body>
+</html>

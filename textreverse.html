@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reverse Text Generator — Reverse Characters, Words or Lines</title>
+<meta name="description" content="Reverse text by characters, by words or by lines — plus reverse each word in place. Emoji-safe, instant, free and private.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#7c3aed; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  textarea{width:100%;min-height:120px;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:15.5px;font-family:inherit;resize:vertical}
+  .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .btns button{background:#eef1f6;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 13px;font-size:14px;font-weight:700;cursor:pointer}
+  .btns button:hover{border-color:var(--acc);color:var(--acc)}
+  .btns button.main{background:var(--acc);color:#fff;border-color:var(--acc)}
+  .meta{color:var(--sub);font-size:13.5px;margin-top:10px}
+  .note{font-size:13px;color:var(--sub)}
+  .faq h3{font-size:15px;margin:14px 0 4px}
+  .faq p{margin:0 0 6px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Reverse Text Generator",
+  "url": "https://ikesita.github.io/free-tools-en/textreverse.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "en",
+  "description": "Reverse text by characters, by words or by lines — plus reverse each word in place. Emoji-safe, instant, free and private.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "isAccessibleForFree": true
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "What is the difference between the four reverse modes?", "acceptedAnswer": { "@type": "Answer", "text": "Reverse text flips every character, so 'hello world' becomes 'dlrow olleh'. Reverse word order keeps each word intact but flips their order: 'world hello'. Reverse each word flips the letters inside every word while the order stays: 'olleh dlrow'. Reverse lines flips the order of lines in multi-line text, keeping each line as it is." } },
+    { "@type": "Question", "name": "Does it work with emoji and accented characters?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Characters are reversed by Unicode code point rather than by raw bytes or UTF-16 units, so emoji and accented letters are never split into broken halves. Very complex emoji made of several joined characters (such as family emoji) may separate into their individual parts when flipped, which is normal for character-level reversal." } },
+    { "@type": "Question", "name": "What do people use reversed text for?", "acceptedAnswer": { "@type": "Answer", "text": "Common uses include checking palindromes, mirror-writing tricks for social posts and puzzles, reversing lists and log lines, flipping word order when editing, and playful backwards messages. It is also a quick way to spot-check that a string reads the same from both ends." } },
+    { "@type": "Question", "name": "Is my text uploaded anywhere?", "acceptedAnswer": { "@type": "Answer", "text": "No. The reversal runs entirely in your browser with JavaScript. Your text never leaves your device." } }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Reverse Text Generator</h1>
+    <p>Flip text around — by characters, by words, word by word, or line by line.</p>
+  </header>
+
+  <div class="card">
+    <textarea id="text" placeholder="Type or paste your text here…">stressed desserts
+live evil</textarea>
+    <div class="btns">
+      <button data-mode="chars">Reverse text</button>
+      <button data-mode="words">Reverse word order</button>
+      <button data-mode="eachword">Reverse each word</button>
+      <button data-mode="lines">Reverse lines</button>
+      <button data-mode="copy" class="main">Copy result</button>
+    </div>
+    <div class="meta" id="meta"></div>
+  </div>
+
+  <div class="card faq">
+    <h2>Frequently asked questions</h2>
+    <h3>What is the difference between the four reverse modes?</h3>
+    <p>Reverse text flips every character, so “hello world” becomes “dlrow olleh”. Reverse word order keeps each word intact but flips their order: “world hello”. Reverse each word flips the letters inside every word while the order stays: “olleh dlrow”. Reverse lines flips the order of lines in multi-line text, keeping each line as it is.</p>
+    <h3>Does it work with emoji and accented characters?</h3>
+    <p>Yes. Characters are reversed by Unicode code point rather than by raw bytes or UTF-16 units, so emoji and accented letters are never split into broken halves. Very complex emoji made of several joined characters (such as family emoji) may separate into their individual parts when flipped, which is normal for character-level reversal.</p>
+    <h3>What do people use reversed text for?</h3>
+    <p>Common uses include checking palindromes, mirror-writing tricks for social posts and puzzles, reversing lists and log lines, flipping word order when editing, and playful backwards messages. It is also a quick way to spot-check that a string reads the same from both ends.</p>
+    <h3>Is my text uploaded anywhere?</h3>
+    <p>No. The reversal runs entirely in your browser with JavaScript. Your text never leaves your device.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+function reverseText(text, mode){
+  const t = String(text);
+  if(mode === "chars"){
+    return [...t].reverse().join("");
+  }
+  if(mode === "words"){
+    const trimmed = t.trim();
+    if(!trimmed) return "";
+    return trimmed.split(/\s+/).reverse().join(" ");
+  }
+  if(mode === "eachword"){
+    return t.split(/(\s+)/).map(part => /\s/.test(part) ? part : [...part].reverse().join("")).join("");
+  }
+  if(mode === "lines"){
+    return t.replace(/\r\n/g, "\n").split("\n").reverse().join("\n");
+  }
+  return t;
+}
+const textEl = document.getElementById("text"), metaEl = document.getElementById("meta");
+function renderMeta(){
+  const t = textEl.value;
+  const words = t.trim() ? t.trim().split(/\s+/).length : 0;
+  const lines = t ? t.split("\n").length : 0;
+  metaEl.textContent = t.length + " characters · " + words + " words · " + lines + (lines === 1 ? " line" : " lines");
+}
+document.querySelectorAll("[data-mode]").forEach(b => b.addEventListener("click", () => {
+  const mode = b.dataset.mode;
+  if(mode === "copy"){
+    textEl.select();
+    if(navigator.clipboard) navigator.clipboard.writeText(textEl.value);
+    return;
+  }
+  textEl.value = reverseText(textEl.value, mode);
+  renderMeta();
+}));
+textEl.addEventListener("input", renderMeta);
+renderMeta();
+</script>
+</body>
+</html>
