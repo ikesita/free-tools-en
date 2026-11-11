@@ -19,6 +19,12 @@
   .row input[type=number]{width:110px}
   .ans{font-size:20px;font-weight:800;color:var(--acc)}
   footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+  .related h2{font-size:17px;margin:0 0 10px}
+  .related ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+  .related li a{display:inline-block;padding:7px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink);font-size:13.5px;text-decoration:none}
+  .related li a:hover{border-color:var(--acc);color:var(--acc)}
+  .related .home{margin:14px 0 0;font-size:13.5px}
+  .related .home a{color:var(--acc);font-weight:700;text-decoration:none}
 </style>
 </head>
 <body>
@@ -37,6 +43,17 @@
     <h2>Add or subtract days</h2>
     <div class="row"><input id="base" type="date" value="2026-11-10"><span>+</span><input id="n" type="number" value="30"><span>days =</span><span class="ans" id="addOut">-</span></div>
     <p style="color:var(--sub);font-size:13px;margin:10px 0 0">Use a negative number to go back in time. The start date itself counts as day 0.</p>
+  </div>
+
+  <div class="card related">
+    <h2>Related tools</h2>
+    <ul>
+      <li><a href="adddays.html">Add Days Calculator</a></li>
+      <li><a href="businessdays.html">Business Days Calculator</a></li>
+      <li><a href="countdown.html">Days Until Calculator</a></li>
+      <li><a href="ageindays.html">Age in Days Calculator</a></li>
+    </ul>
+    <p class="home"><a href="index.html">&larr; Back to all free tools</a></p>
   </div>
 
   <footer>Your input stays in your browser and is never sent anywhere.</footer>

@@ -19,6 +19,12 @@
   .row select{padding:9px;border:1px solid var(--line);border-radius:8px;font-size:15px}
   .ans{font-size:20px;font-weight:800;color:var(--acc)}
   footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+  .related h2{font-size:17px;margin:0 0 10px}
+  .related ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+  .related li a{display:inline-block;padding:7px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink);font-size:13.5px;text-decoration:none}
+  .related li a:hover{border-color:var(--acc);color:var(--acc)}
+  .related .home{margin:14px 0 0;font-size:13.5px}
+  .related .home a{color:var(--acc);font-weight:700;text-decoration:none}
 </style>
 </head>
 <body>
@@ -40,6 +46,17 @@
       <span>→</span>
       <select id="tt"><option value="c">°C (Celsius)</option><option value="f">°F (Fahrenheit)</option><option value="k">K (Kelvin)</option></select>
       <span class="ans" id="tOut">-</span></div></div>
+
+  <div class="card related">
+    <h2>Related tools</h2>
+    <ul>
+      <li><a href="sqft.html">Square Footage Calculator</a></li>
+      <li><a href="bmi.html">BMI Calculator</a></li>
+      <li><a href="roman.html">Roman Numeral Converter</a></li>
+      <li><a href="baseconvert.html">Number Base Converter</a></li>
+    </ul>
+    <p class="home"><a href="index.html">&larr; Back to all free tools</a></p>
+  </div>
 
   <footer>Your input stays in your browser and is never sent anywhere.</footer>
 </div>
