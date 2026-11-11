@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inches to Centimeters Converter — in to cm</title>
+<meta name="description" content="Convert inches to centimeters instantly (in to cm), with a conversion table and formula. Free, runs in your browser.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#4f46e5; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .row input{width:150px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  .row .unit{font-weight:700}
+  .swap{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 12px;font-size:16px;cursor:pointer}
+  .ans{font-size:20px;font-weight:800;color:var(--acc)}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  th,td{padding:6px 8px;text-align:left;border-bottom:1px solid var(--line)}
+  th{color:var(--sub);font-weight:700}
+  td.v{font-weight:700}
+  .faq h3{font-size:15px;margin:14px 0 4px}
+  .faq p{margin:0 0 6px;color:var(--sub)}
+  .rel{font-size:14.5px}
+  .rel a{color:var(--acc)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Inches to Centimeters Converter",
+  "url": "https://ikesita.github.io/free-tools-en/convert-inches-to-cm.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "en",
+  "description": "Convert inches to centimeters instantly (in to cm), with a conversion table and formula. Free, runs in your browser.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "isAccessibleForFree": true
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I convert inches to centimeters?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the formula: Centimeters = Inches \u00d7 2.54. For example, 70 in = 177.8 cm. Or just type a value into the converter above \u2014 it works in both directions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much is 1 in in centimeters?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "1 in = 2.54 cm. One inch is exactly 2.54 centimeters by international definition."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is 70 in in centimeters?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "70 in = 177.8 cm."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this converter free and private?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. It is completely free and runs entirely in your browser \u2014 nothing you type is sent to a server."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Inches to Centimeters Converter</h1>
+    <p>Convert in to cm and back — just type in either box. Results update as you type.</p>
+  </header>
+
+  <div class="card">
+    <div class="row">
+      <input id="inA" type="number" step="any" value="70"><span class="unit">in</span>
+      <button class="swap" id="swapBtn" title="Swap direction">⇄</button>
+      <input id="inB" type="number" step="any"><span class="unit">cm</span>
+    </div>
+    <p style="margin:12px 0 0"><span class="ans" id="sentence">-</span></p>
+  </div>
+
+  <div class="card">
+    <h2>Inches to Centimeters conversion table</h2>
+    <table>
+      <tr><th>Inches (in)</th><th>Centimeters (cm)</th></tr>
+      <tr><td>1 in</td><td class="v">2.54 cm</td></tr>
+      <tr><td>2 in</td><td class="v">5.08 cm</td></tr>
+      <tr><td>3 in</td><td class="v">7.62 cm</td></tr>
+      <tr><td>4 in</td><td class="v">10.16 cm</td></tr>
+      <tr><td>5 in</td><td class="v">12.7 cm</td></tr>
+      <tr><td>6 in</td><td class="v">15.24 cm</td></tr>
+      <tr><td>8 in</td><td class="v">20.32 cm</td></tr>
+      <tr><td>10 in</td><td class="v">25.4 cm</td></tr>
+      <tr><td>12 in</td><td class="v">30.48 cm</td></tr>
+      <tr><td>24 in</td><td class="v">60.96 cm</td></tr>
+      <tr><td>36 in</td><td class="v">91.44 cm</td></tr>
+      <tr><td>48 in</td><td class="v">121.92 cm</td></tr>
+      <tr><td>72 in</td><td class="v">182.88 cm</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>How to convert inches to centimeters</h2>
+    <p><strong>Formula:</strong> Centimeters = Inches × 2.54.</p>
+    <p>One inch is exactly 2.54 centimeters by international definition.</p>
+    <p>Example: 70 in × the factor above = 177.8 cm.</p>
+  </div>
+
+  <div class="card faq">
+    <h2>Frequently asked questions</h2>
+    <h3>How do I convert inches to centimeters?</h3>
+    <p>Use the formula: Centimeters = Inches × 2.54. For example, 70 in = 177.8 cm. Or just type a value into the converter above — it works in both directions.</p>
+    <h3>How much is 1 in in centimeters?</h3>
+    <p>1 in = 2.54 cm. One inch is exactly 2.54 centimeters by international definition.</p>
+    <h3>What is 70 in in centimeters?</h3>
+    <p>70 in = 177.8 cm.</p>
+    <h3>Is this converter free and private?</h3>
+    <p>Yes. It is completely free and runs entirely in your browser — nothing you type is sent to a server.</p>
+  </div>
+
+  <div class="card rel">
+    <h2>Related converters</h2>
+    <p>Reverse: <a href="convert-cm-to-inches.html">Centimeters to Inches Converter</a> · All converters: <a href="converters.html">Unit Converters hub</a> · General tool: <a href="units.html">Unit Converter</a></p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+const toB = v => v * 2.54;
+const toA = v => v / 2.54;
+const inA = document.getElementById("inA"), inB = document.getElementById("inB"), sentence = document.getElementById("sentence");
+const fmt = n => { if (!isFinite(n)) return "-"; const r = Math.round(n * 10000) / 10000; return r.toLocaleString("en-US", {maximumFractionDigits: 4}); };
+function fromA(){ const v = parseFloat(inA.value); if (isNaN(v)) { inB.value = ""; sentence.textContent = "-"; return; } const r = toB(v); inB.value = Math.round(r * 10000) / 10000; sentence.textContent = fmt(v) + " in = " + fmt(r) + " cm"; }
+function fromB(){ const v = parseFloat(inB.value); if (isNaN(v)) { inA.value = ""; sentence.textContent = "-"; return; } const r = toA(v); inA.value = Math.round(r * 10000) / 10000; sentence.textContent = fmt(v) + " cm = " + fmt(r) + " in"; }
+inA.addEventListener("input", fromA);
+inB.addEventListener("input", fromB);
+document.getElementById("swapBtn").addEventListener("click", () => { const t = inA.value; inA.value = inB.value; inB.value = t; fromA(); });
+fromA();
+</script>
+</body>
+</html>

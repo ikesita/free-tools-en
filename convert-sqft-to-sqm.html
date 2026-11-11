@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Square Feet to Square Meters Converter — ft² to m²</title>
+<meta name="description" content="Convert square feet to square meters instantly (ft² to m²), with a conversion table and formula. Free, runs in your browser.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#4f46e5; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .row input{width:150px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  .row .unit{font-weight:700}
+  .swap{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 12px;font-size:16px;cursor:pointer}
+  .ans{font-size:20px;font-weight:800;color:var(--acc)}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  th,td{padding:6px 8px;text-align:left;border-bottom:1px solid var(--line)}
+  th{color:var(--sub);font-weight:700}
+  td.v{font-weight:700}
+  .faq h3{font-size:15px;margin:14px 0 4px}
+  .faq p{margin:0 0 6px;color:var(--sub)}
+  .rel{font-size:14.5px}
+  .rel a{color:var(--acc)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Square Feet to Square Meters Converter",
+  "url": "https://ikesita.github.io/free-tools-en/convert-sqft-to-sqm.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "en",
+  "description": "Convert square feet to square meters instantly (ft\u00b2 to m\u00b2), with a conversion table and formula. Free, runs in your browser.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "isAccessibleForFree": true
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I convert square feet to square meters?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the formula: Square meters = Square feet \u00d7 0.09290304. For example, 1,000 ft\u00b2 = 92.903 m\u00b2. Or just type a value into the converter above \u2014 it works in both directions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much is 1 ft\u00b2 in square meters?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "1 ft\u00b2 = 0.092903 m\u00b2. One square foot is exactly 0.09290304 square meters."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is 1,000 ft\u00b2 in square meters?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "1,000 ft\u00b2 = 92.903 m\u00b2."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this converter free and private?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. It is completely free and runs entirely in your browser \u2014 nothing you type is sent to a server."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Square Feet to Square Meters Converter</h1>
+    <p>Convert ft² to m² and back — just type in either box. Results update as you type.</p>
+  </header>
+
+  <div class="card">
+    <div class="row">
+      <input id="inA" type="number" step="any" value="1000"><span class="unit">ft²</span>
+      <button class="swap" id="swapBtn" title="Swap direction">⇄</button>
+      <input id="inB" type="number" step="any"><span class="unit">m²</span>
+    </div>
+    <p style="margin:12px 0 0"><span class="ans" id="sentence">-</span></p>
+  </div>
+
+  <div class="card">
+    <h2>Square Feet to Square Meters conversion table</h2>
+    <table>
+      <tr><th>Square Feet (ft²)</th><th>Square Meters (m²)</th></tr>
+      <tr><td>10 ft²</td><td class="v">0.929 m²</td></tr>
+      <tr><td>50 ft²</td><td class="v">4.6452 m²</td></tr>
+      <tr><td>100 ft²</td><td class="v">9.2903 m²</td></tr>
+      <tr><td>200 ft²</td><td class="v">18.5806 m²</td></tr>
+      <tr><td>300 ft²</td><td class="v">27.8709 m²</td></tr>
+      <tr><td>500 ft²</td><td class="v">46.4515 m²</td></tr>
+      <tr><td>750 ft²</td><td class="v">69.6773 m²</td></tr>
+      <tr><td>1,000 ft²</td><td class="v">92.903 m²</td></tr>
+      <tr><td>1,500 ft²</td><td class="v">139.3546 m²</td></tr>
+      <tr><td>2,000 ft²</td><td class="v">185.8061 m²</td></tr>
+      <tr><td>3,000 ft²</td><td class="v">278.7091 m²</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>How to convert square feet to square meters</h2>
+    <p><strong>Formula:</strong> Square meters = Square feet × 0.09290304.</p>
+    <p>One square foot is exactly 0.09290304 square meters.</p>
+    <p>Example: 1,000 ft² × the factor above = 92.903 m².</p>
+  </div>
+
+  <div class="card faq">
+    <h2>Frequently asked questions</h2>
+    <h3>How do I convert square feet to square meters?</h3>
+    <p>Use the formula: Square meters = Square feet × 0.09290304. For example, 1,000 ft² = 92.903 m². Or just type a value into the converter above — it works in both directions.</p>
+    <h3>How much is 1 ft² in square meters?</h3>
+    <p>1 ft² = 0.092903 m². One square foot is exactly 0.09290304 square meters.</p>
+    <h3>What is 1,000 ft² in square meters?</h3>
+    <p>1,000 ft² = 92.903 m².</p>
+    <h3>Is this converter free and private?</h3>
+    <p>Yes. It is completely free and runs entirely in your browser — nothing you type is sent to a server.</p>
+  </div>
+
+  <div class="card rel">
+    <h2>Related converters</h2>
+    <p>Reverse: <a href="convert-sqm-to-sqft.html">Square Meters to Square Feet Converter</a> · All converters: <a href="converters.html">Unit Converters hub</a> · General tool: <a href="units.html">Unit Converter</a></p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+const toB = v => v * 0.09290304;
+const toA = v => v / 0.09290304;
+const inA = document.getElementById("inA"), inB = document.getElementById("inB"), sentence = document.getElementById("sentence");
+const fmt = n => { if (!isFinite(n)) return "-"; const r = Math.round(n * 10000) / 10000; return r.toLocaleString("en-US", {maximumFractionDigits: 4}); };
+function fromA(){ const v = parseFloat(inA.value); if (isNaN(v)) { inB.value = ""; sentence.textContent = "-"; return; } const r = toB(v); inB.value = Math.round(r * 10000) / 10000; sentence.textContent = fmt(v) + " ft² = " + fmt(r) + " m²"; }
+function fromB(){ const v = parseFloat(inB.value); if (isNaN(v)) { inA.value = ""; sentence.textContent = "-"; return; } const r = toA(v); inA.value = Math.round(r * 10000) / 10000; sentence.textContent = fmt(v) + " m² = " + fmt(r) + " ft²"; }
+inA.addEventListener("input", fromA);
+inB.addEventListener("input", fromB);
+document.getElementById("swapBtn").addEventListener("click", () => { const t = inA.value; inA.value = inB.value; inB.value = t; fromA(); });
+fromA();
+</script>
+</body>
+</html>

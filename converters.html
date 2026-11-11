@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit Converters — Metric to Imperial & Imperial to Metric</title>
+<meta name="description" content="Dedicated converters for the most searched unit pairs: kg to lbs, cm to inches, km to miles, Celsius to Fahrenheit, liters to gallons and more. Free and private.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#4f46e5; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:860px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:27px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 20px}
+  h2.cat{font-size:18px;margin:22px 0 10px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+  .tool{display:block;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;text-decoration:none;color:var(--ink);box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .tool:hover{border-color:var(--acc)}
+  .tool .t{font-weight:800;font-size:16.5px;margin-bottom:4px}
+  .tool .d{color:var(--sub);font-size:13.5px}
+  footer{color:var(--sub);font-size:12.5px;margin-top:26px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Unit Converters",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "url": "https://ikesita.github.io/free-tools-en/convert-kg-to-lbs.html",
+      "name": "Kilograms to Pounds Converter"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "url": "https://ikesita.github.io/free-tools-en/convert-lbs-to-kg.html",
+      "name": "Pounds to Kilograms Converter"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "url": "https://ikesita.github.io/free-tools-en/convert-cm-to-inches.html",
+      "name": "Centimeters to Inches Converter"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "url": "https://ikesita.github.io/free-tools-en/convert-inches-to-cm.html",
+      "name": "Inches to Centimeters Converter"
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "url": "https://ikesita.github.io/free-tools-en/convert-km-to-miles.html",
+      "name": "Kilometers to Miles Converter"
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "url": "https://ikesita.github.io/free-tools-en/convert-miles-to-km.html",
+      "name": "Miles to Kilometers Converter"
+    },
+    {
+      "@type": "ListItem",
+      "position": 7,
+      "url": "https://ikesita.github.io/free-tools-en/convert-c-to-f.html",
+      "name": "Celsius to Fahrenheit Converter"
+    },
+    {
+      "@type": "ListItem",
+      "position": 8,
+      "url": "https://ikesita.github.io/free-tools-en/convert-f-to-c.html",
+      "name": "Fahrenheit to Celsius Converter"
+    },
+    {
+      "@type": "ListItem",
+      "position": 9,
+      "url": "https://ikesita.github.io/free-tools-en/convert-liters-to-gallons.html",
+      "name": "Liters to Gallons (US) Converter"
+    },
+    {
+      "@type": "ListItem",
+      "position": 10,
+      "url": "https://ikesita.github.io/free-tools-en/convert-gallons-to-liters.html",
+      "name": "Gallons (US) to Liters Converter"
+    },
+    {
+      "@type": "ListItem",
+      "position": 11,
+      "url": "https://ikesita.github.io/free-tools-en/convert-grams-to-oz.html",
+      "name": "Grams to Ounces Converter"
+    },
+    {
+      "@type": "ListItem",
+      "position": 12,
+      "url": "https://ikesita.github.io/free-tools-en/convert-oz-to-grams.html",
+      "name": "Ounces to Grams Converter"
+    },
+    {
+      "@type": "ListItem",
+      "position": 13,
+      "url": "https://ikesita.github.io/free-tools-en/convert-meters-to-feet.html",
+      "name": "Meters to Feet Converter"
+    },
+    {
+      "@type": "ListItem",
+      "position": 14,
+      "url": "https://ikesita.github.io/free-tools-en/convert-feet-to-meters.html",
+      "name": "Feet to Meters Converter"
+    },
+    {
+      "@type": "ListItem",
+      "position": 15,
+      "url": "https://ikesita.github.io/free-tools-en/convert-sqm-to-sqft.html",
+      "name": "Square Meters to Square Feet Converter"
+    },
+    {
+      "@type": "ListItem",
+      "position": 16,
+      "url": "https://ikesita.github.io/free-tools-en/convert-sqft-to-sqm.html",
+      "name": "Square Feet to Square Meters Converter"
+    },
+    {
+      "@type": "ListItem",
+      "position": 17,
+      "url": "https://ikesita.github.io/free-tools-en/convert-ml-to-floz.html",
+      "name": "Milliliters to Fluid Ounces (US) Converter"
+    },
+    {
+      "@type": "ListItem",
+      "position": 18,
+      "url": "https://ikesita.github.io/free-tools-en/convert-kmh-to-mph.html",
+      "name": "Kilometers per Hour to Miles per Hour Converter"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Unit Converters</h1>
+    <p>One page per conversion pair, each with a two-way converter, a table of common values and the formula. For mixed conversions, try the general <a href="units.html">Unit Converter</a>.</p>
+  </header>
+  <h2 class="cat">Weight</h2>
+  <div class="grid">
+    <a class="tool" href="convert-kg-to-lbs.html"><div class="t">Kilograms → Pounds</div><div class="d">Pounds = Kilograms × 2.20462.</div></a>
+    <a class="tool" href="convert-lbs-to-kg.html"><div class="t">Pounds → Kilograms</div><div class="d">Kilograms = Pounds × 0.45359237.</div></a>
+    <a class="tool" href="convert-grams-to-oz.html"><div class="t">Grams → Ounces</div><div class="d">Ounces = Grams ÷ 28.349523125.</div></a>
+    <a class="tool" href="convert-oz-to-grams.html"><div class="t">Ounces → Grams</div><div class="d">Grams = Ounces × 28.349523125.</div></a>
+  </div>
+  <h2 class="cat">Length</h2>
+  <div class="grid">
+    <a class="tool" href="convert-cm-to-inches.html"><div class="t">Centimeters → Inches</div><div class="d">Inches = Centimeters ÷ 2.54.</div></a>
+    <a class="tool" href="convert-inches-to-cm.html"><div class="t">Inches → Centimeters</div><div class="d">Centimeters = Inches × 2.54.</div></a>
+    <a class="tool" href="convert-km-to-miles.html"><div class="t">Kilometers → Miles</div><div class="d">Miles = Kilometers ÷ 1.609344.</div></a>
+    <a class="tool" href="convert-miles-to-km.html"><div class="t">Miles → Kilometers</div><div class="d">Kilometers = Miles × 1.609344.</div></a>
+    <a class="tool" href="convert-meters-to-feet.html"><div class="t">Meters → Feet</div><div class="d">Feet = Meters ÷ 0.3048.</div></a>
+    <a class="tool" href="convert-feet-to-meters.html"><div class="t">Feet → Meters</div><div class="d">Meters = Feet × 0.3048.</div></a>
+  </div>
+  <h2 class="cat">Temperature</h2>
+  <div class="grid">
+    <a class="tool" href="convert-c-to-f.html"><div class="t">Celsius → Fahrenheit</div><div class="d">Fahrenheit = Celsius × 9/5 + 32.</div></a>
+    <a class="tool" href="convert-f-to-c.html"><div class="t">Fahrenheit → Celsius</div><div class="d">Celsius = (Fahrenheit − 32) × 5/9.</div></a>
+  </div>
+  <h2 class="cat">Volume</h2>
+  <div class="grid">
+    <a class="tool" href="convert-liters-to-gallons.html"><div class="t">Liters → Gallons (US)</div><div class="d">Gallons = Liters ÷ 3.785411784.</div></a>
+    <a class="tool" href="convert-gallons-to-liters.html"><div class="t">Gallons (US) → Liters</div><div class="d">Liters = Gallons × 3.785411784.</div></a>
+    <a class="tool" href="convert-ml-to-floz.html"><div class="t">Milliliters → Fluid Ounces (US)</div><div class="d">Fluid ounces = Milliliters ÷ 29.5735295625.</div></a>
+  </div>
+  <h2 class="cat">Area</h2>
+  <div class="grid">
+    <a class="tool" href="convert-sqm-to-sqft.html"><div class="t">Square Meters → Square Feet</div><div class="d">Square feet = Square meters × 10.7639.</div></a>
+    <a class="tool" href="convert-sqft-to-sqm.html"><div class="t">Square Feet → Square Meters</div><div class="d">Square meters = Square feet × 0.09290304.</div></a>
+  </div>
+  <h2 class="cat">Speed</h2>
+  <div class="grid">
+    <a class="tool" href="convert-kmh-to-mph.html"><div class="t">Kilometers per Hour → Miles per Hour</div><div class="d">Miles per hour = Kilometers per hour ÷ 1.609344.</div></a>
+  </div>
+
+  <footer>Every converter runs entirely in your browser — your input is never uploaded to a server.</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ounces to Grams Converter — oz to g</title>
+<meta name="description" content="Convert ounces to grams instantly (oz to g), with a conversion table and formula. Free, runs in your browser.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#4f46e5; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .row input{width:150px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  .row .unit{font-weight:700}
+  .swap{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 12px;font-size:16px;cursor:pointer}
+  .ans{font-size:20px;font-weight:800;color:var(--acc)}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  th,td{padding:6px 8px;text-align:left;border-bottom:1px solid var(--line)}
+  th{color:var(--sub);font-weight:700}
+  td.v{font-weight:700}
+  .faq h3{font-size:15px;margin:14px 0 4px}
+  .faq p{margin:0 0 6px;color:var(--sub)}
+  .rel{font-size:14.5px}
+  .rel a{color:var(--acc)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Ounces to Grams Converter",
+  "url": "https://ikesita.github.io/free-tools-en/convert-oz-to-grams.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "en",
+  "description": "Convert ounces to grams instantly (oz to g), with a conversion table and formula. Free, runs in your browser.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "isAccessibleForFree": true
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I convert ounces to grams?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the formula: Grams = Ounces \u00d7 28.349523125. For example, 16 oz = 453.5924 g. Or just type a value into the converter above \u2014 it works in both directions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much is 1 oz in grams?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "1 oz = 28.349523 g. One avoirdupois ounce is exactly 28.349523125 grams; 16 ounces make one pound (453.59 g)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is 16 oz in grams?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "16 oz = 453.5924 g."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this converter free and private?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. It is completely free and runs entirely in your browser \u2014 nothing you type is sent to a server."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Ounces to Grams Converter</h1>
+    <p>Convert oz to g and back — just type in either box. Results update as you type.</p>
+  </header>
+
+  <div class="card">
+    <div class="row">
+      <input id="inA" type="number" step="any" value="16"><span class="unit">oz</span>
+      <button class="swap" id="swapBtn" title="Swap direction">⇄</button>
+      <input id="inB" type="number" step="any"><span class="unit">g</span>
+    </div>
+    <p style="margin:12px 0 0"><span class="ans" id="sentence">-</span></p>
+  </div>
+
+  <div class="card">
+    <h2>Ounces to Grams conversion table</h2>
+    <table>
+      <tr><th>Ounces (oz)</th><th>Grams (g)</th></tr>
+      <tr><td>0.25 oz</td><td class="v">7.0874 g</td></tr>
+      <tr><td>0.5 oz</td><td class="v">14.1748 g</td></tr>
+      <tr><td>1 oz</td><td class="v">28.3495 g</td></tr>
+      <tr><td>2 oz</td><td class="v">56.699 g</td></tr>
+      <tr><td>3 oz</td><td class="v">85.0486 g</td></tr>
+      <tr><td>4 oz</td><td class="v">113.3981 g</td></tr>
+      <tr><td>5 oz</td><td class="v">141.7476 g</td></tr>
+      <tr><td>8 oz</td><td class="v">226.7962 g</td></tr>
+      <tr><td>12 oz</td><td class="v">340.1943 g</td></tr>
+      <tr><td>16 oz</td><td class="v">453.5924 g</td></tr>
+      <tr><td>32 oz</td><td class="v">907.1847 g</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>How to convert ounces to grams</h2>
+    <p><strong>Formula:</strong> Grams = Ounces × 28.349523125.</p>
+    <p>One avoirdupois ounce is exactly 28.349523125 grams; 16 ounces make one pound (453.59 g).</p>
+    <p>Example: 16 oz × the factor above = 453.5924 g.</p>
+  </div>
+
+  <div class="card faq">
+    <h2>Frequently asked questions</h2>
+    <h3>How do I convert ounces to grams?</h3>
+    <p>Use the formula: Grams = Ounces × 28.349523125. For example, 16 oz = 453.5924 g. Or just type a value into the converter above — it works in both directions.</p>
+    <h3>How much is 1 oz in grams?</h3>
+    <p>1 oz = 28.349523 g. One avoirdupois ounce is exactly 28.349523125 grams; 16 ounces make one pound (453.59 g).</p>
+    <h3>What is 16 oz in grams?</h3>
+    <p>16 oz = 453.5924 g.</p>
+    <h3>Is this converter free and private?</h3>
+    <p>Yes. It is completely free and runs entirely in your browser — nothing you type is sent to a server.</p>
+  </div>
+
+  <div class="card rel">
+    <h2>Related converters</h2>
+    <p>Reverse: <a href="convert-grams-to-oz.html">Grams to Ounces Converter</a> · All converters: <a href="converters.html">Unit Converters hub</a> · General tool: <a href="units.html">Unit Converter</a></p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+const toB = v => v * 28.349523125;
+const toA = v => v / 28.349523125;
+const inA = document.getElementById("inA"), inB = document.getElementById("inB"), sentence = document.getElementById("sentence");
+const fmt = n => { if (!isFinite(n)) return "-"; const r = Math.round(n * 10000) / 10000; return r.toLocaleString("en-US", {maximumFractionDigits: 4}); };
+function fromA(){ const v = parseFloat(inA.value); if (isNaN(v)) { inB.value = ""; sentence.textContent = "-"; return; } const r = toB(v); inB.value = Math.round(r * 10000) / 10000; sentence.textContent = fmt(v) + " oz = " + fmt(r) + " g"; }
+function fromB(){ const v = parseFloat(inB.value); if (isNaN(v)) { inA.value = ""; sentence.textContent = "-"; return; } const r = toA(v); inA.value = Math.round(r * 10000) / 10000; sentence.textContent = fmt(v) + " g = " + fmt(r) + " oz"; }
+inA.addEventListener("input", fromA);
+inB.addEventListener("input", fromB);
+document.getElementById("swapBtn").addEventListener("click", () => { const t = inA.value; inA.value = inB.value; inB.value = t; fromA(); });
+fromA();
+</script>
+</body>
+</html>

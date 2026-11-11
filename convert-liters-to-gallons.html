@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liters to Gallons (US) Converter — L to gal</title>
+<meta name="description" content="Convert liters to gallons (us) instantly (L to gal), with a conversion table and formula. Free, runs in your browser.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#4f46e5; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .row input{width:150px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  .row .unit{font-weight:700}
+  .swap{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 12px;font-size:16px;cursor:pointer}
+  .ans{font-size:20px;font-weight:800;color:var(--acc)}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  th,td{padding:6px 8px;text-align:left;border-bottom:1px solid var(--line)}
+  th{color:var(--sub);font-weight:700}
+  td.v{font-weight:700}
+  .faq h3{font-size:15px;margin:14px 0 4px}
+  .faq p{margin:0 0 6px;color:var(--sub)}
+  .rel{font-size:14.5px}
+  .rel a{color:var(--acc)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Liters to Gallons (US) Converter",
+  "url": "https://ikesita.github.io/free-tools-en/convert-liters-to-gallons.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "en",
+  "description": "Convert liters to gallons (us) instantly (L to gal), with a conversion table and formula. Free, runs in your browser.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "isAccessibleForFree": true
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I convert liters to gallons (us)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the formula: Gallons = Liters \u00f7 3.785411784. For example, 5 L = 1.3209 gal. Or just type a value into the converter above \u2014 it works in both directions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much is 1 L in gallons (us)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "1 L = 0.264172 gal. This converter uses the US liquid gallon (3.785411784 liters). The UK (imperial) gallon is larger, at 4.54609 liters."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is 5 L in gallons (us)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "5 L = 1.3209 gal."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this converter free and private?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. It is completely free and runs entirely in your browser \u2014 nothing you type is sent to a server."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Liters to Gallons (US) Converter</h1>
+    <p>Convert L to gal and back — just type in either box. Results update as you type.</p>
+  </header>
+
+  <div class="card">
+    <div class="row">
+      <input id="inA" type="number" step="any" value="5"><span class="unit">L</span>
+      <button class="swap" id="swapBtn" title="Swap direction">⇄</button>
+      <input id="inB" type="number" step="any"><span class="unit">gal</span>
+    </div>
+    <p style="margin:12px 0 0"><span class="ans" id="sentence">-</span></p>
+  </div>
+
+  <div class="card">
+    <h2>Liters to Gallons (US) conversion table</h2>
+    <table>
+      <tr><th>Liters (L)</th><th>Gallons (US) (gal)</th></tr>
+      <tr><td>1 L</td><td class="v">0.2642 gal</td></tr>
+      <tr><td>2 L</td><td class="v">0.5283 gal</td></tr>
+      <tr><td>5 L</td><td class="v">1.3209 gal</td></tr>
+      <tr><td>10 L</td><td class="v">2.6417 gal</td></tr>
+      <tr><td>20 L</td><td class="v">5.2834 gal</td></tr>
+      <tr><td>40 L</td><td class="v">10.5669 gal</td></tr>
+      <tr><td>50 L</td><td class="v">13.2086 gal</td></tr>
+      <tr><td>100 L</td><td class="v">26.4172 gal</td></tr>
+      <tr><td>200 L</td><td class="v">52.8344 gal</td></tr>
+      <tr><td>500 L</td><td class="v">132.086 gal</td></tr>
+      <tr><td>1,000 L</td><td class="v">264.1721 gal</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>How to convert liters to gallons (us)</h2>
+    <p><strong>Formula:</strong> Gallons = Liters ÷ 3.785411784.</p>
+    <p>This converter uses the US liquid gallon (3.785411784 liters). The UK (imperial) gallon is larger, at 4.54609 liters.</p>
+    <p>Example: 5 L × the factor above = 1.3209 gal.</p>
+  </div>
+
+  <div class="card faq">
+    <h2>Frequently asked questions</h2>
+    <h3>How do I convert liters to gallons (us)?</h3>
+    <p>Use the formula: Gallons = Liters ÷ 3.785411784. For example, 5 L = 1.3209 gal. Or just type a value into the converter above — it works in both directions.</p>
+    <h3>How much is 1 L in gallons (us)?</h3>
+    <p>1 L = 0.264172 gal. This converter uses the US liquid gallon (3.785411784 liters). The UK (imperial) gallon is larger, at 4.54609 liters.</p>
+    <h3>What is 5 L in gallons (us)?</h3>
+    <p>5 L = 1.3209 gal.</p>
+    <h3>Is this converter free and private?</h3>
+    <p>Yes. It is completely free and runs entirely in your browser — nothing you type is sent to a server.</p>
+  </div>
+
+  <div class="card rel">
+    <h2>Related converters</h2>
+    <p>Reverse: <a href="convert-gallons-to-liters.html">Gallons (US) to Liters Converter</a> · All converters: <a href="converters.html">Unit Converters hub</a> · General tool: <a href="units.html">Unit Converter</a></p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+const toB = v => v * 0.2641720524;
+const toA = v => v / 0.2641720524;
+const inA = document.getElementById("inA"), inB = document.getElementById("inB"), sentence = document.getElementById("sentence");
+const fmt = n => { if (!isFinite(n)) return "-"; const r = Math.round(n * 10000) / 10000; return r.toLocaleString("en-US", {maximumFractionDigits: 4}); };
+function fromA(){ const v = parseFloat(inA.value); if (isNaN(v)) { inB.value = ""; sentence.textContent = "-"; return; } const r = toB(v); inB.value = Math.round(r * 10000) / 10000; sentence.textContent = fmt(v) + " L = " + fmt(r) + " gal"; }
+function fromB(){ const v = parseFloat(inB.value); if (isNaN(v)) { inA.value = ""; sentence.textContent = "-"; return; } const r = toA(v); inA.value = Math.round(r * 10000) / 10000; sentence.textContent = fmt(v) + " gal = " + fmt(r) + " L"; }
+inA.addEventListener("input", fromA);
+inB.addEventListener("input", fromB);
+document.getElementById("swapBtn").addEventListener("click", () => { const t = inA.value; inA.value = inB.value; inB.value = t; fromA(); });
+fromA();
+</script>
+</body>
+</html>

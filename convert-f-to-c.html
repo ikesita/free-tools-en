@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fahrenheit to Celsius Converter — °F to °C</title>
+<meta name="description" content="Convert fahrenheit to celsius instantly (°F to °C), with a conversion table and formula. Free, runs in your browser.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#4f46e5; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .row input{width:150px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  .row .unit{font-weight:700}
+  .swap{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 12px;font-size:16px;cursor:pointer}
+  .ans{font-size:20px;font-weight:800;color:var(--acc)}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  th,td{padding:6px 8px;text-align:left;border-bottom:1px solid var(--line)}
+  th{color:var(--sub);font-weight:700}
+  td.v{font-weight:700}
+  .faq h3{font-size:15px;margin:14px 0 4px}
+  .faq p{margin:0 0 6px;color:var(--sub)}
+  .rel{font-size:14.5px}
+  .rel a{color:var(--acc)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Fahrenheit to Celsius Converter",
+  "url": "https://ikesita.github.io/free-tools-en/convert-f-to-c.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "en",
+  "description": "Convert fahrenheit to celsius instantly (\u00b0F to \u00b0C), with a conversion table and formula. Free, runs in your browser.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "isAccessibleForFree": true
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I convert fahrenheit to celsius?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the formula: Celsius = (Fahrenheit \u2212 32) \u00d7 5/9. For example, 77 \u00b0F = 25 \u00b0C. Or just type a value into the converter above \u2014 it works in both directions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much is 1 \u00b0F in celsius?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "1 \u00b0F = -17.222222 \u00b0C. Normal body temperature is about 98.6 \u00b0F, which is 37 \u00b0C. Water freezes at 32 \u00b0F (0 \u00b0C)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is 77 \u00b0F in celsius?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "77 \u00b0F = 25 \u00b0C."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this converter free and private?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. It is completely free and runs entirely in your browser \u2014 nothing you type is sent to a server."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Fahrenheit to Celsius Converter</h1>
+    <p>Convert °F to °C and back — just type in either box. Results update as you type.</p>
+  </header>
+
+  <div class="card">
+    <div class="row">
+      <input id="inA" type="number" step="any" value="77"><span class="unit">°F</span>
+      <button class="swap" id="swapBtn" title="Swap direction">⇄</button>
+      <input id="inB" type="number" step="any"><span class="unit">°C</span>
+    </div>
+    <p style="margin:12px 0 0"><span class="ans" id="sentence">-</span></p>
+  </div>
+
+  <div class="card">
+    <h2>Fahrenheit to Celsius conversion table</h2>
+    <table>
+      <tr><th>Fahrenheit (°F)</th><th>Celsius (°C)</th></tr>
+      <tr><td>-40 °F</td><td class="v">-40 °C</td></tr>
+      <tr><td>0 °F</td><td class="v">-17.7778 °C</td></tr>
+      <tr><td>32 °F</td><td class="v">0 °C</td></tr>
+      <tr><td>50 °F</td><td class="v">10 °C</td></tr>
+      <tr><td>68 °F</td><td class="v">20 °C</td></tr>
+      <tr><td>77 °F</td><td class="v">25 °C</td></tr>
+      <tr><td>86 °F</td><td class="v">30 °C</td></tr>
+      <tr><td>98.6 °F</td><td class="v">37 °C</td></tr>
+      <tr><td>100 °F</td><td class="v">37.7778 °C</td></tr>
+      <tr><td>150 °F</td><td class="v">65.5556 °C</td></tr>
+      <tr><td>212 °F</td><td class="v">100 °C</td></tr>
+      <tr><td>350 °F</td><td class="v">176.6667 °C</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>How to convert fahrenheit to celsius</h2>
+    <p><strong>Formula:</strong> Celsius = (Fahrenheit − 32) × 5/9.</p>
+    <p>Normal body temperature is about 98.6 °F, which is 37 °C. Water freezes at 32 °F (0 °C).</p>
+    <p>Example: 77 °F × the factor above = 25 °C.</p>
+  </div>
+
+  <div class="card faq">
+    <h2>Frequently asked questions</h2>
+    <h3>How do I convert fahrenheit to celsius?</h3>
+    <p>Use the formula: Celsius = (Fahrenheit − 32) × 5/9. For example, 77 °F = 25 °C. Or just type a value into the converter above — it works in both directions.</p>
+    <h3>How much is 1 °F in celsius?</h3>
+    <p>1 °F = -17.222222 °C. Normal body temperature is about 98.6 °F, which is 37 °C. Water freezes at 32 °F (0 °C).</p>
+    <h3>What is 77 °F in celsius?</h3>
+    <p>77 °F = 25 °C.</p>
+    <h3>Is this converter free and private?</h3>
+    <p>Yes. It is completely free and runs entirely in your browser — nothing you type is sent to a server.</p>
+  </div>
+
+  <div class="card rel">
+    <h2>Related converters</h2>
+    <p>Reverse: <a href="convert-c-to-f.html">Celsius to Fahrenheit Converter</a> · All converters: <a href="converters.html">Unit Converters hub</a> · General tool: <a href="units.html">Unit Converter</a></p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+const toB = v => (v - 32) * 5 / 9;
+const toA = v => v * 9 / 5 + 32;
+const inA = document.getElementById("inA"), inB = document.getElementById("inB"), sentence = document.getElementById("sentence");
+const fmt = n => { if (!isFinite(n)) return "-"; const r = Math.round(n * 10000) / 10000; return r.toLocaleString("en-US", {maximumFractionDigits: 4}); };
+function fromA(){ const v = parseFloat(inA.value); if (isNaN(v)) { inB.value = ""; sentence.textContent = "-"; return; } const r = toB(v); inB.value = Math.round(r * 10000) / 10000; sentence.textContent = fmt(v) + " °F = " + fmt(r) + " °C"; }
+function fromB(){ const v = parseFloat(inB.value); if (isNaN(v)) { inA.value = ""; sentence.textContent = "-"; return; } const r = toA(v); inA.value = Math.round(r * 10000) / 10000; sentence.textContent = fmt(v) + " °C = " + fmt(r) + " °F"; }
+inA.addEventListener("input", fromA);
+inB.addEventListener("input", fromB);
+document.getElementById("swapBtn").addEventListener("click", () => { const t = inA.value; inA.value = inB.value; inB.value = t; fromA(); });
+fromA();
+</script>
+</body>
+</html>

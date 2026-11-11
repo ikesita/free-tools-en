@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meters to Feet Converter — m to ft</title>
+<meta name="description" content="Convert meters to feet instantly (m to ft), with a conversion table and formula. Free, runs in your browser.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#4f46e5; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .row input{width:150px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  .row .unit{font-weight:700}
+  .swap{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 12px;font-size:16px;cursor:pointer}
+  .ans{font-size:20px;font-weight:800;color:var(--acc)}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  th,td{padding:6px 8px;text-align:left;border-bottom:1px solid var(--line)}
+  th{color:var(--sub);font-weight:700}
+  td.v{font-weight:700}
+  .faq h3{font-size:15px;margin:14px 0 4px}
+  .faq p{margin:0 0 6px;color:var(--sub)}
+  .rel{font-size:14.5px}
+  .rel a{color:var(--acc)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Meters to Feet Converter",
+  "url": "https://ikesita.github.io/free-tools-en/convert-meters-to-feet.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "en",
+  "description": "Convert meters to feet instantly (m to ft), with a conversion table and formula. Free, runs in your browser.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "isAccessibleForFree": true
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I convert meters to feet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the formula: Feet = Meters \u00f7 0.3048. For example, 10 m = 32.8084 ft. Or just type a value into the converter above \u2014 it works in both directions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much is 1 m in feet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "1 m = 3.28084 ft. One foot is exactly 0.3048 meters."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is 10 m in feet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "10 m = 32.8084 ft."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this converter free and private?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. It is completely free and runs entirely in your browser \u2014 nothing you type is sent to a server."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Meters to Feet Converter</h1>
+    <p>Convert m to ft and back — just type in either box. Results update as you type.</p>
+  </header>
+
+  <div class="card">
+    <div class="row">
+      <input id="inA" type="number" step="any" value="10"><span class="unit">m</span>
+      <button class="swap" id="swapBtn" title="Swap direction">⇄</button>
+      <input id="inB" type="number" step="any"><span class="unit">ft</span>
+    </div>
+    <p style="margin:12px 0 0"><span class="ans" id="sentence">-</span></p>
+  </div>
+
+  <div class="card">
+    <h2>Meters to Feet conversion table</h2>
+    <table>
+      <tr><th>Meters (m)</th><th>Feet (ft)</th></tr>
+      <tr><td>1 m</td><td class="v">3.2808 ft</td></tr>
+      <tr><td>2 m</td><td class="v">6.5617 ft</td></tr>
+      <tr><td>3 m</td><td class="v">9.8425 ft</td></tr>
+      <tr><td>5 m</td><td class="v">16.4042 ft</td></tr>
+      <tr><td>10 m</td><td class="v">32.8084 ft</td></tr>
+      <tr><td>20 m</td><td class="v">65.6168 ft</td></tr>
+      <tr><td>30 m</td><td class="v">98.4252 ft</td></tr>
+      <tr><td>50 m</td><td class="v">164.042 ft</td></tr>
+      <tr><td>100 m</td><td class="v">328.084 ft</td></tr>
+      <tr><td>200 m</td><td class="v">656.168 ft</td></tr>
+      <tr><td>500 m</td><td class="v">1,640.4199 ft</td></tr>
+      <tr><td>1,000 m</td><td class="v">3,280.8399 ft</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>How to convert meters to feet</h2>
+    <p><strong>Formula:</strong> Feet = Meters ÷ 0.3048.</p>
+    <p>One foot is exactly 0.3048 meters.</p>
+    <p>Example: 10 m × the factor above = 32.8084 ft.</p>
+  </div>
+
+  <div class="card faq">
+    <h2>Frequently asked questions</h2>
+    <h3>How do I convert meters to feet?</h3>
+    <p>Use the formula: Feet = Meters ÷ 0.3048. For example, 10 m = 32.8084 ft. Or just type a value into the converter above — it works in both directions.</p>
+    <h3>How much is 1 m in feet?</h3>
+    <p>1 m = 3.28084 ft. One foot is exactly 0.3048 meters.</p>
+    <h3>What is 10 m in feet?</h3>
+    <p>10 m = 32.8084 ft.</p>
+    <h3>Is this converter free and private?</h3>
+    <p>Yes. It is completely free and runs entirely in your browser — nothing you type is sent to a server.</p>
+  </div>
+
+  <div class="card rel">
+    <h2>Related converters</h2>
+    <p>Reverse: <a href="convert-feet-to-meters.html">Feet to Meters Converter</a> · All converters: <a href="converters.html">Unit Converters hub</a> · General tool: <a href="units.html">Unit Converter</a></p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+const toB = v => v * 3.280839895;
+const toA = v => v / 3.280839895;
+const inA = document.getElementById("inA"), inB = document.getElementById("inB"), sentence = document.getElementById("sentence");
+const fmt = n => { if (!isFinite(n)) return "-"; const r = Math.round(n * 10000) / 10000; return r.toLocaleString("en-US", {maximumFractionDigits: 4}); };
+function fromA(){ const v = parseFloat(inA.value); if (isNaN(v)) { inB.value = ""; sentence.textContent = "-"; return; } const r = toB(v); inB.value = Math.round(r * 10000) / 10000; sentence.textContent = fmt(v) + " m = " + fmt(r) + " ft"; }
+function fromB(){ const v = parseFloat(inB.value); if (isNaN(v)) { inA.value = ""; sentence.textContent = "-"; return; } const r = toA(v); inA.value = Math.round(r * 10000) / 10000; sentence.textContent = fmt(v) + " ft = " + fmt(r) + " m"; }
+inA.addEventListener("input", fromA);
+inB.addEventListener("input", fromB);
+document.getElementById("swapBtn").addEventListener("click", () => { const t = inA.value; inA.value = inB.value; inB.value = t; fromA(); });
+fromA();
+</script>
+</body>
+</html>
