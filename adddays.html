@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Days Calculator — Add or Subtract Days From Any Date</title>
+<meta name="description" content="Add or subtract any number of days from a date and see the resulting date with its weekday. Free, runs entirely in your browser.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#059669; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .f label{display:block;font-size:13px;color:var(--sub);margin-bottom:4px}
+  .f input{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  td{padding:6px 0;color:var(--sub)} td.v{text-align:right;color:var(--ink);font-weight:800}
+  tr.total td{border-top:2px solid var(--line);font-size:17px;color:var(--ink);font-weight:800}
+  tr.total td.v{font-size:19px}
+  .note{font-size:13px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Add Days Calculator",
+  "url": "https://ikesita.github.io/free-tools-en/adddays.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "en",
+  "description": "Add or subtract any number of days from a date and see the resulting date with its weekday. Free, runs entirely in your browser.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "isAccessibleForFree": true
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Add Days Calculator</h1>
+    <p>Add or subtract any number of days from a date — for example, a deadline 45 days from today, or the date 90 days before a trip.</p>
+  </header>
+
+  <div class="card">
+    <div class="grid">
+      <div class="f"><label>Start date</label><input id="base" type="date" value="2026-11-11"></div>
+      <div class="f"><label>Days to add (use a negative number to subtract)</label><input id="n" type="number" step="1" value="45"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Result</h2>
+    <table>
+      <tr><td>Resulting date</td><td class="v" id="dateOut">-</td></tr>
+      <tr><td>Weekday</td><td class="v" id="dayOut">-</td></tr>
+      <tr><td>That is</td><td class="v" id="weeksOut">-</td></tr>
+      <tr class="total"><td>Result</td><td class="v" id="bigOut">-</td></tr>
+    </table>
+    <p class="note" style="margin-top:10px">Example: 2026-11-11 plus 45 days is Saturday, December 26, 2026 — 6 weeks and 3 days later. Use a negative number to go back in time: 2026-11-11 minus 10 days is Sunday, November 1, 2026.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+const parse = v => { const [y,m,d] = v.split("-").map(Number); return new Date(y, m - 1, d); };
+const fmtD = dt => dt.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+function calc(){
+  if(!baseEl.value) return;
+  const n = parseInt(nEl.value) || 0;
+  const t = parse(baseEl.value); t.setDate(t.getDate() + n);
+  dateOutEl.textContent = t.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+  dayOutEl.textContent = t.toLocaleDateString("en-US", { weekday: "long" });
+  const w = Math.floor(Math.abs(n) / 7), r = Math.abs(n) % 7;
+  weeksOutEl.textContent = n === 0 ? "the same day" : (n > 0 ? w + " weeks and " + r + " days later" : w + " weeks and " + r + " days earlier");
+  bigOutEl.textContent = fmtD(t);
+}
+const baseEl = document.getElementById("base"), nEl = document.getElementById("n");
+const dateOutEl = document.getElementById("dateOut"), dayOutEl = document.getElementById("dayOut"),
+      weeksOutEl = document.getElementById("weeksOut"), bigOutEl = document.getElementById("bigOut");
+[baseEl, nEl].forEach(e => e.addEventListener("input", calc));
+calc();
+</script>
+</body>
+</html>

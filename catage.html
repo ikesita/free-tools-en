@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cat Age Calculator — Cat Years to Human Years</title>
+<meta name="description" content="Convert your cat's age into human years: the first year counts as 15, the second adds 9, and each year after adds about 4. Includes a life-stage table.">
+<style>
+  :root{ --bg:#f6f7f9; --card:#fff; --ink:#1c2333; --sub:#5b6478; --line:#dde1ea; --acc:#d97706; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+  header h1{font-size:25px;margin:8px 0 4px}
+  header p{color:var(--sub);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  .card h2{font-size:17px;margin:0 0 12px}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .f label{display:block;font-size:13px;color:var(--sub);margin-bottom:4px}
+  .f input{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  .big{font-size:25px;font-weight:900;text-align:center;margin:6px 0 0}
+  .sub2{text-align:center;color:var(--sub);font-size:14.5px}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  td,th{padding:6px 0;color:var(--sub);text-align:left}
+  td.v,th.v{text-align:right;color:var(--ink);font-weight:800}
+  tr.hl td{color:var(--ink);font-weight:800}
+  .note{font-size:13px;color:var(--sub)}
+  footer{color:var(--sub);font-size:12.5px;margin-top:22px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Cat Age Calculator",
+  "url": "https://ikesita.github.io/free-tools-en/catage.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "en",
+  "description": "Convert your cat's age into human years: the first year counts as 15, the second adds 9, and each year after adds about 4. Includes a life-stage table.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "isAccessibleForFree": true
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Cat Age Calculator</h1>
+    <p>How old is your cat in human years? Cats mature fast in their first two years, then age about 4 human years per cat year.</p>
+  </header>
+
+  <div class="card">
+    <div class="grid">
+      <div class="f"><label>Cat's age — years</label><input id="years" type="number" min="0" max="30" step="1" value="3"></div>
+      <div class="f"><label>Cat's age — extra months</label><input id="months" type="number" min="0" max="11" step="1" value="0"></div>
+    </div>
+    <div class="big" id="big">-</div>
+    <div class="sub2" id="verdict">-</div>
+    <p class="note" style="margin-top:12px">This uses the widely used veterinary rule of thumb, not the old "multiply by 7": a cat's first year ≈ 15 human years, the second year adds about 9 (24 total), and each year after that adds about 4. For example, a 3-year-old cat is about 28 in human years, and a 10-year-old cat is about 56.</p>
+  </div>
+
+  <div class="card">
+    <h2>Cat years to human years — quick table</h2>
+    <table id="ageTable">
+      <tr><th>Cat age</th><th>Life stage</th><th class="v">Human equivalent</th></tr>
+    </table>
+    <p class="note" style="margin-top:10px">Life stages follow the feline life-stage guidelines (kitten, junior, prime, mature, senior, geriatric). A rough guide only: breed, weight and health matter a lot. Your vet can give a better read on your cat's actual life stage.</p>
+  </div>
+
+  <footer>Your input stays in your browser and is never sent anywhere.</footer>
+</div>
+
+<script>
+function catHumanYears(months){
+  if(months <= 12) return months * 15 / 12;
+  if(months <= 24) return 15 + (months - 12) * 9 / 12;
+  return 24 + (months - 24) * 4 / 12;
+}
+function stage(months){
+  if(months < 7) return "Kitten (0–6 months)";
+  if(months <= 24) return "Junior (7 months–2 years)";
+  const y = months / 12;
+  if(y <= 6) return "Prime (3–6 years)";
+  if(y <= 10) return "Mature (7–10 years)";
+  if(y <= 14) return "Senior (11–14 years)";
+  return "Geriatric (15+ years)";
+}
+function fmtHuman(h){
+  const r = Math.round(h * 10) / 10;
+  return "about " + (Number.isInteger(r) ? r : r.toFixed(1)) + " human years";
+}
+function calc(){
+  const y = Math.max(0, parseInt(yearsEl.value) || 0);
+  const m = Math.min(11, Math.max(0, parseInt(monthsEl.value) || 0));
+  const total = y * 12 + m;
+  const h = catHumanYears(total);
+  bigEl.textContent = fmtHuman(h);
+  verdictEl.textContent = "Life stage: " + stage(total) + ".";
+}
+const yearsEl = document.getElementById("years"), monthsEl = document.getElementById("months");
+const bigEl = document.getElementById("big"), verdictEl = document.getElementById("verdict");
+[yearsEl, monthsEl].forEach(e => e.addEventListener("input", calc));
+// quick table: [months, label]
+const rows = [[6,"6 months"],[12,"1 year"],[24,"2 years"],[36,"3 years"],[60,"5 years"],[84,"7 years"],[120,"10 years"],[144,"12 years"],[180,"15 years"],[216,"18 years"],[240,"20 years"]];
+const tbl = document.getElementById("ageTable");
+rows.forEach(([mo, label]) => {
+  const tr = document.createElement("tr");
+  const h = catHumanYears(mo);
+  tr.innerHTML = "<td>" + label + "</td><td>" + stage(mo).split(" (")[0] + "</td><td class=\"v\">" + (Number.isInteger(h) ? h : h.toFixed(1)) + "</td>";
+  tbl.appendChild(tr);
+});
+calc();
+</script>
+</body>
+</html>
