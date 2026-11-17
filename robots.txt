@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Sitemap: https://ikesita.github.io/free-tools-en/sitemap.xml
+
+
+
